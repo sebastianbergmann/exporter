@@ -44,7 +44,7 @@
 namespace PHPExporter;
 
 /**
- * Textual representations of PHP values (Adapted from PHPUnit_Util_Type).
+ * Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type).
  *
  * @package    PHPExporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>

@@ -1,6 +1,6 @@
 {
     "name": "phpexporter/phpexporter",
-    "description": "Textual representations of PHP values (Adapted from PHPUnit_Util_Type)",
+    "description": "Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type)",
     "keywords": ["exporter"],
     "homepage": "http://www.github.com/whatthejeff/PHPExporter",
     "license": "BSD-3-Clause",
