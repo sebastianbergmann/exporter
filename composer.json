@@ -1,0 +1,43 @@
+{
+    "name": "phpexporter/phpexporter",
+    "description": "Textual representations of PHP values (Adapted from PHPUnit_Util_Type)",
+    "keywords": ["exporter"],
+    "homepage": "http://www.github.com/whatthejeff/PHPExporter",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Jeff Welch",
+            "email": "whatthejeff@gmail.com"
+        },
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        },
+        {
+            "name": "Volker Dusch",
+            "email": "github@wallbash.com"
+        },
+        {
+            "name": "Adam Harvey",
+            "email": "aharvey@php.net"
+        },
+        {
+            "name": "Bernhard Schussek",
+            "email": "bschussek@2bepublished.at"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": { "PHPExporter": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
