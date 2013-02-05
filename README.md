@@ -1,7 +1,9 @@
 PHPExporter
 ===========
 
-PHPExporter is a utility for getting textual representations of PHP values.
+PHPExporter is a utility–adapted from [PHPUnit]
+(https://github.com/sebastianbergmann/phpunit/–for getting textual
+representations of PHP values.
 
 ```php
 <?php
@@ -49,12 +51,6 @@ Array &0 (
 */
 echo Exporter::export(array(array(1,2,3), array("",0,FALSE)));
 
-
-// Array with references
-// ----------------------
-$array = array();
-$array['self'] = &$array;
-echo Exporter::export($array);
 /*
 Array &0 (
     'self' => Array &1 (
@@ -62,104 +58,21 @@ Array &0 (
     )
 )
 */
+$array = array();
+$array['self'] = &$array;
+echo Exporter::export($array);
 
-
-// Object with references
-// ----------------------
-$obj = new stdClass();
-$obj->self = $obj;
-echo Exporter::export($obj);
 /*
 stdClass Object &0000000003a66dcc0000000025e723e2 (
     'self' => stdClass Object &0000000003a66dcc0000000025e723e2
 )
 */
-
-
-// Kitchen Sink
-// ------------
-$obj2 = new stdClass;
-$obj2->foo = 'bar';
-$obj = new stdClass;
-$obj->null = NULL;
-$obj->boolean = TRUE;
-$obj->integer = 1;
-$obj->double = 1.2;
-$obj->string = '1';
-$obj->text = "this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext";
-$obj->object = $obj2;
-$obj->objectagain = $obj2;
-$obj->array = array('foo' => 'bar');
+$obj = new stdClass();
 $obj->self = $obj;
-$array = array(
-    0 => 0,
-    'null' => NULL,
-    'boolean' => TRUE,
-    'integer' => 1,
-    'double' => 1.2,
-    'string' => '1',
-    'text' => "this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
-    'object' => $obj2,
-    'objectagain' => $obj2,
-    'array' => array('foo' => 'bar'),
-);
-$array['self'] = &$array;
-echo Exporter::export($array);
-/*
-Array &0 (
-    0 => 0
-    'null' => null
-    'boolean' => true
-    'integer' => 1
-    'double' => 1.2
-    'string' => '1'
-    'text' => 'this
-is
-a
-very
-very
-very
-very
-very
-very
-long
-text'
-    'object' => stdClass Object &000000007ed49b01000000006907e890 (
-        'foo' => 'bar'
-    )
-    'objectagain' => stdClass Object &000000007ed49b01000000006907e890
-    'array' => Array &1 (
-        'foo' => 'bar'
-    )
-    'self' => Array &2 (
-        0 => 0
-        'null' => null
-        'boolean' => true
-        'integer' => 1
-        'double' => 1.2
-        'string' => '1'
-        'text' => 'this
-is
-a
-very
-very
-very
-very
-very
-very
-long
-text'
-        'object' => stdClass Object &000000007ed49b01000000006907e890
-        'objectagain' => stdClass Object &000000007ed49b01000000006907e890
-        'array' => Array &3 (
-            'foo' => 'bar'
-        )
-        'self' => Array &2
-    )
-)
-*/
-
+echo Exporter::export($obj);
 ```
+
+## Requirements
 
 PHPExporter works with PHP 5.3.3 or later.
 
