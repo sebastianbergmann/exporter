@@ -2,7 +2,7 @@ PHPExporter
 ===========
 
 PHPExporter is a utility–adapted from [PHPUnit]
-(https://github.com/sebastianbergmann/phpunit/–for getting textual
+(https://github.com/sebastianbergmann/phpunit/)–for getting textual
 representations of PHP values.
 
 ```php
