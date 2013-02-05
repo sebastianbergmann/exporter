@@ -108,4 +108,4 @@ thanks goes to the following people for their contributions:
 
 ## License
 
-PHPExporter is licensed under the BSD 3-Clause license.
+PHPExporter is licensed under the [BSD 3-Clause license](LICENSE).
