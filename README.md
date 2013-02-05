@@ -93,7 +93,7 @@ run the `php composer.phar install` command to install it:
 To run the test suite, you need [composer](http://getcomposer.org).
 
     $ php composer.phar install --dev
-    $ phpunit
+    $ vendor/bin/phpunit
 
 ## Acknowledgements
 
