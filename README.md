@@ -9,7 +9,7 @@ is simply a stand-alone version of that utility.
 
 ## Usage
 
-Simple
+Exporting simple types:
 
 ```php
 <?php
@@ -41,7 +41,12 @@ echo Exporter::export(null);
 
 // resource(13) of type (stream)
 echo Exporter::export(fopen('php://stderr', 'w'));
+
+// Binary String: 0x000102030405
+echo Exporter::export(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
 ```
+
+Exporting complex types:
 
 ```php
 <?php
@@ -86,6 +91,52 @@ $obj = new stdClass();
 $obj->self = $obj;
 echo Exporter::export($obj);
 ```
+
+Compact exports:
+
+```php
+<?php
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+use PHPExporter\Exporter;
+
+// Array ()
+echo Exporter::shortenedExport(array());
+
+// Array (...)
+echo Exporter::shortenedExport(array(1,2,3,4,5));
+
+// stdClass Object ()
+echo Exporter::shortenedExport(new stdClass);
+
+// Exception Object (...)
+echo Exporter::shortenedExport(new Exception);
+
+// this\nis\na\nsuper\nlong\nstring\nt...\nspace
+echo Exporter::shortenedExport(
+<<<LONG_STRING
+this
+is
+a
+super
+long
+string
+that
+wraps
+a
+lot
+and
+eats
+up
+a
+lot
+of
+space
+LONG_STRING
+);
+```
+
 ## Requirements
 
 PHPExporter works with PHP 5.3.3 or later.
