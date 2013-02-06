@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExporter
+ * PHP_Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,23 +34,23 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Bernhard Schussek <bschussek@2bepublished.at>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-use PHPExporter\Exporter;
+use PHP_Exporter\Exporter;
 
 /**
  *
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Bernhard Schussek <bschussek@2bepublished.at>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 class ExporterTest extends PHPUnit_Framework_TestCase
 {

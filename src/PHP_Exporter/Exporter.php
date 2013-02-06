@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExporter
+ * PHP_Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,23 +34,23 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHPExporter;
+namespace PHP_Exporter;
 
 /**
  * Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type).
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 class Exporter
 {
@@ -81,12 +81,12 @@ class Exporter
      *
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  PHPExporter\ExporterContext $processed Contains all objects
-     *                                                and arrays that have
-     *                                                previously been
-     *                                                rendered
+     * @param  PHP_Exporter\ExporterContext $processed Contains all objects
+     *                                                 and arrays that have
+     *                                                 previously been
+     *                                                 rendered
      * @return string
-     * @see    PHPExporter\Exporter::export
+     * @see    PHP_Exporter\Exporter::export
      */
     protected static function recursiveExport(&$value, $indentation, $processed = null)
     {
@@ -182,7 +182,7 @@ class Exporter
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
-     * PHPExporter\Exporter::export. This method guarantees thought that the
+     * PHP_Exporter\Exporter::export. This method guarantees thought that the
      * result contains now newlines.
      *
      * Newlines are replaced by the visible string '\n'. Contents of arrays
@@ -191,7 +191,7 @@ class Exporter
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
      * @return string
-     * @see    PHPExporter\Exporter::export
+     * @see    PHP_Exporter\Exporter::export
      */
     public static function shortenedExport($value)
     {

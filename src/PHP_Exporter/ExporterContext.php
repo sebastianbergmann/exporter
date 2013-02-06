@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExporter
+ * PHP_Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,24 +34,24 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHPExporter;
+namespace PHP_Exporter;
 
 /**
  * A context containing previously rendered arrays and objects when recursively
  * exporting a value.
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 class ExporterContext {
     /**
@@ -80,8 +80,8 @@ class ExporterContext {
      *
      * @param mixed $value The value to add.
      * @return mixed The ID of the stored value, either as a string or integer.
-     * @throws PHPExporter\ExporterContext Thrown if $value is not an array or
-     *                                     object.
+     * @throws PHP_Exporter\ExporterContext Thrown if $value is not an array or
+     *                                      object.
      */
     public function add(&$value)
     {
@@ -101,8 +101,8 @@ class ExporterContext {
      * @return mixed The string or integer ID of the stored value if it has
      *               already been seen, or boolean false if the value is not
      *               stored.
-     * @throws PHPExporter\ExporterContext Thrown if $value is not an array or
-     *                                     object.
+     * @throws PHP_Exporter\ExporterContext Thrown if $value is not an array or
+     *                                      object.
      */
     public function contains(&$value)
     {
@@ -156,7 +156,7 @@ class ExporterContext {
     protected function containsArray(array &$value)
     {
         $keys = array_keys($this->arrays, $value, true);
-        $gen = '_PHPExporter_Key_'.hash('sha512', microtime(true));
+        $gen = '_PHP_Exporter_Key_'.hash('sha512', microtime(true));
         foreach ($keys as $key) {
             $this->arrays[$key][$gen] = $gen;
             if (isset($value[$gen]) && $value[$gen] === $gen) {

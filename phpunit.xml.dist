@@ -12,8 +12,8 @@
          bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="PHPExporter Test Suite">
-            <directory>./tests/PHPExporter/</directory>
+        <testsuite name="PHP_Exporter Test Suite">
+            <directory>./tests/PHP_Exporter/</directory>
         </testsuite>
     </testsuites>
     <filter>

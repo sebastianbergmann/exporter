@@ -1,10 +1,10 @@
-PHPExporter
+PHP_Exporter
 ===========
 
-[![Build Status](https://secure.travis-ci.org/whatthejeff/PHPExporter.png?branch=master)](http://travis-ci.org/whatthejeff/PHPExporter)
+[![Build Status](https://secure.travis-ci.org/whatthejeff/php-exporter.png?branch=master)](https://travis-ci.org/whatthejeff/php-exporter)
 
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
-utility for generating human-readable strings based on PHP values. PHPExporter
+utility for generating human-readable strings based on PHP values. PHP_Exporter
 is simply a stand-alone version of that utility.
 
 ## Usage
@@ -16,7 +16,7 @@ Exporting simple types:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use PHPExporter\Exporter;
+use PHP_Exporter\Exporter;
 
 // 46
 echo Exporter::export(46);
@@ -53,7 +53,7 @@ Exporting complex types:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use PHPExporter\Exporter;
+use PHP_Exporter\Exporter;
 
 /*
 Array &0 (
@@ -99,7 +99,7 @@ Compact exports:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use PHPExporter\Exporter;
+use PHP_Exporter\Exporter;
 
 // Array ()
 echo Exporter::shortenedExport(array());
@@ -139,11 +139,11 @@ LONG_STRING
 
 ## Requirements
 
-PHPExporter works with PHP 5.3.3 or later.
+PHP_Exporter works with PHP 5.3.3 or later.
 
 ## Installation
 
-The recommended way to install PHPExporter is [through
+The recommended way to install PHP_Exporter is [through
 composer](http://getcomposer.org). Just create a `composer.json` file and
 run the `php composer.phar install` command to install it:
 
@@ -173,4 +173,4 @@ thanks goes to the following people for their contributions:
 
 ## License
 
-PHPExporter is licensed under the [BSD 3-Clause license](LICENSE).
+PHP_Exporter is licensed under the [BSD 3-Clause license](LICENSE).

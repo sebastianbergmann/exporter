@@ -2,7 +2,7 @@
     "name": "phpexporter/phpexporter",
     "description": "Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type)",
     "keywords": ["exporter"],
-    "homepage": "http://www.github.com/whatthejeff/PHPExporter",
+    "homepage": "http://www.github.com/whatthejeff/php-exporter",
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -33,7 +33,7 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0": { "PHPExporter": "src/" }
+        "psr-0": { "PHP_Exporter": "src/" }
     },
     "extra": {
         "branch-alias": {

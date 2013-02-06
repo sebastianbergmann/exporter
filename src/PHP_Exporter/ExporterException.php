@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPExporter
+ * PHP_Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -39,19 +39,19 @@
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHPExporter;
+namespace PHP_Exporter;
 
 /**
- * Exception for PHPExporter runtime errors.
+ * Exception for PHP_Exporter runtime errors.
  *
- * @package    PHPExporter
+ * @package    PHP_Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHPExporter
+ * @link       http://www.github.com/whatthejeff/PHP_Exporter
  */
 class ExporterException extends \RuntimeException
 {
