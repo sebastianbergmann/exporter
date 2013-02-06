@@ -1,6 +1,8 @@
 PHPExporter
 ===========
 
+[![Build Status](https://secure.travis-ci.org/whatthejeff/PHPExporter.png?branch=master)](http://travis-ci.org/whatthejeff/PHPExporter)
+
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
 utility for generating human-readable strings based on PHP values. PHPExporter
 is simply a stand-alone version of that utility.
