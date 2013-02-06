@@ -1,5 +1,5 @@
 {
-    "name": "phpexporter/phpexporter",
+    "name": "php-exporter/php-exporter",
     "description": "Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type)",
     "keywords": ["exporter"],
     "homepage": "http://www.github.com/whatthejeff/php-exporter",
