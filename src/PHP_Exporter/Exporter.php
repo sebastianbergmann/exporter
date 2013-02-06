@@ -71,9 +71,9 @@ class Exporter
      * @param  integer $indentation The indentation level of the 2nd+ line
      * @return string
      */
-    public static function export($value, $indentation = 0)
+    public function export($value, $indentation = 0)
     {
-        return self::recursiveExport($value, $indentation);
+        return $this->recursiveExport($value, $indentation);
     }
 
     /**
@@ -88,7 +88,7 @@ class Exporter
      * @return string
      * @see    PHP_Exporter\Exporter::export
      */
-    protected static function recursiveExport(&$value, $indentation, $processed = null)
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
         if ($value === NULL) {
             return 'null';
@@ -141,8 +141,8 @@ class Exporter
                 $output = "Array &$key (\n";
 
                 foreach ($value as $k => $v) {
-                    $ek = self::export($k);
-                    $output .= "$whitespace    $ek => ".self::recursiveExport($value[$k], $indentation + 1, $processed)."\n";
+                    $ek = $this->export($k);
+                    $output .= "$whitespace    $ek => ".$this->recursiveExport($value[$k], $indentation + 1, $processed)."\n";
                 }
 
                 return "$output$whitespace)";
@@ -159,13 +159,13 @@ class Exporter
             }
 
             $hash = $processed->add($value);
-            $array = self::toArray($value);
+            $array = $this->toArray($value);
             if (count($array) > 0) {
                 $output = "$class Object &$hash (\n";
 
                 foreach ($array as $k => $v) {
-                    $k = self::export($k);
-                    $output .= "$whitespace    $k => ".self::recursiveExport($v, $indentation + 1, $processed)."\n";
+                    $k = $this->export($k);
+                    $output .= "$whitespace    $k => ".$this->recursiveExport($v, $indentation + 1, $processed)."\n";
                 }
 
                 return "$output$whitespace)";
@@ -193,17 +193,17 @@ class Exporter
      * @return string
      * @see    PHP_Exporter\Exporter::export
      */
-    public static function shortenedExport($value)
+    public function shortenedExport($value)
     {
         if (is_string($value)) {
-            return self::shortenedString($value);
+            return $this->shortenedString($value);
         }
 
         if(is_object($value)) {
             return sprintf(
               "%s Object (%s)",
               get_class($value),
-              count(self::toArray($value)) > 0 ? '...' : ''
+              count($this->toArray($value)) > 0 ? '...' : ''
             );
         }
 
@@ -214,7 +214,7 @@ class Exporter
             );
         }
 
-        return self::export($value);
+        return $this->export($value);
     }
 
     /**
@@ -224,9 +224,9 @@ class Exporter
      * @param  integer $max The maximum length for the string
      * @return string
      */
-    public static function shortenedString($string, $maxLength = 40)
+    public function shortenedString($string, $maxLength = 40)
     {
-        $string = self::export($string);
+        $string = $this->export($string);
 
         if (strlen($string) > $maxLength) {
             $string = substr($string, 0, $maxLength - 10) . '...' . substr($string, -7);
@@ -242,7 +242,7 @@ class Exporter
      * @param  object $object
      * @return array
      */
-    public static function toArray($object)
+    public function toArray($object)
     {
         $array = array();
 

@@ -250,7 +250,8 @@ EOF
      */
     public function testExport($value, $expected)
     {
-        $this->assertStringMatchesFormat($expected, self::trimnl(Exporter::export($value)));
+        $exporter = new Exporter;
+        $this->assertStringMatchesFormat($expected, self::trimnl($exporter->export($value)));
     }
 
     public function shortenedExportProvider()
@@ -283,7 +284,8 @@ EOF
      */
     public function testShortenedExport($value, $expected)
     {
-        $this->assertSame($expected, self::trimnl(Exporter::shortenedExport($value)));
+        $exporter = new Exporter;
+        $this->assertSame($expected, self::trimnl($exporter->shortenedExport($value)));
     }
 
     public function provideNonBinaryMultibyteStrings()
@@ -301,6 +303,7 @@ EOF
      */
     public function testNonBinaryStringExport($value, $expectedLength)
     {
-        $this->assertRegExp("~'.{{$expectedLength}}'\$~s", Exporter::export($value));
+        $exporter = new Exporter;
+        $this->assertRegExp("~'.{{$expectedLength}}'\$~s", $exporter->export($value));
     }
 }
