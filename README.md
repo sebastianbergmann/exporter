@@ -7,8 +7,13 @@ PHPExporter
 utility for generating human-readable strings based on PHP values. PHPExporter
 is simply a stand-alone version of that utility.
 
+## Usage
+
+Simple
+
 ```php
 <?php
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 use PHPExporter\Exporter;
@@ -36,6 +41,14 @@ echo Exporter::export(null);
 
 // resource(13) of type (stream)
 echo Exporter::export(fopen('php://stderr', 'w'));
+```
+
+```php
+<?php
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+use PHPExporter\Exporter;
 
 /*
 Array &0 (
@@ -73,7 +86,6 @@ $obj = new stdClass();
 $obj->self = $obj;
 echo Exporter::export($obj);
 ```
-
 ## Requirements
 
 PHPExporter works with PHP 5.3.3 or later.
