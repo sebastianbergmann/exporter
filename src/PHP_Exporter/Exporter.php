@@ -55,6 +55,23 @@ namespace PHP_Exporter;
 class Exporter
 {
     /**
+     * The value to export
+     *
+     * @var mixed
+     */
+    private $value;
+
+    /**
+     * Constructs a new exporter for a given value.
+     *
+     * @param mixed $value The value to export
+     */
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
      * Exports a value into a string
      *
      * The output of this method is similar to the output of print_r(), but
@@ -67,13 +84,23 @@ class Exporter
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      *
-     * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
      * @return string
      */
-    public function export($value, $indentation = 0)
+    public function export($indentation = 0)
     {
-        return $this->recursiveExport($value, $indentation);
+        return $this->recursiveExport($this->value, $indentation);
+    }
+
+    /**
+     * Exports a value into a string.
+     *
+     * @return string
+     * @see    PHP_Exporter\Exporter::export
+     */
+    public function __toString()
+    {
+        return $this->export();
     }
 
     /**
@@ -133,46 +160,55 @@ class Exporter
 
         if (is_array($value)) {
             if (($key = $processed->contains($value)) !== false) {
-                return "Array &$key";
+                return 'Array &' . $key;
             }
 
             $key = $processed->add($value);
-            if (count($value) > 0) {
-                $output = "Array &$key (\n";
+            $values = '';
 
+            if (count($value) > 0) {
                 foreach ($value as $k => $v) {
-                    $ek = $this->export($k);
-                    $output .= "$whitespace    $ek => ".$this->recursiveExport($value[$k], $indentation + 1, $processed)."\n";
+                    $values .= sprintf(
+                      '%s    %s => %s' . "\n",
+                      $whitespace,
+                      new Exporter($k),
+                      $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                    );
                 }
 
-                return "$output$whitespace)";
-            } else {
-                return "Array &$key ()";
+                $values = "\n" . $values . $whitespace;
             }
+
+            return sprintf('Array &%s (%s)', $key, $values);
         }
 
         if (is_object($value)) {
             $class = get_class($value);
 
             if ($hash = $processed->contains($value)) {
-                return "$class Object &$hash";
+                return sprintf('%s Object &%s', $class, $hash);
             }
 
             $hash = $processed->add($value);
-            $array = $this->toArray($value);
-            if (count($array) > 0) {
-                $output = "$class Object &$hash (\n";
+            $values = '';
 
+            $exporter = new Exporter($value);
+            $array = $exporter->toArray();
+
+            if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $k = $this->export($k);
-                    $output .= "$whitespace    $k => ".$this->recursiveExport($v, $indentation + 1, $processed)."\n";
+                    $values .= sprintf(
+                      '%s    %s => %s' . "\n",
+                      $whitespace,
+                      new Exporter($k),
+                      $this->recursiveExport($v, $indentation + 1, $processed)
+                    );
                 }
 
-                return "$output$whitespace)";
-            } else {
-                return "$class Object &$hash ()";
+                $values = "\n" . $values . $whitespace;
             }
 
+            return sprintf('%s Object &%s (%s)', $class, $hash, $values);
         }
 
         return var_export($value, true);
@@ -188,65 +224,54 @@ class Exporter
      * Newlines are replaced by the visible string '\n'. Contents of arrays
      * and objects (if any) are replaced by '...'.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
      * @return string
      * @see    PHP_Exporter\Exporter::export
      */
-    public function shortenedExport($value)
+    public function shortenedExport()
     {
-        if (is_string($value)) {
-            return $this->shortenedString($value);
+        if (is_string($this->value)) {
+            $string = $this->export();
+
+            if (strlen($string) > 40) {
+                $string = substr($string, 0, 30) . '...' . substr($string, -7);
+            }
+
+            return str_replace("\n", '\n', $string);
         }
 
-        if(is_object($value)) {
+        if(is_object($this->value)) {
             return sprintf(
-              "%s Object (%s)",
-              get_class($value),
-              count($this->toArray($value)) > 0 ? '...' : ''
+              '%s Object (%s)',
+              get_class($this->value),
+              count($this->toArray()) > 0 ? '...' : ''
             );
         }
 
-        if (is_array($value)) {
+        if (is_array($this->value)) {
             return sprintf(
-              "Array (%s)",
-              count($value) > 0 ? '...' : ''
+              'Array (%s)',
+              count($this->value) > 0 ? '...' : ''
             );
         }
 
-        return $this->export($value);
-    }
-
-    /**
-     * Shortens a string and converts all new lines to '\n'
-     *
-     * @param  string $string The string to shorten
-     * @param  integer $max The maximum length for the string
-     * @return string
-     */
-    public function shortenedString($string, $maxLength = 40)
-    {
-        $string = $this->export($string);
-
-        if (strlen($string) > $maxLength) {
-            $string = substr($string, 0, $maxLength - 10) . '...' . substr($string, -7);
-        }
-
-        return str_replace("\n", '\n', $string);
+        return $this->export();
     }
 
     /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
      *
-     * @param  object $object
      * @return array
      */
-    public function toArray($object)
+    public function toArray()
     {
+        if(!is_object($this->value)) {
+            return (array)$this->value;
+        }
+
         $array = array();
 
-        foreach ((array)$object as $key => $value) {
+        foreach ((array)$this->value as $key => $value) {
             // properties are transformed to keys in the following way:
 
             // private   $property => "\0Classname\0property"
@@ -263,11 +288,11 @@ class Exporter
         // Some internal classes like SplObjectStorage don't work with the
         // above (fast) mechanism nor with reflection
         // Format the output similarly to print_r() in this case
-        if ($object instanceof \SplObjectStorage) {
-            foreach ($object as $key => $value) {
+        if ($this->value instanceof \SplObjectStorage) {
+            foreach ($this->value as $key => $value) {
                 $array[spl_object_hash($value)] = array(
                     'obj' => $value,
-                    'inf' => $object->getInfo(),
+                    'inf' => $this->value->getInfo(),
                 );
             }
         }

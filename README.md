@@ -16,34 +16,34 @@ Exporting simple types:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$exporter = new PHP_Exporter\Exporter;
+use PHP_Exporter\Exporter;
 
 // 46
-echo $exporter->export(46);
+echo new Exporter(46);
 
 // 4.0
-echo $exporter->export(4.0);
+echo new Exporter(4.0);
 
 // 'hello, world!'
-echo $exporter->export('hello, world!');
+echo new Exporter('hello, world!');
 
 // false
-echo $exporter->export(false);
+echo new Exporter(false);
 
 // NAN
-echo $exporter->export(acos(8));
+echo new Exporter(acos(8));
 
 // -INF
-echo $exporter->export(log(0));
+echo new Exporter(log(0));
 
 // null
-echo $exporter->export(null);
+echo new Exporter(null);
 
 // resource(13) of type (stream)
-echo $exporter->export(fopen('php://stderr', 'w'));
+echo new Exporter(fopen('php://stderr', 'w'));
 
 // Binary String: 0x000102030405
-echo $exporter->export(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
+echo new Exporter(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
 ```
 
 Exporting complex types:
@@ -53,7 +53,7 @@ Exporting complex types:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$exporter = new PHP_Exporter\Exporter;
+use PHP_Exporter\Exporter;
 
 /*
 Array &0 (
@@ -69,7 +69,7 @@ Array &0 (
     )
 )
 */
-echo $exporter->export(array(array(1,2,3), array("",0,FALSE)));
+echo new Exporter(array(array(1,2,3), array("",0,FALSE)));
 
 /*
 Array &0 (
@@ -80,7 +80,7 @@ Array &0 (
 */
 $array = array();
 $array['self'] = &$array;
-echo $exporter->export($array);
+echo new Exporter($array);
 
 /*
 stdClass Object &0000000003a66dcc0000000025e723e2 (
@@ -89,7 +89,7 @@ stdClass Object &0000000003a66dcc0000000025e723e2 (
 */
 $obj = new stdClass();
 $obj->self = $obj;
-echo $exporter->export($obj);
+echo new Exporter($obj);
 ```
 
 Compact exports:
@@ -99,22 +99,26 @@ Compact exports:
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$exporter = new PHP_Exporter\Exporter;
+use PHP_Exporter\Exporter;
 
 // Array ()
-echo $exporter->shortenedExport(array());
+$exporter = new Exporter(array());
+echo $exporter->shortenedExport();
 
 // Array (...)
-echo $exporter->shortenedExport(array(1,2,3,4,5));
+$exporter = new Exporter(array(1,2,3,4,5));
+echo $exporter->shortenedExport();
 
 // stdClass Object ()
-echo $exporter->shortenedExport(new stdClass);
+$exporter = new Exporter(new stdClass);
+echo $exporter->shortenedExport();
 
 // Exception Object (...)
-echo $exporter->shortenedExport(new Exception);
+$exporter = new Exporter(new Exception);
+echo $exporter->shortenedExport();
 
 // this\nis\na\nsuper\nlong\nstring\nt...\nspace
-echo $exporter->shortenedExport(
+$exporter = new Exporter(
 <<<LONG_STRING
 this
 is
@@ -135,6 +139,7 @@ of
 space
 LONG_STRING
 );
+echo $exporter->shortenedExport();
 ```
 
 ## Requirements
