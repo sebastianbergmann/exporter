@@ -1,7 +1,7 @@
 {
     "name": "php-exporter/php-exporter",
-    "description": "Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type)",
-    "keywords": ["exporter"],
+    "description": "A nifty utility for visualizing and diffing PHP data types",
+    "keywords": ["exporter","export","diff"],
     "homepage": "http://www.github.com/whatthejeff/php-exporter",
     "license": "BSD-3-Clause",
     "authors": [
