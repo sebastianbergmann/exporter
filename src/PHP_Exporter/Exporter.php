@@ -44,7 +44,23 @@
 namespace PHP_Exporter;
 
 /**
- * Human-readable strings based on PHP values (Adapted from PHPUnit_Util_Type).
+ * A nifty utility for visualizing and diffing PHP data types.
+ *
+ * <code>
+ * <?php
+ *
+ * use PHP_Exporter\Exporter;
+ *
+ * // Basic export
+ * $exporter = new Exporter(new Exception);
+ * echo $exporter->export();
+ *
+ * // same as $exporter->export();
+ * echo $exporter;
+ *
+ * // Basic diff
+ * echo $exporter->diff(new Exception);
+ * </code>
  *
  * @package    PHP_Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
