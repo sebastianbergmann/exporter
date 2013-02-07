@@ -14,7 +14,7 @@ Exporting:
 ```php
 <?php
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use PHP_Exporter\Exporter;
 
@@ -38,7 +38,7 @@ Diffing:
 ```php
 <?php
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use PHP_Exporter\Exporter;
 
