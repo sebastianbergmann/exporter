@@ -72,7 +72,7 @@ class Exporter
     }
 
     /**
-     * Exports a value into a string
+     * Exports a value as a string
      *
      * The output of this method is similar to the output of print_r(), but
      * improved in various aspects:
@@ -93,7 +93,7 @@ class Exporter
     }
 
     /**
-     * Exports a value into a string.
+     * Exports a value as a string.
      *
      * @return string
      * @see    PHP_Exporter\Exporter::export
@@ -255,6 +255,18 @@ class Exporter
         }
 
         return $this->export();
+    }
+
+    /**
+     * Gets a diff of the current value and a given value.
+     *
+     * @param  mixed $value The value to diff with the current value
+     * @param  mixed $header The diff header
+     * @return PHP_Exporter\Diff
+     */
+    public function diff($value, $header = '')
+    {
+        return new Diff((string)$this, (string)new self($value), $header);
     }
 
     /**
