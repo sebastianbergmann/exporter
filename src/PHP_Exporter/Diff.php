@@ -89,7 +89,7 @@ class Diff
         $this->from = $from;
         $this->to = $to;
 
-        if($header) {
+        if ($header) {
             $this->header = $header;
         }
     }
@@ -112,7 +112,7 @@ class Diff
      */
     public function diff()
     {
-        if($this->from === $this->to) {
+        if ($this->from === $this->to) {
             return '';
         }
 
@@ -193,7 +193,7 @@ class Diff
      */
     public function toArray()
     {
-        if($this->from === $this->to) {
+        if ($this->from === $this->to) {
             return array();
         }
 

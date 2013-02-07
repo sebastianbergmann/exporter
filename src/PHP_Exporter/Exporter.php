@@ -239,7 +239,7 @@ class Exporter
             return str_replace("\n", '\n', $string);
         }
 
-        if(is_object($this->value)) {
+        if (is_object($this->value)) {
             return sprintf(
               '%s Object (%s)',
               get_class($this->value),
@@ -277,7 +277,7 @@ class Exporter
      */
     public function toArray()
     {
-        if(!is_object($this->value)) {
+        if (!is_object($this->value)) {
             return (array)$this->value;
         }
 
