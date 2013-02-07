@@ -4,10 +4,66 @@ PHP_Exporter
 [![Build Status](https://secure.travis-ci.org/whatthejeff/php-exporter.png?branch=master)](https://travis-ci.org/whatthejeff/php-exporter)
 
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
-utility for generating human-readable strings based on PHP values. PHP_Exporter
+utility for visualizing and diffing PHP data types. PHP_Exporter
 is simply a stand-alone version of that utility.
 
 ## Usage
+
+Exporting:
+
+```php
+<?php
+
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use PHP_Exporter\Exporter;
+
+/*
+Exception Object &0000000078de0f0d000000002003a261 (
+    'message' => ''
+    'string' => ''
+    'code' => 0
+    'file' => '/home/whatthejeff/test.php'
+    'line' => 34
+    'trace' => Array &0 ()
+    'previous' => null
+)
+*/
+echo new Exporter(new \Exception);
+
+```
+
+Diffing:
+
+```php
+<?php
+
+require_once __DIR__.'/../../vendor/autoload.php';
+
+use PHP_Exporter\Exporter;
+
+/*
+--- Original
++++ New
+@@ @@
+-Exception Object &000000000e4b5f5a0000000028315dc8 (
++Exception Object &000000000e4b5f5d0000000028315dc8 (
+     'message' => ''
+     'string' => ''
+     'code' => 0
+     'file' => '/home/whatthejeff/test.php'
+-    'line' => 34
++    'line' => 35
+     'trace' => Array &0 ()
+     'previous' => null
+ )
+*/
+$exporter = new Exporter(new \Exception);
+echo $exporter->diff(new \Exception);
+
+```
+
+## Data Types
 
 Exporting simple types:
 
