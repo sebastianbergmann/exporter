@@ -29,7 +29,7 @@ Exception Object &0000000078de0f0d000000002003a261 (
     'previous' => null
 )
 */
-echo new Exporter(new \Exception);
+echo new Exporter(new Exception);
 
 ```
 
@@ -58,8 +58,8 @@ use PHP_Exporter\Exporter;
      'previous' => null
  )
 */
-$exporter = new Exporter(new \Exception);
-echo $exporter->diff(new \Exception);
+$exporter = new Exporter(new Exception);
+echo $exporter->diff(new Exception);
 
 ```
 
