@@ -33,7 +33,9 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0": { "PHP_Exporter": "src/" }
+        "classmap": [
+            "src/"
+        ]
     },
     "extra": {
         "branch-alias": {

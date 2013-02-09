@@ -42,7 +42,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHP_Exporter;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  * Diff implementation.

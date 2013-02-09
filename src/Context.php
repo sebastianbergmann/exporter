@@ -41,7 +41,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHP_Exporter;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  * A context containing previously rendered arrays and objects when recursively
@@ -53,7 +53,7 @@ namespace PHP_Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
-class ExporterContext {
+class Context {
     /**
      * Previously seen arrays.
      *
@@ -112,7 +112,7 @@ class ExporterContext {
             return $this->containsObject($value);
         }
 
-        throw new ExporterException('Only arrays and objects are supported');
+        throw new Exception('Only arrays and objects are supported');
     }
 
     /**

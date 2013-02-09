@@ -41,7 +41,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-use PHP_Exporter\Diff;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  *
@@ -52,7 +52,7 @@ use PHP_Exporter\Diff;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
-class DiffTest extends PHPUnit_Framework_TestCase
+class DiffTest extends \PHPUnit_Framework_TestCase
 {
     const REMOVED = 2;
     const ADDED = 1;

@@ -42,7 +42,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHP_Exporter;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  * Exception for PHP_Exporter runtime errors.
@@ -53,6 +53,6 @@ namespace PHP_Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/whatthejeff/PHP_Exporter
  */
-class ExporterException extends \RuntimeException
+class Exception extends \RuntimeException
 {
 }

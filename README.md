@@ -13,10 +13,7 @@ Exporting:
 
 ```php
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
-use PHP_Exporter\Exporter;
+use JeffWelch\PHP\Exporter;
 
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
@@ -29,7 +26,8 @@ Exception Object &0000000078de0f0d000000002003a261 (
     'previous' => null
 )
 */
-echo new Exporter(new Exception);
+
+print new Exporter(new Exception);
 
 ```
 
@@ -37,10 +35,7 @@ Diffing:
 
 ```php
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
-use PHP_Exporter\Exporter;
+use JeffWelch\PHP\Exporter;
 
 /*
 --- Original
@@ -58,8 +53,9 @@ use PHP_Exporter\Exporter;
      'previous' => null
  )
 */
+
 $exporter = new Exporter(new Exception);
-echo $exporter->diff(new Exception);
+print $exporter->diff(new Exception);
 
 ```
 
@@ -69,47 +65,41 @@ Exporting simple types:
 
 ```php
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
-use PHP_Exporter\Exporter;
+use JeffWelch\PHP\Exporter;
 
 // 46
-echo new Exporter(46);
+print new Exporter(46);
 
 // 4.0
-echo new Exporter(4.0);
+print new Exporter(4.0);
 
 // 'hello, world!'
-echo new Exporter('hello, world!');
+print new Exporter('hello, world!');
 
 // false
-echo new Exporter(false);
+print new Exporter(false);
 
 // NAN
-echo new Exporter(acos(8));
+print new Exporter(acos(8));
 
 // -INF
-echo new Exporter(log(0));
+print new Exporter(log(0));
 
 // null
-echo new Exporter(null);
+print new Exporter(null);
 
 // resource(13) of type (stream)
-echo new Exporter(fopen('php://stderr', 'w'));
+print new Exporter(fopen('php://stderr', 'w'));
 
 // Binary String: 0x000102030405
-echo new Exporter(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
+print new Exporter(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
 ```
 
 Exporting complex types:
 
 ```php
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
-use PHP_Exporter\Exporter;
+use JeffWelch\PHP\Exporter;
 
 /*
 Array &0 (
@@ -125,7 +115,8 @@ Array &0 (
     )
 )
 */
-echo new Exporter(array(array(1,2,3), array("",0,FALSE)));
+
+print new Exporter(array(array(1,2,3), array("",0,FALSE)));
 
 /*
 Array &0 (
@@ -134,44 +125,43 @@ Array &0 (
     )
 )
 */
+
 $array = array();
 $array['self'] = &$array;
-echo new Exporter($array);
+print new Exporter($array);
 
 /*
 stdClass Object &0000000003a66dcc0000000025e723e2 (
     'self' => stdClass Object &0000000003a66dcc0000000025e723e2
 )
 */
+
 $obj = new stdClass();
 $obj->self = $obj;
-echo new Exporter($obj);
+print new Exporter($obj);
 ```
 
 Compact exports:
 
 ```php
 <?php
-
-require_once __DIR__.'/../vendor/autoload.php';
-
-use PHP_Exporter\Exporter;
+use JeffWelch\PHP\Exporter;
 
 // Array ()
 $exporter = new Exporter(array());
-echo $exporter->shortenedExport();
+print $exporter->shortenedExport();
 
 // Array (...)
 $exporter = new Exporter(array(1,2,3,4,5));
-echo $exporter->shortenedExport();
+print $exporter->shortenedExport();
 
 // stdClass Object ()
 $exporter = new Exporter(new stdClass);
-echo $exporter->shortenedExport();
+print $exporter->shortenedExport();
 
 // Exception Object (...)
 $exporter = new Exporter(new Exception);
-echo $exporter->shortenedExport();
+print $exporter->shortenedExport();
 
 // this\nis\na\nsuper\nlong\nstring\nt...\nspace
 $exporter = new Exporter(
@@ -195,7 +185,7 @@ of
 space
 LONG_STRING
 );
-echo $exporter->shortenedExport();
+print $exporter->shortenedExport();
 ```
 
 ## Requirements

@@ -2,3 +2,8 @@ phpunit.xml
 composer.lock
 composer.phar
 vendor/
+cache.properties
+build/JeffWelch
+build/LICENSE
+build/README.md
+build/*.tgz

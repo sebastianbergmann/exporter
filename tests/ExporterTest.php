@@ -41,7 +41,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-use PHP_Exporter\Exporter;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  *
@@ -52,7 +52,7 @@ use PHP_Exporter\Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
-class ExporterTest extends PHPUnit_Framework_TestCase
+class ExporterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Removes spaces in front newlines
@@ -67,10 +67,10 @@ class ExporterTest extends PHPUnit_Framework_TestCase
 
     public function exportProvider()
     {
-        $obj2 = new stdClass;
+        $obj2 = new \stdClass;
         $obj2->foo = 'bar';
 
-        $obj = new stdClass;
+        $obj = new \stdClass;
         //@codingStandardsIgnoreStart
         $obj->null = NULL;
         //@codingStandardsIgnoreEnd
@@ -139,7 +139,7 @@ long
 text'
 EOF
             ),
-            array(new stdClass, 'stdClass Object &%x ()'),
+            array(new \stdClass, 'stdClass Object &%x ()'),
             array($obj,
 <<<EOF
 stdClass Object &%x (
@@ -255,7 +255,7 @@ EOF
 
     public function shortenedExportProvider()
     {
-        $obj = new stdClass;
+        $obj = new \stdClass;
         $obj->foo = 'bar';
 
         $array = array(
@@ -271,7 +271,7 @@ EOF
             array('1', "'1'"),
             // \n\r and \r is converted to \n
             array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery\\nvery...g\\ntext'"),
-            array(new stdClass, 'stdClass Object ()'),
+            array(new \stdClass, 'stdClass Object ()'),
             array($obj, 'stdClass Object (...)'),
             array(array(), 'Array ()'),
             array($array, 'Array (...)'),

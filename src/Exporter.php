@@ -41,7 +41,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace PHP_Exporter;
+namespace JeffWelch\PHP\Exporter;
 
 /**
  * A nifty utility for visualizing and diffing PHP data types.
@@ -171,7 +171,7 @@ class Exporter
         $whitespace = str_repeat(' ', 4 * $indentation);
 
         if (!$processed) {
-            $processed = new ExporterContext;
+            $processed = new Context;
         }
 
         if (is_array($value)) {
