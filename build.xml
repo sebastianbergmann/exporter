@@ -46,9 +46,9 @@
  </target>
 
  <target name="pear">
-  <mkdir dir="${basedir}/build/JeffWelch/PHP/Exporter"/>
+  <mkdir dir="${basedir}/build/Whatthejeff/PHP/Exporter"/>
 
-  <copy todir="${basedir}/build/JeffWelch/PHP/Exporter">
+  <copy todir="${basedir}/build/Whatthejeff/PHP/Exporter">
    <fileset dir="${basedir}/src"/>
   </copy>
 
@@ -59,7 +59,7 @@
    <arg value="package" />
   </exec>
 
-  <delete dir="${basedir}/build/JeffWelch"/>
+  <delete dir="${basedir}/build/Whatthejeff"/>
   <delete file="${basedir}/build/LICENSE"/>
   <delete file="${basedir}/build/README.md"/>
  </target>

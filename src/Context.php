@@ -41,7 +41,7 @@
  * @link       http://www.github.com/whatthejeff/php-exporter
  */
 
-namespace JeffWelch\PHP\Exporter;
+namespace Whatthejeff\PHP\Exporter;
 
 /**
  * A context containing previously rendered arrays and objects when recursively

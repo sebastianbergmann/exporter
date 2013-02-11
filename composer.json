@@ -1,5 +1,5 @@
 {
-    "name": "php-exporter/php-exporter",
+    "name": "whatthejeff/php-exporter",
     "description": "A nifty utility for visualizing and diffing PHP data types",
     "keywords": ["exporter","export","diff"],
     "homepage": "http://www.github.com/whatthejeff/php-exporter",

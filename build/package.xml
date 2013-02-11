@@ -30,7 +30,7 @@
  <notes>http://github.com/whatthejeff/php-exporter/tree</notes>
  <contents>
   <dir name="/">
-   <dir name="JeffWelch">
+   <dir name="Whatthejeff">
     <dir name="PHP">
      <dir name="Exporter">
       <file baseinstalldir="/" name="autoload.php" role="php"/>

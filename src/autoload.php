@@ -7,10 +7,10 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'jeffwelch\\php\\exporter\\context' => '/Context.php',
-                'jeffwelch\\php\\exporter\\diff' => '/Diff.php',
-                'jeffwelch\\php\\exporter\\exception' => '/Exception.php',
-                'jeffwelch\\php\\exporter\\exporter' => '/Exporter.php'
+                'whatthejeff\\php\\exporter\\context' => '/Context.php',
+                'whatthejeff\\php\\exporter\\diff' => '/Diff.php',
+                'whatthejeff\\php\\exporter\\exception' => '/Exception.php',
+                'whatthejeff\\php\\exporter\\exporter' => '/Exporter.php'
             );
         }
         $cn = strtolower($class);
