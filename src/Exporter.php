@@ -44,7 +44,7 @@
 namespace Whatthejeff\PHP\Exporter;
 
 /**
- * A nifty utility for visualizing PHP data types.
+ * A nifty utility for visualizing PHP variables.
  *
  * <code>
  * <?php

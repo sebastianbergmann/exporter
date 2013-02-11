@@ -4,7 +4,7 @@ PHP_Exporter
 [![Build Status](https://secure.travis-ci.org/whatthejeff/php-exporter.png?branch=master)](https://travis-ci.org/whatthejeff/php-exporter)
 
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
-utility for visualizing PHP data types. PHP_Exporter is simply a stand-alone
+utility for visualizing PHP variables. PHP_Exporter is simply a stand-alone
 version of that utility.
 
 ## Usage
