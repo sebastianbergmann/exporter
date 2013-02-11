@@ -1,7 +1,7 @@
 {
     "name": "whatthejeff/php-exporter",
-    "description": "A nifty utility for visualizing and diffing PHP data types",
-    "keywords": ["exporter","export","diff"],
+    "description": "A nifty utility for visualizing PHP data types",
+    "keywords": ["exporter","export"],
     "homepage": "http://www.github.com/whatthejeff/php-exporter",
     "license": "BSD-3-Clause",
     "authors": [

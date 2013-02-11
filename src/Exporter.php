@@ -44,7 +44,7 @@
 namespace Whatthejeff\PHP\Exporter;
 
 /**
- * A nifty utility for visualizing and diffing PHP data types.
+ * A nifty utility for visualizing PHP data types.
  *
  * <code>
  * <?php
@@ -57,9 +57,6 @@ namespace Whatthejeff\PHP\Exporter;
  *
  * // same as $exporter->export();
  * echo $exporter;
- *
- * // Basic diff
- * echo $exporter->diff(new Exception);
  * </code>
  *
  * @package    PHP_Exporter
@@ -271,18 +268,6 @@ class Exporter
         }
 
         return $this->export();
-    }
-
-    /**
-     * Gets a diff of the current value and a given value.
-     *
-     * @param  mixed $value The value to diff with the current value
-     * @param  mixed $header The diff header
-     * @return PHP_Exporter\Diff
-     */
-    public function diff($value, $header = '')
-    {
-        return new Diff((string)$this, (string)new self($value), $header);
     }
 
     /**

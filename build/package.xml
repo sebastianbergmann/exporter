@@ -9,8 +9,8 @@
                       http://pear.php.net/dtd/package-2.0.xsd">
  <name>PHP_Exporter</name>
  <channel>pear.phpunit.de</channel>
- <summary>A nifty utility for visualizing and diffing PHP variables.</summary>
- <description>A nifty utility for visualizing and diffing PHP variables.</description>
+ <summary>A nifty utility for visualizing PHP variables.</summary>
+ <description>A nifty utility for visualizing PHP variables.</description>
  <lead>
   <name>Jeff Welch</name>
   <user>whatthejeff</user>
@@ -35,7 +35,6 @@
      <dir name="Exporter">
       <file baseinstalldir="/" name="autoload.php" role="php"/>
       <file baseinstalldir="/" name="Context.php" role="php"/>
-      <file baseinstalldir="/" name="Diff.php" role="php"/>
       <file baseinstalldir="/" name="Exception.php" role="php"/>
       <file baseinstalldir="/" name="Exporter.php" role="php"/>
      </dir>

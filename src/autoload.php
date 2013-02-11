@@ -8,7 +8,6 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
                 'whatthejeff\\php\\exporter\\context' => '/Context.php',
-                'whatthejeff\\php\\exporter\\diff' => '/Diff.php',
                 'whatthejeff\\php\\exporter\\exception' => '/Exception.php',
                 'whatthejeff\\php\\exporter\\exporter' => '/Exporter.php'
             );

@@ -4,8 +4,8 @@ PHP_Exporter
 [![Build Status](https://secure.travis-ci.org/whatthejeff/php-exporter.png?branch=master)](https://travis-ci.org/whatthejeff/php-exporter)
 
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
-utility for visualizing and diffing PHP data types. PHP_Exporter
-is simply a stand-alone version of that utility.
+utility for visualizing PHP data types. PHP_Exporter is simply a stand-alone
+version of that utility.
 
 ## Usage
 
@@ -13,7 +13,7 @@ Exporting:
 
 ```php
 <?php
-use JeffWelch\PHP\Exporter;
+use Whatthejeff\PHP\Exporter;
 
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
@@ -31,41 +31,13 @@ print new Exporter(new Exception);
 
 ```
 
-Diffing:
-
-```php
-<?php
-use JeffWelch\PHP\Exporter;
-
-/*
---- Original
-+++ New
-@@ @@
--Exception Object &000000000e4b5f5a0000000028315dc8 (
-+Exception Object &000000000e4b5f5d0000000028315dc8 (
-     'message' => ''
-     'string' => ''
-     'code' => 0
-     'file' => '/home/whatthejeff/test.php'
--    'line' => 34
-+    'line' => 35
-     'trace' => Array &0 ()
-     'previous' => null
- )
-*/
-
-$exporter = new Exporter(new Exception);
-print $exporter->diff(new Exception);
-
-```
-
 ## Data Types
 
 Exporting simple types:
 
 ```php
 <?php
-use JeffWelch\PHP\Exporter;
+use Whatthejeff\PHP\Exporter;
 
 // 46
 print new Exporter(46);
@@ -99,7 +71,7 @@ Exporting complex types:
 
 ```php
 <?php
-use JeffWelch\PHP\Exporter;
+use Whatthejeff\PHP\Exporter;
 
 /*
 Array &0 (
@@ -145,7 +117,7 @@ Compact exports:
 
 ```php
 <?php
-use JeffWelch\PHP\Exporter;
+use Whatthejeff\PHP\Exporter;
 
 // Array ()
 $exporter = new Exporter(array());
