@@ -13,7 +13,7 @@ Exporting:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter;
+use Whatthejeff\PHP\Exporter\Exporter;
 
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
@@ -37,7 +37,7 @@ Exporting simple types:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter;
+use Whatthejeff\PHP\Exporter\Exporter;
 
 // 46
 print new Exporter(46);
@@ -71,7 +71,7 @@ Exporting complex types:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter;
+use Whatthejeff\PHP\Exporter\Exporter;
 
 /*
 Array &0 (
@@ -117,7 +117,7 @@ Compact exports:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter;
+use Whatthejeff\PHP\Exporter\Exporter;
 
 // Array ()
 $exporter = new Exporter(array());
