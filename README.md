@@ -172,7 +172,7 @@ run the `php composer.phar install` command to install it:
 
     {
         "require": {
-            "php-exporter/php-exporter": "1.0.*@dev"
+            "whatthejeff/php-exporter": "1.0.*@dev"
         }
     }
 
