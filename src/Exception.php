@@ -34,8 +34,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHPUnit
- * @subpackage Framework
+ * @package    PHP_Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
@@ -51,7 +50,7 @@ namespace Whatthejeff\PHP\Exporter;
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/PHP_Exporter
+ * @link       http://www.github.com/whatthejeff/php-exporter
  */
 class Exception extends \RuntimeException
 {

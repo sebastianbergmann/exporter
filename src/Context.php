@@ -80,8 +80,8 @@ class Context {
      *
      * @param mixed $value The value to add.
      * @return mixed The ID of the stored value, either as a string or integer.
-     * @throws PHP_Exporter\ExporterContext Thrown if $value is not an array or
-     *                                      object.
+     * @throws Whatthejeff\PHP\Exporter\Exception Thrown if $value is not an array or
+     *                                            object.
      */
     public function add(&$value)
     {
@@ -101,8 +101,8 @@ class Context {
      * @return mixed The string or integer ID of the stored value if it has
      *               already been seen, or boolean false if the value is not
      *               stored.
-     * @throws PHP_Exporter\ExporterContext Thrown if $value is not an array or
-     *                                      object.
+     * @throws Whatthejeff\PHP\Exporter\Exception Thrown if $value is not an array or
+     *                                            object.
      */
     public function contains(&$value)
     {

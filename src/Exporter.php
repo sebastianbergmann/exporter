@@ -49,7 +49,7 @@ namespace Whatthejeff\PHP\Exporter;
  * <code>
  * <?php
  *
- * use PHP_Exporter\Exporter;
+ * use Whatthejeff\PHP\Exporter\Exporter;
  *
  * // Basic export
  * $exporter = new Exporter(new Exception);
@@ -109,7 +109,7 @@ class Exporter
      * Exports a value as a string.
      *
      * @return string
-     * @see    PHP_Exporter\Exporter::export
+     * @see    Whatthejeff\PHP\Exporter\Exporter::export
      */
     public function __toString()
     {
@@ -121,12 +121,12 @@ class Exporter
      *
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  PHP_Exporter\ExporterContext $processed Contains all objects
-     *                                                 and arrays that have
-     *                                                 previously been
-     *                                                 rendered
+     * @param  Whatthejeff\PHP\Exporter\Context $processed Contains all objects
+     *                                                     and arrays that have
+     *                                                     previously been
+     *                                                     rendered
      * @return string
-     * @see    PHP_Exporter\Exporter::export
+     * @see    Whatthejeff\PHP\Exporter\Exporter::export
      */
     protected function recursiveExport(&$value, $indentation, $processed = null)
     {
@@ -231,14 +231,14 @@ class Exporter
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
-     * PHP_Exporter\Exporter::export. This method guarantees thought that the
-     * result contains now newlines.
+     * Whatthejeff\PHP\Exporter\Exporter::export. This method guarantees
+     * thought that the result contains now newlines.
      *
      * Newlines are replaced by the visible string '\n'. Contents of arrays
      * and objects (if any) are replaced by '...'.
      *
      * @return string
-     * @see    PHP_Exporter\Exporter::export
+     * @see    Whatthejeff\PHP\Exporter\Exporter::export
      */
     public function shortenedExport()
     {
