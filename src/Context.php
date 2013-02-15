@@ -59,7 +59,7 @@ class Context {
      *
      * @var array[] $arrays
      */
-    protected $arrays;
+    protected $arrays = array();
 
     /**
      * Previously seen objects.
@@ -86,11 +86,15 @@ class Context {
     {
         if (is_array($value)) {
             return $this->addArray($value);
-        } elseif (is_object($value)) {
+        }
+
+        else if (is_object($value)) {
             return $this->addObject($value);
         }
 
-        throw new ExporterException('Only arrays and objects are supported');
+        throw new ExporterException(
+          'Only arrays and objects are supported'
+        );
     }
 
     /**
@@ -106,11 +110,15 @@ class Context {
     {
         if (is_array($value)) {
             return $this->containsArray($value);
-        } elseif (is_object($value)) {
+        }
+
+        else if (is_object($value)) {
             return $this->containsObject($value);
         }
 
-        throw new Exception('Only arrays and objects are supported');
+        throw new Exception(
+          'Only arrays and objects are supported'
+        );
     }
 
     /**
@@ -121,11 +129,12 @@ class Context {
      */
     protected function addArray(array &$value)
     {
-        if (($key = $this->containsArray($value)) !== false) {
+        if (($key = $this->containsArray($value)) !== FALSE) {
             return $key;
         }
 
         $this->arrays[] = &$value;
+
         return count($this->arrays) - 1;
     }
 
@@ -153,18 +162,21 @@ class Context {
      */
     protected function containsArray(array &$value)
     {
-        $keys = array_keys($this->arrays, $value, true);
-        $gen = '_PHP_Exporter_Key_'.hash('sha512', microtime(true));
+        $keys = array_keys($this->arrays, $value, TRUE);
+        $gen = '_PHP_Exporter_Key_'.hash('sha512', microtime(TRUE));
+
         foreach ($keys as $key) {
             $this->arrays[$key][$gen] = $gen;
+
             if (isset($value[$gen]) && $value[$gen] === $gen) {
                 unset($this->arrays[$key][$gen]);
                 return $key;
             }
+
             unset($this->arrays[$key][$gen]);
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -180,6 +192,6 @@ class Context {
             return spl_object_hash($value);
         }
 
-        return false;
+        return FALSE;
     }
 }

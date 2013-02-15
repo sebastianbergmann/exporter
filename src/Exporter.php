@@ -125,7 +125,7 @@ class Exporter
      * @return string
      * @see    SebastianBergmann\PHP\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = null)
+    protected function recursiveExport(&$value, $indentation, $processed = NULL)
     {
         if ($value === NULL) {
             return 'null';
@@ -169,7 +169,7 @@ class Exporter
         }
 
         if (is_array($value)) {
-            if (($key = $processed->contains($value)) !== false) {
+            if (($key = $processed->contains($value)) !== FALSE) {
                 return 'Array &' . $key;
             }
 
@@ -221,7 +221,7 @@ class Exporter
             return sprintf('%s Object &%s (%s)', $class, $hash, $values);
         }
 
-        return var_export($value, true);
+        return var_export($value, TRUE);
     }
 
     /**
