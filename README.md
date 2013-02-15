@@ -1,7 +1,7 @@
 PHP_Exporter
 ===========
 
-[![Build Status](https://secure.travis-ci.org/whatthejeff/php-exporter.png?branch=master)](https://travis-ci.org/whatthejeff/php-exporter)
+[![Build Status](https://secure.travis-ci.org/sebastianbergmann/php-exporter.png?branch=master)](https://travis-ci.org/sebastianbergmann/php-exporter)
 
 [PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
 utility for visualizing PHP variables. PHP_Exporter is simply a stand-alone
@@ -13,14 +13,14 @@ Exporting:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter\Exporter;
+use SebastianBergmann\PHP\Exporter\Exporter;
 
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
     'message' => ''
     'string' => ''
     'code' => 0
-    'file' => '/home/whatthejeff/test.php'
+    'file' => '/home/sebastianbergmann/test.php'
     'line' => 34
     'trace' => Array &0 ()
     'previous' => null
@@ -37,7 +37,7 @@ Exporting simple types:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter\Exporter;
+use SebastianBergmann\PHP\Exporter\Exporter;
 
 // 46
 print new Exporter(46);
@@ -71,7 +71,7 @@ Exporting complex types:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter\Exporter;
+use SebastianBergmann\PHP\Exporter\Exporter;
 
 /*
 Array &0 (
@@ -117,7 +117,7 @@ Compact exports:
 
 ```php
 <?php
-use Whatthejeff\PHP\Exporter\Exporter;
+use SebastianBergmann\PHP\Exporter\Exporter;
 
 // Array ()
 $exporter = new Exporter(array());
@@ -172,7 +172,7 @@ run the `php composer.phar install` command to install it:
 
     {
         "require": {
-            "whatthejeff/php-exporter": "1.0.*@dev"
+            "sebastianbergmann/php-exporter": "1.0.*@dev"
         }
     }
 

@@ -38,10 +38,10 @@
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/php-exporter
+ * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 
-namespace Whatthejeff\PHP\Exporter;
+namespace SebastianBergmann\PHP\Exporter;
 
 /**
  * Exception for PHP_Exporter runtime errors.
@@ -50,7 +50,7 @@ namespace Whatthejeff\PHP\Exporter;
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/php-exporter
+ * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 class Exception extends \RuntimeException
 {

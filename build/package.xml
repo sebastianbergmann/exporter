@@ -12,9 +12,9 @@
  <summary>A nifty utility for visualizing PHP variables.</summary>
  <description>A nifty utility for visualizing PHP variables.</description>
  <lead>
-  <name>Jeff Welch</name>
-  <user>whatthejeff</user>
-  <email>whatthejeff@gmail.com</email>
+  <name>Sebastian Bergmann</name>
+  <user>sebastian</user>
+  <email>sebastian@phpunit.de</email>
   <active>yes</active>
  </lead>
  <date>2013-MM-DD</date>
@@ -27,10 +27,10 @@
   <api>stable</api>
  </stability>
  <license>The BSD 3-Clause License</license>
- <notes>http://github.com/whatthejeff/php-exporter/tree</notes>
+ <notes>http://github.com/sebastianbergmann/php-exporter/tree</notes>
  <contents>
   <dir name="/">
-   <dir name="Whatthejeff">
+   <dir name="SebastianBergmann">
     <dir name="PHP">
      <dir name="Exporter">
       <file baseinstalldir="/" name="autoload.php" role="php"/>

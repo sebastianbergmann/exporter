@@ -1,17 +1,17 @@
 {
-    "name": "whatthejeff/php-exporter",
+    "name": "sebastianbergmann/php-exporter",
     "description": "A nifty utility for visualizing PHP variables",
     "keywords": ["exporter","export"],
-    "homepage": "http://www.github.com/whatthejeff/php-exporter",
+    "homepage": "http://www.github.com/sebastianbergmann/php-exporter",
     "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Jeff Welch",
-            "email": "whatthejeff@gmail.com"
-        },
-        {
             "name": "Sebastian Bergmann",
             "email": "sebastian@phpunit.de"
+        },
+        {
+            "name": "Jeff Welch",
+            "email": "whatthejeff@gmail.com"
         },
         {
             "name": "Volker Dusch",

@@ -38,10 +38,10 @@
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/php-exporter
+ * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 
-namespace Whatthejeff\PHP\Exporter;
+namespace SebastianBergmann\PHP\Exporter;
 
 /**
  * A context containing previously rendered arrays and objects when recursively
@@ -51,7 +51,7 @@ namespace Whatthejeff\PHP\Exporter;
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/whatthejeff/php-exporter
+ * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 class Context {
     /**
@@ -80,8 +80,7 @@ class Context {
      *
      * @param mixed $value The value to add.
      * @return mixed The ID of the stored value, either as a string or integer.
-     * @throws Whatthejeff\PHP\Exporter\Exception Thrown if $value is not an array or
-     *                                            object.
+     * @throws SebastianBergmann\PHP\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function add(&$value)
     {
@@ -101,8 +100,7 @@ class Context {
      * @return mixed The string or integer ID of the stored value if it has
      *               already been seen, or boolean false if the value is not
      *               stored.
-     * @throws Whatthejeff\PHP\Exporter\Exception Thrown if $value is not an array or
-     *                                            object.
+     * @throws SebastianBergmann\PHP\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function contains(&$value)
     {
