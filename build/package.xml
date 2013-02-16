@@ -7,10 +7,10 @@
                       http://pear.php.net/dtd/tasks-1.0.xsd
                       http://pear.php.net/dtd/package-2.0
                       http://pear.php.net/dtd/package-2.0.xsd">
- <name>PHP_Exporter</name>
+ <name>Exporter</name>
  <channel>pear.phpunit.de</channel>
- <summary>A nifty utility for visualizing PHP variables.</summary>
- <description>A nifty utility for visualizing PHP variables.</description>
+ <summary>Provides the functionality to export PHP variables for visualization</summary>
+ <description>Provides the functionality to export PHP variables for visualization</description>
  <lead>
   <name>Sebastian Bergmann</name>
   <user>sebastian</user>
@@ -31,13 +31,11 @@
  <contents>
   <dir name="/">
    <dir name="SebastianBergmann">
-    <dir name="PHP">
-     <dir name="Exporter">
-      <file baseinstalldir="/" name="autoload.php" role="php"/>
-      <file baseinstalldir="/" name="Context.php" role="php"/>
-      <file baseinstalldir="/" name="Exception.php" role="php"/>
-      <file baseinstalldir="/" name="Exporter.php" role="php"/>
-     </dir>
+    <dir name="Exporter">
+     <file baseinstalldir="/" name="autoload.php" role="php"/>
+     <file baseinstalldir="/" name="Context.php" role="php"/>
+     <file baseinstalldir="/" name="Exception.php" role="php"/>
+     <file baseinstalldir="/" name="Exporter.php" role="php"/>
     </dir>
    </dir>
    <file baseinstalldir="/" name="LICENSE" role="doc"/>

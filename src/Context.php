@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP_Exporter
+ * Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,20 +34,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHP_Exporter
+ * @package    Exporter
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 
-namespace SebastianBergmann\PHP\Exporter;
+namespace SebastianBergmann\Exporter;
 
 /**
  * A context containing previously rendered arrays and objects when recursively
  * exporting a value.
  *
- * @package    PHP_Exporter
+ * @package    Exporter
+ * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @author     Adam Harvey <aharvey@php.net>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
@@ -80,7 +82,7 @@ class Context {
      *
      * @param mixed $value The value to add.
      * @return mixed The ID of the stored value, either as a string or integer.
-     * @throws SebastianBergmann\PHP\Exporter\Exception Thrown if $value is not an array or object.
+     * @throws SebastianBergmann\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function add(&$value)
     {
@@ -104,7 +106,7 @@ class Context {
      * @return mixed The string or integer ID of the stored value if it has
      *               already been seen, or boolean false if the value is not
      *               stored.
-     * @throws SebastianBergmann\PHP\Exporter\Exception Thrown if $value is not an array or object.
+     * @throws SebastianBergmann\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function contains(&$value)
     {
@@ -163,7 +165,7 @@ class Context {
     protected function containsArray(array &$value)
     {
         $keys = array_keys($this->arrays, $value, TRUE);
-        $gen = '_PHP_Exporter_Key_'.hash('sha512', microtime(TRUE));
+        $gen = '_Exporter_Key_'.hash('sha512', microtime(TRUE));
 
         foreach ($keys as $key) {
             $this->arrays[$key][$gen] = $gen;

@@ -1,11 +1,9 @@
-PHP_Exporter
-===========
+Exporter
+========
 
-[![Build Status](https://secure.travis-ci.org/sebastianbergmann/php-exporter.png?branch=master)](https://travis-ci.org/sebastianbergmann/php-exporter)
+[![Build Status](https://secure.travis-ci.org/sebastianbergmann/exporter.png?branch=master)](https://travis-ci.org/sebastianbergmann/exporter)
 
-[PHPUnit](https://github.com/sebastianbergmann/phpunit/) includes a nifty
-utility for visualizing PHP variables. PHP_Exporter is simply a stand-alone
-version of that utility.
+This component provides the functionality to export PHP variables for visualization.
 
 ## Usage
 
@@ -13,7 +11,7 @@ Exporting:
 
 ```php
 <?php
-use SebastianBergmann\PHP\Exporter\Exporter;
+use SebastianBergmann\Exporter\Exporter;
 
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
@@ -28,7 +26,6 @@ Exception Object &0000000078de0f0d000000002003a261 (
 */
 
 print new Exporter(new Exception);
-
 ```
 
 ## Data Types
@@ -37,7 +34,7 @@ Exporting simple types:
 
 ```php
 <?php
-use SebastianBergmann\PHP\Exporter\Exporter;
+use SebastianBergmann\Exporter\Exporter;
 
 // 46
 print new Exporter(46);
@@ -71,7 +68,7 @@ Exporting complex types:
 
 ```php
 <?php
-use SebastianBergmann\PHP\Exporter\Exporter;
+use SebastianBergmann\Exporter\Exporter;
 
 /*
 Array &0 (
@@ -117,7 +114,7 @@ Compact exports:
 
 ```php
 <?php
-use SebastianBergmann\PHP\Exporter\Exporter;
+use SebastianBergmann\Exporter\Exporter;
 
 // Array ()
 $exporter = new Exporter(array());
@@ -160,40 +157,25 @@ LONG_STRING
 print $exporter->shortenedExport();
 ```
 
-## Requirements
-
-PHP_Exporter works with PHP 5.3.3 or later.
-
 ## Installation
 
-The recommended way to install PHP_Exporter is [through
-composer](http://getcomposer.org). Just create a `composer.json` file and
-run the `php composer.phar install` command to install it:
+There are two supported ways of installing Exporter.
+
+You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) or [Composer](http://getcomposer.org/) to download and install Exporter as well as its dependencies.
+
+### PEAR Installer
+
+The following two commands (which you may have to run as `root`) are all that is required to install Exporter using the PEAR Installer:
+
+    pear config-set auto_discover 1
+    pear install pear.phpunit.de/Exporter
+
+### Composer
+
+To add Exporter as a local, per-project dependency to your project, simply add a dependency on `sebastian/exporter` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a dependency on Exporter 1.0:
 
     {
         "require": {
-            "sebastianbergmann/php-exporter": "1.0.*@dev"
+            "sebastian/exporter": "1.0.*"
         }
     }
-
-## Tests
-
-To run the test suite, you need [composer](http://getcomposer.org).
-
-    $ php composer.phar install --dev
-    $ vendor/bin/phpunit
-
-## Acknowledgements
-
-This utility was adapted from the
-[PHPUnit](https://github.com/sebastianbergmann/phpunit/) project. A special
-thanks goes to the following people for their contributions:
-
- * [sebastianbergmann](https://github.com/sebastianbergmann)
- * [edorian](https://github.com/edorian)
- * [LawnGnome](https://github.com/LawnGnome)
- * [bschussek](https://github.com/bschussek)
-
-## License
-
-PHP_Exporter is licensed under the [BSD 3-Clause license](LICENSE).

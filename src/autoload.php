@@ -7,9 +7,9 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'sebastianbergmann\\php\\exporter\\context' => '/Context.php',
-                'sebastianbergmann\\php\\exporter\\exception' => '/Exception.php',
-                'sebastianbergmann\\php\\exporter\\exporter' => '/Exporter.php'
+                'sebastianbergmann\\exporter\\context' => '/Context.php',
+                'sebastianbergmann\\exporter\\exception' => '/Exception.php',
+                'sebastianbergmann\\exporter\\exporter' => '/Exporter.php'
             );
         }
         $cn = strtolower($class);

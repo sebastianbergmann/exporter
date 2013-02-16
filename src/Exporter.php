@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP_Exporter
+ * Exporter
  *
  * Copyright (c) 2001-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,22 +34,21 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    PHP_Exporter
+ * @package    Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://www.github.com/sebastianbergmann/php-exporter
  */
 
-namespace SebastianBergmann\PHP\Exporter;
+namespace SebastianBergmann\Exporter;
 
 /**
  * A nifty utility for visualizing PHP variables.
  *
  * <code>
  * <?php
- *
- * use SebastianBergmann\PHP\Exporter\Exporter;
+ * use SebastianBergmann\Exporter\Exporter;
  *
  * // Basic export
  * $exporter = new Exporter(new Exception);
@@ -59,7 +58,7 @@ namespace SebastianBergmann\PHP\Exporter;
  * echo $exporter;
  * </code>
  *
- * @package    PHP_Exporter
+ * @package    Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
@@ -109,7 +108,7 @@ class Exporter
      * Exports a value as a string.
      *
      * @return string
-     * @see    SebastianBergmann\PHP\Exporter\Exporter::export
+     * @see    SebastianBergmann\Exporter\Exporter::export
      */
     public function __toString()
     {
@@ -121,9 +120,9 @@ class Exporter
      *
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\PHP\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
      * @return string
-     * @see    SebastianBergmann\PHP\Exporter\Exporter::export
+     * @see    SebastianBergmann\Exporter\Exporter::export
      */
     protected function recursiveExport(&$value, $indentation, $processed = NULL)
     {
@@ -228,14 +227,14 @@ class Exporter
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
-     * SebastianBergmann\PHP\Exporter\Exporter::export. This method guarantees
+     * SebastianBergmann\Exporter\Exporter::export. This method guarantees
      * thought that the result contains now newlines.
      *
      * Newlines are replaced by the visible string '\n'. Contents of arrays
      * and objects (if any) are replaced by '...'.
      *
      * @return string
-     * @see    SebastianBergmann\PHP\Exporter\Exporter::export
+     * @see    SebastianBergmann\Exporter\Exporter::export
      */
     public function shortenedExport()
     {

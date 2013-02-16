@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="src/autoload.php">
+         bootstrap="src/autoload.php"
+         strict="true"
+         verbose="true">
  <testsuites>
-  <testsuite name="PHP_Exporter">
+  <testsuite name="Exporter">
    <directory>./tests</directory>
   </testsuite>
  </testsuites>

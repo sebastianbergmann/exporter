@@ -46,9 +46,9 @@
  </target>
 
  <target name="pear">
-  <mkdir dir="${basedir}/build/SebastianBergmann/PHP/Exporter"/>
+  <mkdir dir="${basedir}/build/SebastianBergmann/Exporter"/>
 
-  <copy todir="${basedir}/build/SebastianBergmann/PHP/Exporter">
+  <copy todir="${basedir}/build/SebastianBergmann/Exporter">
    <fileset dir="${basedir}/src"/>
   </copy>
 

@@ -1,8 +1,8 @@
 {
-    "name": "sebastianbergmann/php-exporter",
-    "description": "A nifty utility for visualizing PHP variables",
+    "name": "sebastian/exporter",
+    "description": "Provides the functionality to export PHP variables for visualization",
     "keywords": ["exporter","export"],
-    "homepage": "http://www.github.com/sebastianbergmann/php-exporter",
+    "homepage": "http://www.github.com/sebastianbergmann/exporter",
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -28,9 +28,6 @@
     ],
     "require": {
         "php": ">=5.3.3"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "classmap": [
