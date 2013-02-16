@@ -54,15 +54,11 @@ namespace SebastianBergmann\Exporter;
  */
 class ExporterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Removes spaces in front newlines
-     *
-     * @param  string $string
-     * @return string
-     */
-    public static function trimnl($string)
+    private $exporter;
+
+    protected function setUp()
     {
-        return preg_replace('/[ ]*\n/', "\n", $string);
+        $this->exporter = new Exporter;
     }
 
     public function exportProvider()
@@ -250,7 +246,9 @@ EOF
      */
     public function testExport($value, $expected)
     {
-        $this->assertStringMatchesFormat($expected, self::trimnl(new Exporter($value)));
+        $this->assertStringMatchesFormat(
+          $expected, $this->trimnl($this->exporter->export($value))
+        );
     }
 
     public function shortenedExportProvider()
@@ -283,8 +281,10 @@ EOF
      */
     public function testShortenedExport($value, $expected)
     {
-        $exporter = new Exporter($value);
-        $this->assertSame($expected, self::trimnl($exporter->shortenedExport()));
+        $this->assertSame(
+          $expected,
+          $this->trimnl($this->exporter->shortenedExport($value))
+        );
     }
 
     public function provideNonBinaryMultibyteStrings()
@@ -302,6 +302,13 @@ EOF
      */
     public function testNonBinaryStringExport($value, $expectedLength)
     {
-        $this->assertRegExp("~'.{{$expectedLength}}'\$~s", (string)new Exporter($value));
+        $this->assertRegExp(
+          "~'.{{$expectedLength}}'\$~s", $this->exporter->export($value)
+        );
+    }
+
+    protected function trimnl($string)
+    {
+        return preg_replace('/[ ]*\n/', "\n", $string);
     }
 }
