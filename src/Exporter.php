@@ -262,7 +262,7 @@ class Exporter
             }
 
             // See https://github.com/php/php-src/commit/5721132
-            if ($key == "\0gcdata") {
+            if ($key === "\0gcdata") {
                 continue;
             }
 

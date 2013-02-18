@@ -66,6 +66,8 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $obj2 = new \stdClass;
         $obj2->foo = 'bar';
 
+        $obj3 = (object)array(1,2,"Test\r\n",4,5,6,7,8);
+
         $obj = new \stdClass;
         //@codingStandardsIgnoreStart
         $obj->null = NULL;
@@ -236,6 +238,20 @@ SplObjectStorage Object &%x (
         'obj' => stdClass Object &%x
         'inf' => null
     )
+)
+EOF
+            ),
+            array($obj3,
+<<<EOF
+stdClass Object &%x (
+    0 => 1
+    1 => 2
+    2 => 'Test\n'
+    3 => 4
+    4 => 5
+    5 => 6
+    6 => 7
+    7 => 8
 )
 EOF
             ),
