@@ -80,6 +80,10 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $obj->array = array('foo' => 'bar');
         $obj->self = $obj;
 
+        $storage = new \SplObjectStorage;
+        $storage->attach($obj2);
+        $storage->foo = $obj2;
+
         $array = array(
             0 => 0,
             'null' => NULL,
@@ -218,6 +222,19 @@ text'
             'foo' => 'bar'
         )
         'self' => Array &%d
+    )
+)
+EOF
+            ),
+            array($storage,
+<<<EOF
+SplObjectStorage Object &%x (
+    'foo' => stdClass Object &%x (
+        'foo' => 'bar'
+    )
+    '%x' => Array &0 (
+        'obj' => stdClass Object &%x
+        'inf' => null
     )
 )
 EOF

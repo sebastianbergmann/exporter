@@ -250,7 +250,7 @@ class Exporter
 
         $array = array();
 
-        foreach ((array)$value as $key => $value) {
+        foreach ((array)$value as $key => $val) {
             // properties are transformed to keys in the following way:
 
             // private   $property => "\0Classname\0property"
@@ -261,16 +261,21 @@ class Exporter
                 $key = $matches[1];
             }
 
-            $array[$key] = $value;
+            // See https://github.com/php/php-src/commit/5721132
+            if ($key == "\0gcdata") {
+                continue;
+            }
+
+            $array[$key] = $val;
         }
 
         // Some internal classes like SplObjectStorage don't work with the
         // above (fast) mechanism nor with reflection
         // Format the output similarly to print_r() in this case
         if ($value instanceof \SplObjectStorage) {
-            foreach ($value as $key => $value) {
-                $array[spl_object_hash($value)] = array(
-                    'obj' => $value,
+            foreach ($value as $key => $val) {
+                $array[spl_object_hash($val)] = array(
+                    'obj' => $val,
                     'inf' => $value->getInfo(),
                 );
             }
