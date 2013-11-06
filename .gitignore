@@ -3,7 +3,6 @@ composer.lock
 composer.phar
 vendor/
 cache.properties
-build/Whatthejeff
 build/LICENSE
 build/README.md
 build/*.tgz

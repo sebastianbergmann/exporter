@@ -39,7 +39,7 @@
  * @author     Bernhard Schussek <bschussek@2bepublished.at>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/sebastianbergmann/php-exporter
+ * @link       https://github.com/sebastianbergmann/exporter
  */
 
 namespace SebastianBergmann\Exporter;
@@ -50,7 +50,7 @@ namespace SebastianBergmann\Exporter;
  * @author     Bernhard Schussek <bschussek@2bepublished.at>
  * @copyright  2001-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.github.com/sebastianbergmann/php-exporter
+ * @link       https://github.com/sebastianbergmann/exporter
  */
 class ExporterTest extends \PHPUnit_Framework_TestCase
 {

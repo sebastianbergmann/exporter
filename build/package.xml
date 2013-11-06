@@ -27,7 +27,7 @@
   <api>stable</api>
  </stability>
  <license>The BSD 3-Clause License</license>
- <notes>http://github.com/sebastianbergmann/php-exporter/tree</notes>
+ <notes>http://github.com/sebastianbergmann/exporter/tree</notes>
  <contents>
   <dir name="/">
    <dir name="SebastianBergmann">

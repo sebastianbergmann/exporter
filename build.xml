@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="php-exporter" default="build">
+<project name="exporter" default="build">
  <property name="php" value="php"/>
  <property name="phpunit" value="phpunit"/>
 
