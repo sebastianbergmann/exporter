@@ -26,8 +26,12 @@
             "email": "bschussek@2bepublished.at"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.8.*@dev"
     },
     "autoload": {
         "classmap": [
@@ -40,3 +44,4 @@
         }
     }
 }
+

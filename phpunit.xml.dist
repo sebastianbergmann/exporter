@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="src/autoload.php"
+         bootstrap="vendor/autoload.php"
          strict="true"
          verbose="true">
  <testsuites>
   <testsuite name="Exporter">
-   <directory>./tests</directory>
+   <directory>tests</directory>
   </testsuite>
  </testsuites>
  <filter>
   <whitelist addUncoveredFilesFromWhitelist="true">
-   <directory>./src</directory>
-   <exclude>
-    <file>./src/autoload.php</file>
-   </exclude>
+   <directory>src</directory>
   </whitelist>
  </filter>
 </phpunit>
+
