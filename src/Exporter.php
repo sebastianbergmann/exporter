@@ -270,9 +270,16 @@ class Exporter
         }
 
         // Some internal classes like SplObjectStorage don't work with the
-        // above (fast) mechanism nor with reflection
+        // above (fast) mechanism nor with reflection in Zend.
         // Format the output similarly to print_r() in this case
         if ($value instanceof \SplObjectStorage) {
+            // However, the fast method does work in HHVM, and exposes the
+            // internal implementation. Hide it again.
+            if (property_exists('\SplObjectStorage', '__storage')) {
+              unset($array['__storage']);
+            } else if (property_exists('\SplObjectStorage', 'storage')) {
+              unset($array['storage']);
+            }
             foreach ($value as $key => $val) {
                 $array[spl_object_hash($val)] = array(
                     'obj' => $val,
