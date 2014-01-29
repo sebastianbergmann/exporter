@@ -5,8 +5,10 @@ before_script:
 
 php:
   - 5.4
-  - 5.3
+  - 5.5
+  - hhvm
 
 notifications:
   email: false
   irc: "irc.freenode.org#phpunit"
+
