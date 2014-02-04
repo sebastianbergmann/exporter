@@ -10,6 +10,10 @@ php:
   - 5.5
   - hhvm
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
 notifications:
   email: false
   irc: "irc.freenode.org#phpunit"
