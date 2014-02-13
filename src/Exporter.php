@@ -280,6 +280,9 @@ class Exporter
             } else if (property_exists('\SplObjectStorage', 'storage')) {
               unset($array['storage']);
             }
+            if (property_exists('\SplObjectStorage', '__key')) {
+              unset($array['__key']);
+            }
             foreach ($value as $key => $val) {
                 $array[spl_object_hash($val)] = array(
                     'obj' => $val,
