@@ -86,21 +86,6 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $storage->attach($obj2);
         $storage->foo = $obj2;
 
-        $array = array(
-            0 => 0,
-            'null' => NULL,
-            'boolean' => TRUE,
-            'integer' => 1,
-            'double' => 1.2,
-            'string' => '1',
-            'text' => "this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
-            'object' => $obj2,
-            'objectagain' => $obj2,
-            'array' => array('foo' => 'bar'),
-        );
-
-        $array['self'] = &$array;
-
         return array(
             array(NULL, 'null'),
             array(TRUE, 'true'),
@@ -173,61 +158,6 @@ text'
 EOF
             ),
             array(array(), 'Array &%d ()'),
-            array($array,
-<<<EOF
-Array &%d (
-    0 => 0
-    'null' => null
-    'boolean' => true
-    'integer' => 1
-    'double' => 1.2
-    'string' => '1'
-    'text' => 'this
-is
-a
-very
-very
-very
-very
-very
-very
-long
-text'
-    'object' => stdClass Object &%x (
-        'foo' => 'bar'
-    )
-    'objectagain' => stdClass Object &%x
-    'array' => Array &%d (
-        'foo' => 'bar'
-    )
-    'self' => Array &%d (
-        0 => 0
-        'null' => null
-        'boolean' => true
-        'integer' => 1
-        'double' => 1.2
-        'string' => '1'
-        'text' => 'this
-is
-a
-very
-very
-very
-very
-very
-very
-long
-text'
-        'object' => stdClass Object &%x
-        'objectagain' => stdClass Object &%x
-        'array' => Array &%d (
-            'foo' => 'bar'
-        )
-        'self' => Array &%d
-    )
-)
-EOF
-            ),
             array($storage,
 <<<EOF
 SplObjectStorage Object &%x (
@@ -281,6 +211,89 @@ EOF
     {
         $this->assertStringMatchesFormat(
           $expected, $this->trimnl($this->exporter->export($value))
+        );
+    }
+
+    public function testExport2()
+    {
+        if (PHP_VERSION === '5.3.3') {
+            $this->markTestSkipped('Skipped due to "Nesting level too deep - recursive dependency?" fatal error');
+        }
+
+        $obj = new \stdClass;
+        $obj->foo = 'bar';
+
+        $array = array(
+            0 => 0,
+            'null' => NULL,
+            'boolean' => TRUE,
+            'integer' => 1,
+            'double' => 1.2,
+            'string' => '1',
+            'text' => "this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
+            'object' => $obj,
+            'objectagain' => $obj,
+            'array' => array('foo' => 'bar'),
+        );
+
+        $array['self'] = &$array;
+
+        $expected = <<<EOF
+Array &%d (
+    0 => 0
+    'null' => null
+    'boolean' => true
+    'integer' => 1
+    'double' => 1.2
+    'string' => '1'
+    'text' => 'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
+text'
+    'object' => stdClass Object &%x (
+        'foo' => 'bar'
+    )
+    'objectagain' => stdClass Object &%x
+    'array' => Array &%d (
+        'foo' => 'bar'
+    )
+    'self' => Array &%d (
+        0 => 0
+        'null' => null
+        'boolean' => true
+        'integer' => 1
+        'double' => 1.2
+        'string' => '1'
+        'text' => 'this
+is
+a
+very
+very
+very
+very
+very
+very
+long
+text'
+        'object' => stdClass Object &%x
+        'objectagain' => stdClass Object &%x
+        'array' => Array &%d (
+            'foo' => 'bar'
+        )
+        'self' => Array &%d
+    )
+)
+EOF;
+
+        $this->assertStringMatchesFormat(
+            $expected, $this->trimnl($this->exporter->export($array))
         );
     }
 
