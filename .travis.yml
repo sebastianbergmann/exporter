@@ -14,5 +14,10 @@ php:
 
 notifications:
   email: false
-  irc: "irc.freenode.org#phpunit"
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/6668f52f3dd4e3f81960
+    on_success: always
+    on_failure: always
+    on_start: false
 
