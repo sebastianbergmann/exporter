@@ -159,19 +159,6 @@ print $exporter->shortenedExport();
 
 ## Installation
 
-There are two supported ways of installing Exporter.
-
-You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) or [Composer](http://getcomposer.org/) to download and install Exporter as well as its dependencies.
-
-### PEAR Installer
-
-The following two commands (which you may have to run as `root`) are all that is required to install Exporter using the PEAR Installer:
-
-    pear config-set auto_discover 1
-    pear install pear.phpunit.de/Exporter
-
-### Composer
-
 To add Exporter as a local, per-project dependency to your project, simply add a dependency on `sebastian/exporter` to your project's `composer.json` file. Here is a minimal example of a `composer.json` file that just defines a dependency on Exporter 1.0:
 
     {
