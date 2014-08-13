@@ -13,6 +13,8 @@ Exporting:
 <?php
 use SebastianBergmann\Exporter\Exporter;
 
+$exporter = new Exporter;
+
 /*
 Exception Object &0000000078de0f0d000000002003a261 (
     'message' => ''
@@ -25,7 +27,7 @@ Exception Object &0000000078de0f0d000000002003a261 (
 )
 */
 
-print new Exporter(new Exception);
+print $exporter->export(new Exception);
 ```
 
 ## Data Types
@@ -36,32 +38,34 @@ Exporting simple types:
 <?php
 use SebastianBergmann\Exporter\Exporter;
 
+$exporter = new Exporter;
+
 // 46
-print new Exporter(46);
+print $exporter->export(46);
 
 // 4.0
-print new Exporter(4.0);
+print $exporter->export(4.0);
 
 // 'hello, world!'
-print new Exporter('hello, world!');
+print $exporter->export('hello, world!');
 
 // false
-print new Exporter(false);
+print $exporter->export(false);
 
 // NAN
-print new Exporter(acos(8));
+print $exporter->export(acos(8));
 
 // -INF
-print new Exporter(log(0));
+print $exporter->export(log(0));
 
 // null
-print new Exporter(null);
+print $exporter->export(null);
 
 // resource(13) of type (stream)
-print new Exporter(fopen('php://stderr', 'w'));
+print $exporter->export(fopen('php://stderr', 'w'));
 
 // Binary String: 0x000102030405
-print new Exporter(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
+print $exporter->export(chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5));
 ```
 
 Exporting complex types:
@@ -69,6 +73,8 @@ Exporting complex types:
 ```php
 <?php
 use SebastianBergmann\Exporter\Exporter;
+
+$exporter = new Exporter;
 
 /*
 Array &0 (
@@ -85,7 +91,7 @@ Array &0 (
 )
 */
 
-print new Exporter(array(array(1,2,3), array("",0,FALSE)));
+print $exporter->export(array(array(1,2,3), array("",0,FALSE)));
 
 /*
 Array &0 (
@@ -97,7 +103,7 @@ Array &0 (
 
 $array = array();
 $array['self'] = &$array;
-print new Exporter($array);
+print $exporter->export($array);
 
 /*
 stdClass Object &0000000003a66dcc0000000025e723e2 (
@@ -107,7 +113,7 @@ stdClass Object &0000000003a66dcc0000000025e723e2 (
 
 $obj = new stdClass();
 $obj->self = $obj;
-print new Exporter($obj);
+print $exporter->export($obj);
 ```
 
 Compact exports:
@@ -116,24 +122,22 @@ Compact exports:
 <?php
 use SebastianBergmann\Exporter\Exporter;
 
+$exporter = new Exporter;
+
 // Array ()
-$exporter = new Exporter(array());
-print $exporter->shortenedExport();
+print $exporter->shortenedExport(array());
 
 // Array (...)
-$exporter = new Exporter(array(1,2,3,4,5));
-print $exporter->shortenedExport();
+print $exporter->shortenedExport(array(1,2,3,4,5));
 
 // stdClass Object ()
-$exporter = new Exporter(new stdClass);
-print $exporter->shortenedExport();
+print $exporter->shortenedExport(new stdClass);
 
 // Exception Object (...)
-$exporter = new Exporter(new Exception);
-print $exporter->shortenedExport();
+print $exporter->shortenedExport(new Exception);
 
 // this\nis\na\nsuper\nlong\nstring\nt...\nspace
-$exporter = new Exporter(
+print $exporter->shortenedExport(
 <<<LONG_STRING
 this
 is
@@ -154,7 +158,6 @@ of
 space
 LONG_STRING
 );
-print $exporter->shortenedExport();
 ```
 
 ## Installation
