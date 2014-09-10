@@ -57,7 +57,7 @@ class SplObjectStorageExporter extends ObjectExporter
     /**
      * Returns whether the exporter can export a given value.
      *
-     * @param  mixed $value The value to export.
+     * @param  mixed   $value The value to export.
      * @return boolean
      */
     public function accepts($value)
@@ -78,7 +78,7 @@ class SplObjectStorageExporter extends ObjectExporter
         // Remove HHVM internal representations
         if (property_exists('\SplObjectStorage', '__storage')) {
           unset($array['__storage']);
-        } else if (property_exists('\SplObjectStorage', 'storage')) {
+        } elseif (property_exists('\SplObjectStorage', 'storage')) {
           unset($array['storage']);
         }
         if (property_exists('\SplObjectStorage', '__key')) {

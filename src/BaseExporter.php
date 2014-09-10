@@ -70,7 +70,7 @@ abstract class BaseExporter
     /**
      * Returns whether the exporter can export a given value.
      *
-     * @param  mixed $value The value to export.
+     * @param  mixed   $value The value to export.
      * @return boolean
      */
     public function accepts($value)
@@ -93,18 +93,18 @@ abstract class BaseExporter
     /**
      * Recursively exports a value as a string.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  mixed                              $value       The value to export
+     * @param  integer                            $indentation The indentation level of the 2nd+ line
+     * @param  SebastianBergmann\Exporter\Context $processed   Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    abstract protected function recursiveExport(&$value, $indentation, $processed = NULL);
+    abstract protected function recursiveExport(&$value, $indentation, $processed = null);
 
     /**
      * Exports a value into a single-line string.
      *
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
@@ -121,6 +121,6 @@ abstract class BaseExporter
      */
     public function toArray($value)
     {
-        return (array)$value;
+        return (array) $value;
     }
 }

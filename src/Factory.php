@@ -62,7 +62,7 @@ class Factory
     /**
      * Returns the correct exporter for exporting a given value.
      *
-     * @param  mixed $value The value to export.
+     * @param  mixed        $value The value to export.
      * @return BaseExporter
      */
     public function getExporterFor($value)

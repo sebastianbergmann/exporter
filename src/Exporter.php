@@ -60,28 +60,30 @@ class Exporter extends BaseExporter
     /**
      * Recursively exports a value as a string.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  mixed                              $value       The value to export
+     * @param  integer                            $indentation The indentation level of the 2nd+ line
+     * @param  SebastianBergmann\Exporter\Context $processed   Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = NULL)
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
         $exporter = $this->factory->getExporterFor($value);
+
         return $exporter->recursiveExport($value, $indentation, $processed);
     }
 
     /**
      * Exports a value into a single-line string.
      *
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
     public function shortenedExport($value)
     {
         $exporter = $this->factory->getExporterFor($value);
+
         return $exporter->shortenedExport($value);
     }
 
@@ -94,6 +96,7 @@ class Exporter extends BaseExporter
     public function toArray($value)
     {
         $exporter = $this->factory->getExporterFor($value);
+
         return $exporter->toArray($value);
     }
 }

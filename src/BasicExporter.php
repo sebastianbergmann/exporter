@@ -57,23 +57,23 @@ class BasicExporter extends BaseExporter
     /**
      * Recursively exports a value as a string.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  mixed                              $value       The value to export
+     * @param  integer                            $indentation The indentation level of the 2nd+ line
+     * @param  SebastianBergmann\Exporter\Context $processed   Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = NULL)
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
-        if ($value === NULL) {
+        if ($value === null) {
             return 'null';
         }
 
-        if ($value === TRUE) {
+        if ($value === true) {
             return 'true';
         }
 
-        if ($value === FALSE) {
+        if ($value === false) {
             return 'false';
         }
 
@@ -89,6 +89,6 @@ class BasicExporter extends BaseExporter
             );
         }
 
-        return var_export($value, TRUE);
+        return var_export($value, true);
     }
 }

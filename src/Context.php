@@ -21,7 +21,8 @@ namespace SebastianBergmann\Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       https://github.com/sebastianbergmann/exporter
  */
-class Context {
+class Context
+{
     /**
      * Previously seen arrays.
      *
@@ -40,23 +41,21 @@ class Context {
     public function __construct()
     {
         $this->arrays = array();
-        $this->objects = new \SplObjectStorage;
+        $this->objects = new \SplObjectStorage();
     }
 
     /**
      * Adds a value to the export context.
      *
-     * @param mixed $value The value to add.
-     * @return mixed The ID of the stored value, either as a string or integer.
+     * @param  mixed                                $value The value to add.
+     * @return mixed                                The ID of the stored value, either as a string or integer.
      * @throws SebastianBergmann\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function add(&$value)
     {
         if (is_array($value)) {
             return $this->addArray($value);
-        }
-
-        else if (is_object($value)) {
+        } elseif (is_object($value)) {
             return $this->addObject($value);
         }
 
@@ -68,19 +67,17 @@ class Context {
     /**
      * Checks if the given value exists within the context.
      *
-     * @param mixed $value The value to check.
-     * @return mixed The string or integer ID of the stored value if it has
-     *               already been seen, or boolean false if the value is not
-     *               stored.
+     * @param  mixed                                $value The value to check.
+     * @return mixed                                The string or integer ID of the stored value if it has
+     *                                                    already been seen, or boolean false if the value is not
+     *                                                    stored.
      * @throws SebastianBergmann\Exporter\Exception Thrown if $value is not an array or object.
      */
     public function contains(&$value)
     {
         if (is_array($value)) {
             return $this->containsArray($value);
-        }
-
-        else if (is_object($value)) {
+        } elseif (is_object($value)) {
             return $this->containsObject($value);
         }
 
@@ -92,12 +89,12 @@ class Context {
     /**
      * Stores an array within the context.
      *
-     * @param array $value The value to store.
+     * @param  array   $value The value to store.
      * @return integer The internal ID of the array.
      */
     protected function addArray(array &$value)
     {
-        if (($key = $this->containsArray($value)) !== FALSE) {
+        if (($key = $this->containsArray($value)) !== false) {
             return $key;
         }
 
@@ -109,7 +106,7 @@ class Context {
     /**
      * Stores an object within the context.
      *
-     * @param object $value
+     * @param  object $value
      * @return string The ID of the object.
      */
     protected function addObject($value)
@@ -124,35 +121,36 @@ class Context {
     /**
      * Checks if the given array exists within the context.
      *
-     * @param array $value The array to check.
+     * @param  array $value The array to check.
      * @return mixed The integer ID of the array if it exists, or boolean false
-     *               otherwise.
+     *                     otherwise.
      */
     protected function containsArray(array &$value)
     {
-        $keys = array_keys($this->arrays, $value, TRUE);
-        $gen = '_Exporter_Key_'.hash('sha512', microtime(TRUE));
+        $keys = array_keys($this->arrays, $value, true);
+        $gen = '_Exporter_Key_'.hash('sha512', microtime(true));
 
         foreach ($keys as $key) {
             $this->arrays[$key][$gen] = $gen;
 
             if (isset($value[$gen]) && $value[$gen] === $gen) {
                 unset($this->arrays[$key][$gen]);
+
                 return $key;
             }
 
             unset($this->arrays[$key][$gen]);
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
      * Checks if the given object exists within the context.
      *
-     * @param object $value The object to check.
-     * @return mixed The string ID of the object if it exists, or boolean false
-     *               otherwise.
+     * @param  object $value The object to check.
+     * @return mixed  The string ID of the object if it exists, or boolean false
+     *                      otherwise.
      */
     protected function containsObject($value)
     {
@@ -160,6 +158,6 @@ class Context {
             return spl_object_hash($value);
         }
 
-        return FALSE;
+        return false;
     }
 }

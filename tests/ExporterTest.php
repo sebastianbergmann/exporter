@@ -24,21 +24,21 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->exporter = new Exporter;
+        $this->exporter = new Exporter();
     }
 
     public function exportProvider()
     {
-        $obj2 = new \stdClass;
+        $obj2 = new \stdClass();
         $obj2->foo = 'bar';
 
-        $obj3 = (object)array(1,2,"Test\r\n",4,5,6,7,8);
+        $obj3 = (object) array(1,2,"Test\r\n",4,5,6,7,8);
 
-        $obj = new \stdClass;
+        $obj = new \stdClass();
         //@codingStandardsIgnoreStart
-        $obj->null = NULL;
+        $obj->null = null;
         //@codingStandardsIgnoreEnd
-        $obj->boolean = TRUE;
+        $obj->boolean = true;
         $obj->integer = 1;
         $obj->double = 1.2;
         $obj->string = '1';
@@ -48,13 +48,13 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $obj->array = array('foo' => 'bar');
         $obj->self = $obj;
 
-        $storage = new \SplObjectStorage;
+        $storage = new \SplObjectStorage();
         $storage->attach($obj2);
         $storage->foo = $obj2;
 
         return array(
-            array(NULL, 'null'),
-            array(TRUE, 'true'),
+            array(null, 'null'),
+            array(true, 'true'),
             array(1, '1'),
             array(1.0, '1.0'),
             array(1.2, '1.2'),
@@ -92,7 +92,7 @@ long
 text'
 EOF
             ),
-            array(new \stdClass, 'stdClass Object &%x ()'),
+            array(new \stdClass(), 'stdClass Object &%x ()'),
             array($obj,
 <<<EOF
 stdClass Object &%x (
@@ -186,13 +186,13 @@ EOF
             $this->markTestSkipped('Skipped due to "Nesting level too deep - recursive dependency?" fatal error');
         }
 
-        $obj = new \stdClass;
+        $obj = new \stdClass();
         $obj->foo = 'bar';
 
         $array = array(
             0 => 0,
-            'null' => NULL,
-            'boolean' => TRUE,
+            'null' => null,
+            'boolean' => true,
             'integer' => 1,
             'double' => 1.2,
             'string' => '1',
@@ -265,7 +265,7 @@ EOF;
 
     public function shortenedExportProvider()
     {
-        $obj = new \stdClass;
+        $obj = new \stdClass();
         $obj->foo = 'bar';
 
         $array = array(
@@ -273,15 +273,15 @@ EOF;
         );
 
         return array(
-            array(NULL, 'null'),
-            array(TRUE, 'true'),
+            array(null, 'null'),
+            array(true, 'true'),
             array(1, '1'),
             array(1.0, '1.0'),
             array(1.2, '1.2'),
             array('1', "'1'"),
             // \n\r and \r is converted to \n
             array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery\\nvery...g\\ntext'"),
-            array(new \stdClass, 'stdClass Object ()'),
+            array(new \stdClass(), 'stdClass Object ()'),
             array($obj, 'stdClass Object (...)'),
             array(array(), 'Array ()'),
             array($array, 'Array (...)'),
@@ -307,7 +307,6 @@ EOF;
             array(implode('', array_map('chr', range(0x80, 0xff))), 128),
         );
     }
-
 
     /**
      * @dataProvider provideNonBinaryMultibyteStrings

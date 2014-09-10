@@ -57,7 +57,7 @@ class ObjectExporter extends BaseExporter
     /**
      * Returns whether the exporter can export a given value.
      *
-     * @param  mixed $value The value to export.
+     * @param  mixed   $value The value to export.
      * @return boolean
      */
     public function accepts($value)
@@ -68,16 +68,16 @@ class ObjectExporter extends BaseExporter
     /**
      * Recursively exports a value as a string.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  mixed                              $value       The value to export
+     * @param  integer                            $indentation The indentation level of the 2nd+ line
+     * @param  SebastianBergmann\Exporter\Context $processed   Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = NULL)
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
         if (!$processed) {
-            $processed = new Context;
+            $processed = new Context();
         }
 
         $class = get_class($value);
@@ -114,7 +114,7 @@ class ObjectExporter extends BaseExporter
     /**
      * Exports a value into a single-line string.
      *
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
@@ -137,7 +137,7 @@ class ObjectExporter extends BaseExporter
     {
         $array = array();
 
-        foreach ((array)$value as $key => $val) {
+        foreach ((array) $value as $key => $val) {
             // properties are transformed to keys in the following way:
 
             // private   $property => "\0Classname\0property"

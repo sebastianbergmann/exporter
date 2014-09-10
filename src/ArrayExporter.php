@@ -57,7 +57,7 @@ class ArrayExporter extends BaseExporter
     /**
      * Returns whether the exporter can export a given value.
      *
-     * @param  mixed $value The value to export.
+     * @param  mixed   $value The value to export.
      * @return boolean
      */
     public function accepts($value)
@@ -68,19 +68,19 @@ class ArrayExporter extends BaseExporter
     /**
      * Recursively exports a value as a string.
      *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  mixed                              $value       The value to export
+     * @param  integer                            $indentation The indentation level of the 2nd+ line
+     * @param  SebastianBergmann\Exporter\Context $processed   Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = NULL)
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
         if (!$processed) {
-            $processed = new Context;
+            $processed = new Context();
         }
 
-        if (($key = $processed->contains($value)) !== FALSE) {
+        if (($key = $processed->contains($value)) !== false) {
             return 'Array &' . $key;
         }
 
@@ -112,7 +112,7 @@ class ArrayExporter extends BaseExporter
     /**
      * Exports a value into a single-line string.
      *
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
