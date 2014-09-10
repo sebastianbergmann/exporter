@@ -94,7 +94,7 @@ class Context {
             return $this->addObject($value);
         }
 
-        throw new ExporterException(
+        throw new Exception(
           'Only arrays and objects are supported'
         );
     }
