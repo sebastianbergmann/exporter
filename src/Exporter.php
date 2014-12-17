@@ -104,8 +104,14 @@ class Exporter
         if (is_string($value)) {
             $string = $this->export($value);
 
-            if (strlen($string) > 40) {
-                $string = substr($string, 0, 30) . '...' . substr($string, -7);
+            if (function_exists('mb_strlen')) {
+                if (mb_strlen($string) > 40) {
+                    $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
+                }
+            } else {
+                if (strlen($string) > 40) {
+                    $string = substr($string, 0, 30) . '...' . substr($string, -7);
+                }
             }
 
             return str_replace("\n", '\n', $string);
