@@ -286,7 +286,6 @@ EOF;
             array($obj, 'stdClass Object (...)'),
             array(array(), 'Array ()'),
             array($array, 'Array (...)'),
-            array('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす', "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'"),
         );
     }
 
@@ -299,6 +298,28 @@ EOF;
             $expected,
             $this->trimNewline($this->exporter->shortenedExport($value))
         );
+    }
+
+    public function testShortenedExportForMultibyteCharacters()
+    {
+        $oldMbLanguage = mb_language();
+        mb_language('Japanese');
+        $oldMbInternalEncoding = mb_internal_encoding();
+        mb_internal_encoding('UTF-8');
+
+        try {
+            $this->assertSame(
+              "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
+              $this->trimnl($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+            );
+        } catch (\Exception $e) {
+            mb_internal_encoding($oldMbInternalEncoding);
+            mb_language($oldMbLanguage);
+            throw $e;
+        }
+
+        mb_internal_encoding($oldMbInternalEncoding);
+        mb_language($oldMbLanguage);
     }
 
     public function provideNonBinaryMultibyteStrings()
