@@ -300,6 +300,9 @@ EOF;
         );
     }
 
+    /**
+     * @requires extension mbstring
+     */
     public function testShortenedExportForMultibyteCharacters()
     {
         $oldMbLanguage = mb_language();
