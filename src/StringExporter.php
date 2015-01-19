@@ -11,15 +11,7 @@
 namespace SebastianBergmann\Exporter;
 
 /**
- * A nifty utility for visualizing PHP variables.
- *
- * <code>
- * <?php
- * use SebastianBergmann\Exporter\Exporter;
- *
- * $exporter = new Exporter;
- * print $exporter->export(new Exception);
- * </code>
+ * Exporter for visualizing strings.
  *
  * @package    Exporter
  * @author     Sebastian Bergmann <sebastian@phpunit.de>
@@ -27,34 +19,17 @@ namespace SebastianBergmann\Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       https://github.com/sebastianbergmann/exporter
  */
-class Exporter extends BaseExporter
+class StringExporter extends BaseExporter
 {
     /**
-     * @param Factory $factory
-     */
-    public function __construct(Factory $factory = null)
-    {
-        if (!$factory) {
-            $factory = new Factory();
-
-            $factory->register(new BasicExporter($factory));
-            $factory->register(new StringExporter($factory));
-            $factory->register(new ArrayExporter($factory));
-            $factory->register(new ObjectExporter($factory));
-            $factory->register(new SplObjectStorageExporter($factory));
-        }
-
-        parent::__construct($factory);
-    }
-
-    /**
-     * Gets the current factory.
+     * Returns whether the exporter can export a given value.
      *
-     * @return Factory
+     * @param  mixed   $value The value to export.
+     * @return boolean
      */
-    public function getFactory()
+    public function accepts($value)
     {
-        return $this->factory;
+        return is_string($value);
     }
 
     /**
@@ -68,9 +43,14 @@ class Exporter extends BaseExporter
      */
     protected function recursiveExport(&$value, $indentation, $processed = null)
     {
-        $exporter = $this->factory->getExporterFor($value);
+        // Match for most non printable chars somewhat taking multibyte chars into account
+        if (preg_match('/[^\x09-\x0d\x20-\xff]/', $value)) {
+            return 'Binary String: 0x' . bin2hex($value);
+        }
 
-        return $exporter->recursiveExport($value, $indentation, $processed);
+        return "'" .
+               str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
+               "'";
     }
 
     /**
@@ -82,21 +62,12 @@ class Exporter extends BaseExporter
      */
     public function shortenedExport($value)
     {
-        $exporter = $this->factory->getExporterFor($value);
+        $string = $this->export($value);
 
-        return $exporter->shortenedExport($value);
-    }
+        if (strlen($string) > 40) {
+            $string = substr($string, 0, 30) . '...' . substr($string, -7);
+        }
 
-    /**
-     * Converts a PHP value to an array.
-     *
-     * @param  mixed $value
-     * @return array
-     */
-    public function toArray($value)
-    {
-        $exporter = $this->factory->getExporterFor($value);
-
-        return $exporter->toArray($value);
+        return str_replace("\n", '\n', $string);
     }
 }
