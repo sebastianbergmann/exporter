@@ -10,6 +10,8 @@
 
 namespace SebastianBergmann\Exporter;
 
+use SebastianBergmann\RecursionContext\Context;
+
 /**
  * A nifty utility for visualizing PHP variables.
  *
@@ -56,7 +58,7 @@ class Exporter
      *
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  SebastianBergmann\Exporter\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  \SebastianBergmann\RecursionContext\Context $processed Contains all objects and arrays that have previously been rendered
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
