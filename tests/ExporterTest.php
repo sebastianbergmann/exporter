@@ -11,12 +11,7 @@
 namespace SebastianBergmann\Exporter;
 
 /**
- * @package    Exporter
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @author     Bernhard Schussek <bschussek@2bepublished.at>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       https://github.com/sebastianbergmann/exporter
+ * @covers SebastianBergmann\Exporter\Exporter
  */
 class ExporterTest extends \PHPUnit_Framework_TestCase
 {
