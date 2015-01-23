@@ -36,9 +36,9 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
 
         $obj = new \stdClass;
         //@codingStandardsIgnoreStart
-        $obj->null = NULL;
+        $obj->null = null;
         //@codingStandardsIgnoreEnd
-        $obj->boolean = TRUE;
+        $obj->boolean = true;
         $obj->integer = 1;
         $obj->double = 1.2;
         $obj->string = '1';
@@ -53,15 +53,15 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         $storage->foo = $obj2;
 
         return array(
-            array(NULL, 'null'),
-            array(TRUE, 'true'),
+            array(null, 'null'),
+            array(true, 'true'),
             array(1, '1'),
             array(1.0, '1.0'),
             array(1.2, '1.2'),
             array(fopen('php://memory', 'r'), 'resource(%d) of type (stream)'),
             array('1', "'1'"),
             array(array(array(1,2,3), array(3,4,5)),
-<<<EOF
+        <<<EOF
 Array &0 (
     0 => Array &1 (
         0 => 1
@@ -78,7 +78,7 @@ EOF
             ),
             // \n\r and \r is converted to \n
             array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
-<<<EOF
+            <<<EOF
 'this
 is
 a
@@ -94,7 +94,7 @@ EOF
             ),
             array(new \stdClass, 'stdClass Object &%x ()'),
             array($obj,
-<<<EOF
+            <<<EOF
 stdClass Object &%x (
     'null' => null
     'boolean' => true
@@ -125,7 +125,7 @@ EOF
             ),
             array(array(), 'Array &%d ()'),
             array($storage,
-<<<EOF
+            <<<EOF
 SplObjectStorage Object &%x (
     'foo' => stdClass Object &%x (
         'foo' => 'bar'
@@ -138,7 +138,7 @@ SplObjectStorage Object &%x (
 EOF
             ),
             array($obj3,
-<<<EOF
+            <<<EOF
 stdClass Object &%x (
     0 => 1
     1 => 2
@@ -176,7 +176,8 @@ EOF
     public function testExport($value, $expected)
     {
         $this->assertStringMatchesFormat(
-          $expected, $this->trimnl($this->exporter->export($value))
+            $expected,
+            $this->trimnl($this->exporter->export($value))
         );
     }
 
@@ -191,8 +192,8 @@ EOF
 
         $array = array(
             0 => 0,
-            'null' => NULL,
-            'boolean' => TRUE,
+            'null' => null,
+            'boolean' => true,
             'integer' => 1,
             'double' => 1.2,
             'string' => '1',
@@ -259,7 +260,8 @@ text'
 EOF;
 
         $this->assertStringMatchesFormat(
-            $expected, $this->trimnl($this->exporter->export($array))
+            $expected,
+            $this->trimnl($this->exporter->export($array))
         );
     }
 
@@ -273,8 +275,8 @@ EOF;
         );
 
         return array(
-            array(NULL, 'null'),
-            array(TRUE, 'true'),
+            array(null, 'null'),
+            array(true, 'true'),
             array(1, '1'),
             array(1.0, '1.0'),
             array(1.2, '1.2'),
@@ -294,8 +296,8 @@ EOF;
     public function testShortenedExport($value, $expected)
     {
         $this->assertSame(
-          $expected,
-          $this->trimnl($this->exporter->shortenedExport($value))
+            $expected,
+            $this->trimnl($this->exporter->shortenedExport($value))
         );
     }
 
@@ -315,7 +317,8 @@ EOF;
     public function testNonBinaryStringExport($value, $expectedLength)
     {
         $this->assertRegExp(
-          "~'.{{$expectedLength}}'\$~s", $this->exporter->export($value)
+            "~'.{{$expectedLength}}'\$~s",
+            $this->exporter->export($value)
         );
     }
 
