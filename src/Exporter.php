@@ -58,7 +58,7 @@ class Exporter
      *
      * @param  mixed $value The value to export
      * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  \SebastianBergmann\RecursionContext\Context $processed Contains all objects and arrays that have previously been rendered
+     * @param  \SebastianBergmann\RecursionContext\Context $processed Previously processed objects
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
