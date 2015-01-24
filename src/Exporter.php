@@ -110,7 +110,7 @@ class Exporter
                 return 'Array &' . $key;
             }
 
-            $key = $processed->add($value);
+            $key    = $processed->add($value);
             $values = '';
 
             if (count($value) > 0) {
@@ -136,10 +136,9 @@ class Exporter
                 return sprintf('%s Object &%s', $class, $hash);
             }
 
-            $hash = $processed->add($value);
+            $hash   = $processed->add($value);
             $values = '';
-
-            $array = $this->toArray($value);
+            $array  = $this->toArray($value);
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
@@ -221,11 +220,9 @@ class Exporter
 
         foreach ((array)$value as $key => $val) {
             // properties are transformed to keys in the following way:
-
             // private   $property => "\0Classname\0property"
             // protected $property => "\0*\0property"
             // public    $property => "property"
-
             if (preg_match('/^\0.+\0(.+)$/', $key, $matches)) {
                 $key = $matches[1];
             }
@@ -249,9 +246,11 @@ class Exporter
             } elseif (property_exists('\SplObjectStorage', 'storage')) {
                 unset($array['storage']);
             }
+
             if (property_exists('\SplObjectStorage', '__key')) {
                 unset($array['__key']);
             }
+
             foreach ($value as $key => $val) {
                 $array[spl_object_hash($val)] = array(
                     'obj' => $val,
