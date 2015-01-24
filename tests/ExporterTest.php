@@ -318,6 +318,11 @@ EOF;
         );
     }
 
+    public function testNonObjectCanBeReturnedAsArray()
+    {
+        $this->assertEquals(array(true), $this->exporter->toArray(true));
+    }
+
     private function trimNewline($string)
     {
         return preg_replace('/[ ]*\n/', "\n", $string);
