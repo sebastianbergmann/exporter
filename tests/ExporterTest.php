@@ -50,6 +50,7 @@ class ExporterTest extends \PHPUnit_Framework_TestCase
         return array(
             array(null, 'null'),
             array(true, 'true'),
+            array(false, 'false'),
             array(1, '1'),
             array(1.0, '1.0'),
             array(1.2, '1.2'),
