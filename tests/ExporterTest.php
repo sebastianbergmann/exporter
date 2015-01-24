@@ -15,6 +15,9 @@ namespace SebastianBergmann\Exporter;
  */
 class ExporterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Exporter
+     */
     private $exporter;
 
     protected function setUp()
