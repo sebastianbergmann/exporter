@@ -173,7 +173,7 @@ EOF
     {
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimnl($this->exporter->export($value))
+            $this->trimNewline($this->exporter->export($value))
         );
     }
 
@@ -257,7 +257,7 @@ EOF;
 
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimnl($this->exporter->export($array))
+            $this->trimNewline($this->exporter->export($array))
         );
     }
 
@@ -293,7 +293,7 @@ EOF;
     {
         $this->assertSame(
             $expected,
-            $this->trimnl($this->exporter->shortenedExport($value))
+            $this->trimNewline($this->exporter->shortenedExport($value))
         );
     }
 
@@ -318,7 +318,7 @@ EOF;
         );
     }
 
-    protected function trimnl($string)
+    private function trimNewline($string)
     {
         return preg_replace('/[ ]*\n/', "\n", $string);
     }
