@@ -54,6 +54,44 @@ class Exporter
     }
 
     /**
+     * @param  mixed   $data
+     * @param  Context $context
+     * @return string
+     */
+    public function shortenedRecursiveExport(&$data, Context $context = null)
+    {
+        $result = array();
+        $exporter = new Exporter();
+
+        if (!$context) {
+            $context = new Context;
+        }
+
+        $context->add($data);
+
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                if ($context->contains($data[$key]) !== false) {
+                    $result[] = '*RECURSION*';
+                }
+
+                else {
+                    $result[] = sprintf(
+                        'array(%s)',
+                        $this->shortenedRecursiveExport($data[$key], $context)
+                    );
+                }
+            }
+
+            else {
+                $result[] = $exporter->shortenedExport($value);
+            }
+        }
+
+        return join(', ', $result);
+    }
+
+    /**
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
