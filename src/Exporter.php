@@ -54,112 +54,6 @@ class Exporter
     }
 
     /**
-     * Recursive implementation of export
-     *
-     * @param  mixed $value The value to export
-     * @param  integer $indentation The indentation level of the 2nd+ line
-     * @param  \SebastianBergmann\RecursionContext\Context $processed Previously processed objects
-     * @return string
-     * @see    SebastianBergmann\Exporter\Exporter::export
-     */
-    protected function recursiveExport(&$value, $indentation, $processed = null)
-    {
-        if ($value === null) {
-            return 'null';
-        }
-
-        if ($value === true) {
-            return 'true';
-        }
-
-        if ($value === false) {
-            return 'false';
-        }
-
-        if (is_float($value) && floatval(intval($value)) === $value) {
-            return "$value.0";
-        }
-
-        if (is_resource($value)) {
-            return sprintf(
-                'resource(%d) of type (%s)',
-                $value,
-                get_resource_type($value)
-            );
-        }
-
-        if (is_string($value)) {
-            // Match for most non printable chars somewhat taking multibyte chars into account
-            if (preg_match('/[^\x09-\x0d\x20-\xff]/', $value)) {
-                return 'Binary String: 0x' . bin2hex($value);
-            }
-
-            return "'" .
-                   str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
-                   "'";
-        }
-
-        $whitespace = str_repeat(' ', 4 * $indentation);
-
-        if (!$processed) {
-            $processed = new Context;
-        }
-
-        if (is_array($value)) {
-            if (($key = $processed->contains($value)) !== false) {
-                return 'Array &' . $key;
-            }
-
-            $key    = $processed->add($value);
-            $values = '';
-
-            if (count($value) > 0) {
-                foreach ($value as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
-                    );
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return sprintf('Array &%s (%s)', $key, $values);
-        }
-
-        if (is_object($value)) {
-            $class = get_class($value);
-
-            if ($hash = $processed->contains($value)) {
-                return sprintf('%s Object &%s', $class, $hash);
-            }
-
-            $hash   = $processed->add($value);
-            $values = '';
-            $array  = $this->toArray($value);
-
-            if (count($array) > 0) {
-                foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($v, $indentation + 1, $processed)
-                    );
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return sprintf('%s Object &%s (%s)', $class, $hash, $values);
-        }
-
-        return var_export($value, true);
-    }
-
-    /**
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
@@ -260,5 +154,111 @@ class Exporter
         }
 
         return $array;
+    }
+
+    /**
+     * Recursive implementation of export
+     *
+     * @param  mixed $value The value to export
+     * @param  integer $indentation The indentation level of the 2nd+ line
+     * @param  \SebastianBergmann\RecursionContext\Context $processed Previously processed objects
+     * @return string
+     * @see    SebastianBergmann\Exporter\Exporter::export
+     */
+    protected function recursiveExport(&$value, $indentation, $processed = null)
+    {
+        if ($value === null) {
+            return 'null';
+        }
+
+        if ($value === true) {
+            return 'true';
+        }
+
+        if ($value === false) {
+            return 'false';
+        }
+
+        if (is_float($value) && floatval(intval($value)) === $value) {
+            return "$value.0";
+        }
+
+        if (is_resource($value)) {
+            return sprintf(
+                'resource(%d) of type (%s)',
+                $value,
+                get_resource_type($value)
+            );
+        }
+
+        if (is_string($value)) {
+            // Match for most non printable chars somewhat taking multibyte chars into account
+            if (preg_match('/[^\x09-\x0d\x20-\xff]/', $value)) {
+                return 'Binary String: 0x' . bin2hex($value);
+            }
+
+            return "'" .
+            str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
+            "'";
+        }
+
+        $whitespace = str_repeat(' ', 4 * $indentation);
+
+        if (!$processed) {
+            $processed = new Context;
+        }
+
+        if (is_array($value)) {
+            if (($key = $processed->contains($value)) !== false) {
+                return 'Array &' . $key;
+            }
+
+            $key    = $processed->add($value);
+            $values = '';
+
+            if (count($value) > 0) {
+                foreach ($value as $k => $v) {
+                    $values .= sprintf(
+                        '%s    %s => %s' . "\n",
+                        $whitespace,
+                        $this->recursiveExport($k, $indentation),
+                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                    );
+                }
+
+                $values = "\n" . $values . $whitespace;
+            }
+
+            return sprintf('Array &%s (%s)', $key, $values);
+        }
+
+        if (is_object($value)) {
+            $class = get_class($value);
+
+            if ($hash = $processed->contains($value)) {
+                return sprintf('%s Object &%s', $class, $hash);
+            }
+
+            $hash   = $processed->add($value);
+            $values = '';
+            $array  = $this->toArray($value);
+
+            if (count($array) > 0) {
+                foreach ($array as $k => $v) {
+                    $values .= sprintf(
+                        '%s    %s => %s' . "\n",
+                        $whitespace,
+                        $this->recursiveExport($k, $indentation),
+                        $this->recursiveExport($v, $indentation + 1, $processed)
+                    );
+                }
+
+                $values = "\n" . $values . $whitespace;
+            }
+
+            return sprintf('%s Object &%s (%s)', $class, $hash, $values);
+        }
+
+        return var_export($value, true);
     }
 }
