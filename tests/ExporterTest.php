@@ -313,7 +313,7 @@ EOF;
         try {
             $this->assertSame(
               "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-              $this->trimnl($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+              $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
             );
         } catch (\Exception $e) {
             mb_internal_encoding($oldMbInternalEncoding);
