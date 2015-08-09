@@ -89,11 +89,10 @@ class Exporter
      * Exports a value into a single-line string
      *
      * The output of this method is similar to the output of
-     * SebastianBergmann\Exporter\Exporter::export. This method guarantees
-     * thought that the result contains now newlines.
+     * SebastianBergmann\Exporter\Exporter::export().
      *
-     * Newlines are replaced by the visible string '\n'. Contents of arrays
-     * and objects (if any) are replaced by '...'.
+     * Newlines are replaced by the visible string '\n'.
+     * Contents of arrays and objects (if any) are replaced by '...'.
      *
      * @param  mixed  $value
      * @return string
