@@ -120,7 +120,7 @@ class Exporter
             return sprintf(
                 '%s Object (%s)',
                 get_class($value),
-                count($this->toArray($value)) > 0 ? '...' : ''
+                method_exists($value, '__toString') ? (string)$value : (count($this->toArray($value)) > 0 ? '...' : '')
             );
         }
 
