@@ -102,15 +102,7 @@ class Exporter
         if (is_string($value)) {
             $string = $this->export($value);
 
-            if (function_exists('mb_strlen')) {
-                if (mb_strlen($string) > 40) {
-                    $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
-                }
-            } else {
-                if (strlen($string) > 40) {
-                    $string = substr($string, 0, 30) . '...' . substr($string, -7);
-                }
-            }
+            $string = $this->truncateStringExport($string);
 
             return str_replace("\n", '\n', $string);
         }
@@ -298,5 +290,34 @@ class Exporter
         }
 
         return var_export($value, true);
+    }
+
+    /**
+     * Truncate export string.
+     * Checks if mb_strlen is available else uses strlen.
+     * If a string is longer than 40 charectars it is truncated so it is.
+     * @param $string
+     *
+     * @return string
+     */
+    private function truncateStringExport($string)
+    {
+        if (function_exists('mb_strlen')) {
+            if (mb_strlen($string) > 40) {
+                $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
+
+                return $string;
+            }
+
+            return $string;
+        } else {
+            if (strlen($string) > 40) {
+                $string = substr($string, 0, 30) . '...' . substr($string, -7);
+
+                return $string;
+            }
+
+            return $string;
+        }
     }
 }
