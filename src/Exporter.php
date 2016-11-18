@@ -250,11 +250,12 @@ class Exporter
                 return 'Array &' . $key;
             }
 
+            $array  = $value;
             $key    = $processed->add($value);
             $values = '';
 
-            if (count($value) > 0) {
-                foreach ($value as $k => $v) {
+            if (count($array) > 0) {
+                foreach ($array as $k => $v) {
                     $values .= sprintf(
                         '%s    %s => %s' . "\n",
                         $whitespace,
