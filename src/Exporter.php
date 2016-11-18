@@ -61,9 +61,10 @@ class Exporter
             $context = new Context;
         }
 
+        $array = $data;
         $context->add($data);
 
-        foreach ($data as $key => $value) {
+        foreach ($array as $key => $value) {
             if (is_array($value)) {
                 if ($context->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
