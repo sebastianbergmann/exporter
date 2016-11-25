@@ -38,8 +38,9 @@ class Exporter
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      *
-     * @param  mixed  $value
-     * @param  int    $indentation The indentation level of the 2nd+ line
+     * @param  mixed $value
+     * @param  int $indentation The indentation level of the 2nd+ line
+     *
      * @return string
      */
     public function export($value, $indentation = 0)
@@ -48,8 +49,9 @@ class Exporter
     }
 
     /**
-     * @param  mixed   $data
+     * @param  mixed $data
      * @param  Context $context
+     *
      * @return string
      */
     public function shortenedRecursiveExport(&$data, Context $context = null)
@@ -57,7 +59,7 @@ class Exporter
         $result   = array();
         $exporter = new self();
 
-        if (!$context) {
+        if ( ! $context) {
             $context = new Context;
         }
 
@@ -68,17 +70,13 @@ class Exporter
             if (is_array($value)) {
                 if ($context->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
-                }
-
-                else {
+                } else {
                     $result[] = sprintf(
                         'array(%s)',
                         $this->shortenedRecursiveExport($data[$key], $context)
                     );
                 }
-            }
-
-            else {
+            } else {
                 $result[] = $exporter->shortenedExport($value);
             }
         }
@@ -95,7 +93,8 @@ class Exporter
      * Newlines are replaced by the visible string '\n'.
      * Contents of arrays and objects (if any) are replaced by '...'.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
+     *
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
@@ -104,15 +103,7 @@ class Exporter
         if (is_string($value)) {
             $string = $this->export($value);
 
-            if (function_exists('mb_strlen')) {
-                if (mb_strlen($string) > 40) {
-                    $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
-                }
-            } else {
-                if (strlen($string) > 40) {
-                    $string = substr($string, 0, 30) . '...' . substr($string, -7);
-                }
-            }
+            $string = $this->truncateStringExport($string);
 
             return str_replace("\n", '\n', $string);
         }
@@ -140,17 +131,18 @@ class Exporter
      * and public properties.
      *
      * @param  mixed $value
+     *
      * @return array
      */
     public function toArray($value)
     {
-        if (!is_object($value)) {
-            return (array) $value;
+        if ( ! is_object($value)) {
+            return (array)$value;
         }
 
         $array = array();
 
-        foreach ((array) $value as $key => $val) {
+        foreach ((array)$value as $key => $val) {
             // properties are transformed to keys in the following way:
             // private   $property => "\0Classname\0property"
             // protected $property => "\0*\0property"
@@ -197,9 +189,10 @@ class Exporter
     /**
      * Recursive implementation of export
      *
-     * @param  mixed                                       $value       The value to export
-     * @param  int                                         $indentation The indentation level of the 2nd+ line
-     * @param  \SebastianBergmann\RecursionContext\Context $processed   Previously processed objects
+     * @param  mixed $value The value to export
+     * @param  int $indentation The indentation level of the 2nd+ line
+     * @param  \SebastianBergmann\RecursionContext\Context $processed Previously processed objects
+     *
      * @return string
      * @see    SebastianBergmann\Exporter\Exporter::export
      */
@@ -236,13 +229,13 @@ class Exporter
             }
 
             return "'" .
-            str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
-            "'";
+                   str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
+                   "'";
         }
 
         $whitespace = str_repeat(' ', 4 * $indentation);
 
-        if (!$processed) {
+        if ( ! $processed) {
             $processed = new Context;
         }
 
@@ -299,5 +292,34 @@ class Exporter
         }
 
         return var_export($value, true);
+    }
+
+    /**
+     * Truncate export string.
+     * Checks if mb_strlen is available else uses strlen.
+     * If a string is longer than 40 charectars it is truncated so it is.
+     * @param $string
+     *
+     * @return string
+     */
+    private function truncateStringExport($string)
+    {
+        if (function_exists('mb_strlen')) {
+            if (mb_strlen($string) > 40) {
+                $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
+
+                return $string;
+            }
+
+            return $string;
+        } else {
+            if (strlen($string) > 40) {
+                $string = substr($string, 0, 30) . '...' . substr($string, -7);
+
+                return $string;
+            }
+
+            return $string;
+        }
     }
 }
