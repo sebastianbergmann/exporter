@@ -27,11 +27,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "sebastian/recursion-context": "~1.0"
+        "php": "^5.3.3 || ^7.0",
+        "sebastian/recursion-context": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.4",
+        "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0",
         "ext-mbstring": "*"
     },
     "autoload": {
@@ -41,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.3.x-dev"
+            "dev-master": "1.2.x-dev"
         }
     }
 }
