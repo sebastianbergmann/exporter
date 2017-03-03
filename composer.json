@@ -26,7 +26,6 @@
             "email": "bschussek@2bepublished.at"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^7.0",
         "sebastian/recursion-context": "^3.0"
