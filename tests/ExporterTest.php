@@ -331,7 +331,7 @@ EOF;
     public function provideNonBinaryMultibyteStrings()
     {
         return array(
-            array(implode('', array_map('chr', range(0x09, 0x0d))), 5),
+            array(implode('', array_map('chr', range(0x09, 0x0d))), 9),
             array(implode('', array_map('chr', range(0x20, 0x7f))), 96),
             array(implode('', array_map('chr', range(0x80, 0xff))), 128),
         );
