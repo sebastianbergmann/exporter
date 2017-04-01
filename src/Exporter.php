@@ -241,8 +241,8 @@ class Exporter
             return "'" .
             str_replace('<lf>', "\n",
                 str_replace(
-                    array("\r\n", "\n\r", "\r", "\n"),
-                    array('\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'),
+                    ["\r\n", "\n\r", "\r", "\n"],
+                    ['\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'],
                     $value
                 )
             ) .
