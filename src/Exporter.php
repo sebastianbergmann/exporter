@@ -102,7 +102,7 @@ class Exporter
     public function shortenedExport($value)
     {
         if (is_string($value)) {
-            $string = $this->export($value);
+            $string = str_replace("\n", '', $this->export($value));
 
             if (function_exists('mb_strlen')) {
                 if (mb_strlen($string) > 40) {
@@ -114,7 +114,7 @@ class Exporter
                 }
             }
 
-            return str_replace("\n", '\n', $string);
+            return $string;
         }
 
         if (is_object($value)) {
@@ -231,12 +231,18 @@ class Exporter
 
         if (is_string($value)) {
             // Match for most non printable chars somewhat taking multibyte chars into account
-            if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
+            if (preg_match("/[^\x09-\x0d\x1b\x20-\xff]/", $value)) {
                 return 'Binary String: 0x' . bin2hex($value);
             }
 
             return "'" .
-            str_replace(array("\r\n", "\n\r", "\r", "\n"), array('<crlf>', '<lfcr>', '<lf>', '<ln>'), $value) .
+            str_replace('<lf>', "\n",
+                str_replace(
+                    array("\r\n", "\n\r", "\r", "\n"),
+                    array('\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'),
+                    $value
+                )
+            ) .
             "'";
         }
 
