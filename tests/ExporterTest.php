@@ -284,7 +284,7 @@ EOF;
             'shortened export float 1.2' => array(1.2, '1.2'),
             'shortened export numeric string' => array('1', "'1'"),
             // \n\r and \r is converted to \n
-            'shortened export multilinestring' => array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...text'"),
+            'shortened export multilinestring' => array("this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"),
             'shortened export empty stdClass' => array(new \stdClass, 'stdClass Object ()'),
             'shortened export not empty stdClass' => array($obj, 'stdClass Object (...)'),
             'shortened export empty array' => array(array(), 'Array ()'),
