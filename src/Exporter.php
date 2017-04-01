@@ -236,7 +236,7 @@ class Exporter
             }
 
             return "'" .
-            str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
+            str_replace(array("\r\n", "\n\r", "\r", "\n"), array('<crlf>', '<lfcr>', '<lf>', '<ln>'), $value) .
             "'";
         }
 
