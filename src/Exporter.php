@@ -237,6 +237,7 @@ class Exporter
             if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
                 return 'Binary String: 0x' . bin2hex($value);
             }
+
             return "'" .
             str_replace('<lf>', "\n",
                 str_replace(
