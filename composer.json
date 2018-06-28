@@ -26,6 +26,11 @@
             "email": "bschussek@2bepublished.at"
         }
     ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
     "require": {
         "php": "^7.0",
         "sebastian/recursion-context": "^3.0"
