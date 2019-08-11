@@ -146,6 +146,13 @@ class Exporter
         $array = [];
 
         foreach ((array) $value as $key => $val) {
+            // Exception traces commonly reference hundreds to thousands of
+            // objects currently loaded in memory. Including them in the result
+            // has a severe negative performance impact.
+            if ("\0Error\0trace" === $key || "\0Exception\0trace" === $key) {
+                continue;
+            }
+
             // properties are transformed to keys in the following way:
             // private   $property => "\0Classname\0property"
             // protected $property => "\0*\0property"
