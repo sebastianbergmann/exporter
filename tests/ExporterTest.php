@@ -168,6 +168,32 @@ EOF
                 '',
                 "''"
             ],
+            'export Exception without trace' => [
+                new \Exception('The exception message', 42),
+                <<<EOF
+Exception Object &%x (
+    'message' => 'The exception message'
+    'string' => ''
+    'code' => 42
+    'file' => '%s/tests/ExporterTest.php'
+    'line' => %d
+    'previous' => null
+)
+EOF
+            ],
+            'export Error without trace' => [
+                new \Error('The exception message', 42),
+                <<<EOF
+Error Object &%x (
+    'message' => 'The exception message'
+    'string' => ''
+    'code' => 42
+    'file' => '%s/tests/ExporterTest.php'
+    'line' => %d
+    'previous' => null
+)
+EOF
+            ],
         ];
     }
 
