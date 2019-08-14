@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * This file is part of sebastian/exporter.
+ * This file is part of exporter package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -12,21 +12,21 @@ namespace SebastianBergmann\Exporter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \SebastianBergmann\Exporter\Exporter
+ * @covers SebastianBergmann\Exporter\Exporter
  */
-final class ExporterTest extends TestCase
+class ExporterTest extends TestCase
 {
     /**
      * @var Exporter
      */
     private $exporter;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->exporter = new Exporter;
     }
 
-    public function exportProvider(): array
+    public function exportProvider()
     {
         $obj2      = new \stdClass;
         $obj2->foo = 'bar';
@@ -154,19 +154,19 @@ EOF
             ],
             [
                 \chr(0) . \chr(1) . \chr(2) . \chr(3) . \chr(4) . \chr(5),
-                'Binary String: 0x000102030405',
+                'Binary String: 0x000102030405'
             ],
             [
                 \implode('', \array_map('chr', \range(0x0e, 0x1f))),
-                'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f',
+                'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f'
             ],
             [
                 \chr(0x00) . \chr(0x09),
-                'Binary String: 0x0009',
+                'Binary String: 0x0009'
             ],
             [
                 '',
-                "''",
+                "''"
             ],
             'export Exception without trace' => [
                 new \Exception('The exception message', 42),
@@ -200,7 +200,7 @@ EOF
     /**
      * @dataProvider exportProvider
      */
-    public function testExport($value, string $expected): void
+    public function testExport($value, $expected)
     {
         $this->assertStringMatchesFormat(
             $expected,
@@ -208,7 +208,7 @@ EOF
         );
     }
 
-    public function testExport2(): void
+    public function testExport2()
     {
         if (\PHP_VERSION === '5.3.3') {
             $this->markTestSkipped('Skipped due to "Nesting level too deep - recursive dependency?" fatal error');
@@ -292,7 +292,7 @@ EOF;
         );
     }
 
-    public function shortenedExportProvider(): array
+    public function shortenedExportProvider()
     {
         $obj      = new \stdClass;
         $obj->foo = 'bar';
@@ -320,7 +320,7 @@ EOF;
     /**
      * @dataProvider shortenedExportProvider
      */
-    public function testShortenedExport($value, string $expected): void
+    public function testShortenedExport($value, $expected)
     {
         $this->assertSame(
             $expected,
@@ -328,7 +328,10 @@ EOF;
         );
     }
 
-    public function testShortenedExportForMultibyteCharacters(): void
+    /**
+     * @requires extension mbstring
+     */
+    public function testShortenedExportForMultibyteCharacters()
     {
         $oldMbLanguage = \mb_language();
         \mb_language('Japanese');
@@ -337,8 +340,8 @@ EOF;
 
         try {
             $this->assertSame(
-                "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-                $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+              "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
+              $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
             );
         } catch (\Exception $e) {
             \mb_internal_encoding($oldMbInternalEncoding);
@@ -351,7 +354,7 @@ EOF;
         \mb_language($oldMbLanguage);
     }
 
-    public function provideNonBinaryMultibyteStrings(): array
+    public function provideNonBinaryMultibyteStrings()
     {
         return [
             [\implode('', \array_map('chr', \range(0x09, 0x0d))), 9],
@@ -363,7 +366,7 @@ EOF;
     /**
      * @dataProvider provideNonBinaryMultibyteStrings
      */
-    public function testNonBinaryStringExport($value, int $expectedLength): void
+    public function testNonBinaryStringExport($value, $expectedLength)
     {
         $this->assertRegExp(
             "~'.{{$expectedLength}}'\$~s",
@@ -371,12 +374,12 @@ EOF;
         );
     }
 
-    public function testNonObjectCanBeReturnedAsArray(): void
+    public function testNonObjectCanBeReturnedAsArray()
     {
         $this->assertEquals([true], $this->exporter->toArray(true));
     }
 
-    private function trimNewline(string $string): string
+    private function trimNewline($string)
     {
         return \preg_replace('/[ ]*\n/', "\n", $string);
     }

@@ -3,4 +3,3 @@
 /vendor
 /.php_cs
 /.php_cs.cache
-/.phpunit.result.cache

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 $header = <<<'EOF'
-This file is part of sebastian/exporter.
+This file is part of exporter package.
 
 (c) Sebastian Bergmann <sebastian@phpunit.de>
 
@@ -142,10 +142,6 @@ return PhpCsFixer\Config::create()
                 ],
             ],
             'ordered_imports' => true,
-            'ordered_interfaces' => [
-                'direction' => 'ascend',
-                'order' => 'alpha',
-            ],
             'phpdoc_add_missing_param_annotation' => true,
             'phpdoc_align' => true,
             'phpdoc_annotation_without_dot' => true,
@@ -161,7 +157,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_to_comment' => true,
             'phpdoc_trim' => true,
             'phpdoc_trim_consecutive_blank_line_separation' => true,
-            'phpdoc_types' => ['groups' => ['simple', 'meta']],
+            'phpdoc_types' => true,
             'phpdoc_types_order' => true,
             'phpdoc_var_without_name' => true,
             'pow_to_exponentiation' => true,
@@ -179,17 +175,10 @@ return PhpCsFixer\Config::create()
             'single_quote' => true,
             'standardize_not_equals' => true,
             'ternary_to_null_coalescing' => true,
-            'trailing_comma_in_multiline_array' => true,
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
-            'visibility_required' => [
-                'elements' => [
-                    'const',
-                    'method',
-                    'property',
-                ],
-            ],
-            'void_return' => true,
+            'visibility_required' => true,
+            //'void_return' => true,
             'whitespace_after_comma_in_array' => true,
         ]
     )

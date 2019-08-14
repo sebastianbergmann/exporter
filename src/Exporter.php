@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * This file is part of sebastian/exporter.
+ * This file is part of exporter package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -15,14 +15,14 @@ use SebastianBergmann\RecursionContext\Context;
  * A nifty utility for visualizing PHP variables.
  *
  * <code>
- * <?php declare(strict_types=1);
+ * <?php
  * use SebastianBergmann\Exporter\Exporter;
  *
  * $exporter = new Exporter;
  * print $exporter->export(new Exception);
  * </code>
  */
-final class Exporter
+class Exporter
 {
     /**
      * Exports a value as a string
@@ -36,16 +36,26 @@ final class Exporter
      *  - Strings are always quoted with single quotes
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
+     *
+     * @param int $indentation The indentation level of the 2nd+ line
+     *
+     * @return string
      */
-    public function export($value, int $indentation = 0): string
+    public function export($value, $indentation = 0)
     {
         return $this->recursiveExport($value, $indentation);
     }
 
-    public function shortenedRecursiveExport(&$data, Context $context = null): string
+    /**
+     * @param mixed   $data
+     * @param Context $context
+     *
+     * @return string
+     */
+    public function shortenedRecursiveExport(&$data, Context $context = null)
     {
         $result   = [];
-        $exporter = new self;
+        $exporter = new self();
 
         if (!$context) {
             $context = new Context;
@@ -81,15 +91,23 @@ final class Exporter
      * Newlines are replaced by the visible string '\n'.
      * Contents of arrays and objects (if any) are replaced by '...'.
      *
-     * @see \SebastianBergmann\Exporter\Exporter::export
+     * @return string
+     *
+     * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    public function shortenedExport($value): string
+    public function shortenedExport($value)
     {
         if (\is_string($value)) {
             $string = \str_replace("\n", '', $this->export($value));
 
-            if (\mb_strlen($string) > 40) {
-                $string = \mb_substr($string, 0, 30) . '...' . \mb_substr($string, -7);
+            if (\function_exists('mb_strlen')) {
+                if (\mb_strlen($string) > 40) {
+                    $string = \mb_substr($string, 0, 30) . '...' . \mb_substr($string, -7);
+                }
+            } else {
+                if (\strlen($string) > 40) {
+                    $string = \substr($string, 0, 30) . '...' . \substr($string, -7);
+                }
             }
 
             return $string;
@@ -116,8 +134,10 @@ final class Exporter
     /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
+     *
+     * @return array
      */
-    public function toArray($value): array
+    public function toArray($value)
     {
         if (!\is_object($value)) {
             return (array) $value;
@@ -155,13 +175,13 @@ final class Exporter
         if ($value instanceof \SplObjectStorage) {
             // However, the fast method does work in HHVM, and exposes the
             // internal implementation. Hide it again.
-            if (\property_exists(\SplObjectStorage::class, '__storage')) {
+            if (\property_exists('\SplObjectStorage', '__storage')) {
                 unset($array['__storage']);
-            } elseif (\property_exists(\SplObjectStorage::class, 'storage')) {
+            } elseif (\property_exists('\SplObjectStorage', 'storage')) {
                 unset($array['storage']);
             }
 
-            if (\property_exists(\SplObjectStorage::class, '__key')) {
+            if (\property_exists('\SplObjectStorage', '__key')) {
                 unset($array['__key']);
             }
 
@@ -177,9 +197,17 @@ final class Exporter
     }
 
     /**
-     * @param mixed $value
+     * Recursive implementation of export
+     *
+     * @param mixed                                       $value       The value to export
+     * @param int                                         $indentation The indentation level of the 2nd+ line
+     * @param \SebastianBergmann\RecursionContext\Context $processed   Previously processed objects
+     *
+     * @return string
+     *
+     * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    private function recursiveExport(&$value, int $indentation, Context $processed = null): string
+    protected function recursiveExport(&$value, $indentation, $processed = null)
     {
         if ($value === null) {
             return 'null';
@@ -200,7 +228,7 @@ final class Exporter
         if (\is_resource($value)) {
             return \sprintf(
                 'resource(%d) of type (%s)',
-                (int) $value,
+                $value,
                 \get_resource_type($value)
             );
         }
@@ -239,7 +267,7 @@ final class Exporter
             $key    = $processed->add($value);
             $values = '';
 
-            if (\is_array($array) && !empty($array)) {
+            if (\count($array) > 0) {
                 foreach ($array as $k => $v) {
                     $values .= \sprintf(
                         '%s    %s => %s' . "\n",
