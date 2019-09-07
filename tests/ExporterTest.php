@@ -10,6 +10,7 @@
 namespace SebastianBergmann\Exporter;
 
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\RecursionContext\Context;
 
 /**
  * @covers SebastianBergmann\Exporter\Exporter
@@ -379,8 +380,53 @@ EOF;
         $this->assertEquals([true], $this->exporter->toArray(true));
     }
 
+    public function testIgnoreKeysInValue()
+    {
+        // Find out what the actual use case was with the PHP bug
+        $array = [];
+        $array["\0gcdata"] = '';
+
+        $this->assertEquals([], $this->exporter->toArray((object) $array));
+    }
+
     private function trimNewline($string)
     {
         return \preg_replace('/[ ]*\n/', "\n", $string);
+    }
+
+    /**
+     * @dataProvider shortenedRecursiveExportProvider
+     */
+    public function testShortenedRecursiveExport(array $value, string $expected)
+    {
+        $this->assertEquals($expected, $this->exporter->shortenedRecursiveExport($value));
+    }
+
+    public function shortenedRecursiveExportProvider()
+    {
+        return [
+            'export null'                   => [[null], 'null'],
+            'export boolean true'           => [[true], 'true'],
+            'export boolean false'          => [[false], 'false'],
+            'export int 1'                  => [[1], '1'],
+            'export float 1.0'              => [[1.0], '1.0'],
+            'export float 1.2'              => [[1.2], '1.2'],
+            'export numeric string'         => [['1'], "'1'"],
+            'export with numeric array key' => [[2 => 1], '1'],
+            'export with assoc array key' => [['foo' => 'bar'], '\'bar\''],
+            'export multidimentional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
+            'export object' => [[new \stdClass], 'stdClass Object ()'],
+        ];
+    }
+
+    public function testShortenedRecursiveOccurredRecursion()
+    {
+        $recursiveValue = [1];
+        $context = new Context();
+        $context->add($recursiveValue);
+
+        $value = [$recursiveValue];
+
+        $this->assertEquals('*RECURSION*', $this->exporter->shortenedRecursiveExport($value, $context));
     }
 }
