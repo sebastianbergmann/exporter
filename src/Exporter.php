@@ -47,8 +47,8 @@ class Exporter
     }
 
     /**
-     * @param mixed   $data
-     * @param Context $context
+     * @param array<mixed> $data
+     * @param Context      $context
      *
      * @return string
      */
