@@ -22,12 +22,12 @@ class ExporterTest extends TestCase
      */
     private $exporter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exporter = new Exporter;
     }
 
-    public function exportProvider()
+    public function exportProvider(): array
     {
         $obj2      = new \stdClass;
         $obj2->foo = 'bar';
@@ -201,7 +201,7 @@ EOF
     /**
      * @dataProvider exportProvider
      */
-    public function testExport($value, $expected)
+    public function testExport($value, $expected): void
     {
         $this->assertStringMatchesFormat(
             $expected,
@@ -209,12 +209,8 @@ EOF
         );
     }
 
-    public function testExport2()
+    public function testExport2(): void
     {
-        if (\PHP_VERSION === '5.3.3') {
-            $this->markTestSkipped('Skipped due to "Nesting level too deep - recursive dependency?" fatal error');
-        }
-
         $obj      = new \stdClass;
         $obj->foo = 'bar';
 
@@ -293,7 +289,7 @@ EOF;
         );
     }
 
-    public function shortenedExportProvider()
+    public function shortenedExportProvider(): array
     {
         $obj      = new \stdClass;
         $obj->foo = 'bar';
@@ -321,7 +317,7 @@ EOF;
     /**
      * @dataProvider shortenedExportProvider
      */
-    public function testShortenedExport($value, $expected)
+    public function testShortenedExport($value, $expected): void
     {
         $this->assertSame(
             $expected,
@@ -332,7 +328,7 @@ EOF;
     /**
      * @requires extension mbstring
      */
-    public function testShortenedExportForMultibyteCharacters()
+    public function testShortenedExportForMultibyteCharacters(): void
     {
         $oldMbLanguage = \mb_language();
         \mb_language('Japanese');
@@ -355,7 +351,7 @@ EOF;
         \mb_language($oldMbLanguage);
     }
 
-    public function provideNonBinaryMultibyteStrings()
+    public function provideNonBinaryMultibyteStrings(): array
     {
         return [
             [\implode('', \array_map('chr', \range(0x09, 0x0d))), 9],
@@ -367,7 +363,7 @@ EOF;
     /**
      * @dataProvider provideNonBinaryMultibyteStrings
      */
-    public function testNonBinaryStringExport($value, $expectedLength)
+    public function testNonBinaryStringExport($value, $expectedLength): void
     {
         $this->assertRegExp(
             "~'.{{$expectedLength}}'\$~s",
@@ -375,12 +371,12 @@ EOF;
         );
     }
 
-    public function testNonObjectCanBeReturnedAsArray()
+    public function testNonObjectCanBeReturnedAsArray(): void
     {
         $this->assertEquals([true], $this->exporter->toArray(true));
     }
 
-    public function testIgnoreKeysInValue()
+    public function testIgnoreKeysInValue(): void
     {
         // Find out what the actual use case was with the PHP bug
         $array = [];
@@ -389,20 +385,15 @@ EOF;
         $this->assertEquals([], $this->exporter->toArray((object) $array));
     }
 
-    private function trimNewline($string)
-    {
-        return \preg_replace('/[ ]*\n/', "\n", $string);
-    }
-
     /**
      * @dataProvider shortenedRecursiveExportProvider
      */
-    public function testShortenedRecursiveExport(array $value, string $expected)
+    public function testShortenedRecursiveExport(array $value, string $expected): void
     {
         $this->assertEquals($expected, $this->exporter->shortenedRecursiveExport($value));
     }
 
-    public function shortenedRecursiveExportProvider()
+    public function shortenedRecursiveExportProvider(): array
     {
         return [
             'export null'                   => [[null], 'null'],
@@ -419,7 +410,7 @@ EOF;
         ];
     }
 
-    public function testShortenedRecursiveOccurredRecursion()
+    public function testShortenedRecursiveOccurredRecursion(): void
     {
         $recursiveValue = [1];
         $context = new Context();
@@ -428,5 +419,10 @@ EOF;
         $value = [$recursiveValue];
 
         $this->assertEquals('*RECURSION*', $this->exporter->shortenedRecursiveExport($value, $context));
+    }
+
+    private function trimNewline(string $string): string
+    {
+        return \preg_replace('/[ ]*\n/', "\n", $string);
     }
 }
