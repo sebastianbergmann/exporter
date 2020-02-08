@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * This file is part of exporter package.
+ * This file is part of sebastian/exporter.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -155,19 +155,19 @@ EOF
             ],
             [
                 \chr(0) . \chr(1) . \chr(2) . \chr(3) . \chr(4) . \chr(5),
-                'Binary String: 0x000102030405'
+                'Binary String: 0x000102030405',
             ],
             [
                 \implode('', \array_map('chr', \range(0x0e, 0x1f))),
-                'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f'
+                'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f',
             ],
             [
                 \chr(0x00) . \chr(0x09),
-                'Binary String: 0x0009'
+                'Binary String: 0x0009',
             ],
             [
                 '',
-                "''"
+                "''",
             ],
             'export Exception without trace' => [
                 new \Exception('The exception message', 42),
@@ -337,8 +337,8 @@ EOF;
 
         try {
             $this->assertSame(
-              "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-              $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+                "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
+                $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
             );
         } catch (\Exception $e) {
             \mb_internal_encoding($oldMbInternalEncoding);
@@ -379,7 +379,7 @@ EOF;
     public function testIgnoreKeysInValue(): void
     {
         // Find out what the actual use case was with the PHP bug
-        $array = [];
+        $array             = [];
         $array["\0gcdata"] = '';
 
         $this->assertEquals([], $this->exporter->toArray((object) $array));
@@ -404,16 +404,16 @@ EOF;
             'export float 1.2'              => [[1.2], '1.2'],
             'export numeric string'         => [['1'], "'1'"],
             'export with numeric array key' => [[2 => 1], '1'],
-            'export with assoc array key' => [['foo' => 'bar'], '\'bar\''],
+            'export with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
             'export multidimentional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
-            'export object' => [[new \stdClass], 'stdClass Object ()'],
+            'export object'                 => [[new \stdClass], 'stdClass Object ()'],
         ];
     }
 
     public function testShortenedRecursiveOccurredRecursion(): void
     {
         $recursiveValue = [1];
-        $context = new Context();
+        $context        = new Context();
         $context->add($recursiveValue);
 
         $value = [$recursiveValue];

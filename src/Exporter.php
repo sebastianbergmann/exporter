@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * This file is part of exporter package.
+ * This file is part of sebastian/exporter.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -240,7 +240,7 @@ class Exporter
             "'";
         }
 
-        $whitespace = \str_repeat(' ', (int)(4 * $indentation));
+        $whitespace = \str_repeat(' ', (int) (4 * $indentation));
 
         if (!$processed) {
             $processed = new Context;
