@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.8.3@389af1bfc739bfdff3f9e3dc7bd6499aee51a831">
+  <file src="src/Exporter.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$array</code>
+    </ArgumentTypeCoercion>
+    <InvalidArgument occurrences="1">
+      <code>$value</code>
+    </InvalidArgument>
+    <ReferenceConstraintViolation occurrences="2">
+      <code>return \implode(', ', $result);</code>
+      <code>$data</code>
+    </ReferenceConstraintViolation>
+  </file>
+</files>
