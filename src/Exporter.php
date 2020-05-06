@@ -143,14 +143,15 @@ class Exporter
             return (array) $value;
         }
 
-        $array = [];
-        $className = get_class($value);
+        $array     = [];
+        $className = \get_class($value);
+
         foreach ((array) $value as $key => $val) {
             if ($this->ignoreKey($key)) {
                 continue;
             }
 
-            $key = $this->getExportedKey($key, $className);
+            $key         = $this->getExportedKey($key, $className);
             $array[$key] = $val;
         }
 
@@ -167,40 +168,6 @@ class Exporter
         }
 
         return $array;
-    }
-
-    private function ignoreKey($key) {
-        // Exception traces commonly reference hundreds to thousands of
-        // objects currently loaded in memory. Including them in the result
-        // has a severe negative performance impact.
-        if ("\0Error\0trace" === $key || "\0Exception\0trace" === $key) {
-            return true;
-        }
-
-        // See https://github.com/php/php-src/commit/5721132
-        if ($key === "\0gcdata") {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function getExportedKey($key, $className)
-    {
-        // properties are transformed to keys in the following way:
-        // private   $property => "\0Classname\0property"
-        // protected $property => "\0*\0property"
-        // public    $property => "property"
-        $ignoredPrefixes = array("", "*", $className);
-        if (\preg_match('/^\0(.+)\0(.+)$/', (string) $key, $matches)) {
-            if (in_array($matches[1], $ignoredPrefixes)) {
-                $key = $matches[2];
-            } else {
-                $key = "{$matches[1]}::{$matches[2]}";
-            }
-        }
-
-        return $key;
     }
 
     /**
@@ -318,5 +285,41 @@ class Exporter
         }
 
         return \var_export($value, true);
+    }
+
+    private function ignoreKey($key)
+    {
+        // Exception traces commonly reference hundreds to thousands of
+        // objects currently loaded in memory. Including them in the result
+        // has a severe negative performance impact.
+        if ("\0Error\0trace" === $key || "\0Exception\0trace" === $key) {
+            return true;
+        }
+
+        // See https://github.com/php/php-src/commit/5721132
+        if ($key === "\0gcdata") {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getExportedKey($key, $className)
+    {
+        // properties are transformed to keys in the following way:
+        // private   $property => "\0Classname\0property"
+        // protected $property => "\0*\0property"
+        // public    $property => "property"
+        $ignoredPrefixes = ['', '*', $className];
+
+        if (\preg_match('/^\0(.+)\0(.+)$/', (string) $key, $matches)) {
+            if (\in_array($matches[1], $ignoredPrefixes)) {
+                $key = $matches[2];
+            } else {
+                $key = "{$matches[1]}::{$matches[2]}";
+            }
+        }
+
+        return $key;
     }
 }
