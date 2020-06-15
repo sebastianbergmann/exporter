@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.9.3@2e4154d76e24d1b4e59e6cc2bebef7790cb9e550">
+<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
   <file src="src/Exporter.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$array</code>
@@ -7,6 +7,10 @@
     <InvalidArgument occurrences="1">
       <code>$value</code>
     </InvalidArgument>
+    <InvalidScalarArgument occurrences="2">
+      <code>$key</code>
+      <code>$hash</code>
+    </InvalidScalarArgument>
     <PossiblyInvalidArrayAccess occurrences="3">
       <code>$data[$key]</code>
       <code>$data[$key]</code>
