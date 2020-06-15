@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [4.0.1] - 2020-06-15
+
+### Changed
+
+* Tests etc. are now ignored for archive exports
+
 ## [4.0.0] - 2020-02-07
 
 ### Removed
@@ -18,5 +24,6 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
-[4.0.0]: https://github.com/sebastianbergmann/exporter/compare/3.1.2...master
+[4.0.1]: https://github.com/sebastianbergmann/exporter/compare/4.0.0...4.0.1
+[4.0.0]: https://github.com/sebastianbergmann/exporter/compare/3.1.2...4.0.0
 [3.1.2]: https://github.com/sebastianbergmann/exporter/compare/3.1.1...3.1.2
