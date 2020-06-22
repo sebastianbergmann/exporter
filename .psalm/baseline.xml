@@ -17,7 +17,7 @@
       <code>$value[$k]</code>
     </PossiblyInvalidArrayAccess>
     <ReferenceConstraintViolation occurrences="2">
-      <code>return \implode(', ', $result);</code>
+      <code>return implode(', ', $result);</code>
       <code>$data</code>
     </ReferenceConstraintViolation>
   </file>
