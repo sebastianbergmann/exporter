@@ -377,7 +377,7 @@ EOF;
      */
     public function testNonBinaryStringExport($value, $expectedLength): void
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "~'.{{$expectedLength}}'\$~s",
             $this->exporter->export($value)
         );
