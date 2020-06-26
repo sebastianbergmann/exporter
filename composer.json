@@ -35,7 +35,7 @@
     },
     "prefer-stable": true,
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "sebastian/recursion-context": "^4.0"
     },
     "require-dev": {
