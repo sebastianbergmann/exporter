@@ -39,7 +39,7 @@
         "sebastian/recursion-context": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.2",
+        "phpunit/phpunit": "^9.3",
         "ext-mbstring": "*"
     },
     "autoload": {
