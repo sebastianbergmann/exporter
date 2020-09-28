@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [4.0.3] - 2020-09-28
+
+### Changed
+
+* Changed PHP version constraint in `composer.json` from `^7.3 || ^8.0` to `>=7.3`
+
 ## [4.0.2] - 2020-06-26
 
 ### Added
@@ -30,6 +36,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[4.0.3]: https://github.com/sebastianbergmann/exporter/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/sebastianbergmann/exporter/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/sebastianbergmann/exporter/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/sebastianbergmann/exporter/compare/3.1.2...4.0.0
