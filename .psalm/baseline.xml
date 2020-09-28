@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.5@3c60609c218d4d4b3b257728b8089094e5c6c6c2">
+<files psalm-version="3.16@d03e5ef057d6adc656c0ff7e166c50b73b4f48f3">
   <file src="src/Exporter.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$array</code>
-    </ArgumentTypeCoercion>
+    <ConflictingReferenceConstraint occurrences="1">
+      <code>if (is_object($value)) {</code>
+    </ConflictingReferenceConstraint>
     <InvalidArgument occurrences="1">
       <code>$value</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
-      <code>$key</code>
       <code>$hash</code>
+      <code>$key</code>
     </InvalidScalarArgument>
-    <PossiblyInvalidArrayAccess occurrences="3">
-      <code>$data[$key]</code>
-      <code>$data[$key]</code>
-      <code>$value[$k]</code>
-    </PossiblyInvalidArrayAccess>
-    <ReferenceConstraintViolation occurrences="2">
-      <code>return implode(', ', $result);</code>
-      <code>$data</code>
-    </ReferenceConstraintViolation>
   </file>
 </files>
