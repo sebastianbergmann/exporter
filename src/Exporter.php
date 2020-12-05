@@ -262,7 +262,7 @@ class Exporter
             "'";
         }
 
-        $whitespace = str_repeat(' ', (int) (4 * $indentation));
+        $whitespace = str_repeat(' ', 4 * $indentation);
 
         if (!$processed) {
             $processed = new Context;
