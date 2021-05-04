@@ -74,7 +74,7 @@ class ExporterTest extends TestCase
             'export stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
             'export numeric string'         => ['1', "'1'"],
             'export multidimentional array' => [[[1, 2, 3], [3, 4, 5]],
-                <<<EOF
+                <<<'EOF'
 Array &0 (
     0 => Array &1 (
         0 => 1
@@ -91,39 +91,39 @@ EOF
             ],
             // \n\r and \r is converted to \n
             'export multiline text' => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
-                <<<EOF
-'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+                <<<'EOF'
+'this\n
+is\n
+a\n
+very\n
+very\n
+very\n
+very\n
+very\n
+very\r
+long\n\r
 text'
 EOF
             ],
             'export empty stdclass'     => [new stdClass, 'stdClass Object &%x ()'],
             'export non empty stdclass' => [$obj,
-                <<<EOF
+                <<<'EOF'
 stdClass Object &%x (
     'null' => null
     'boolean' => true
     'integer' => 1
     'double' => 1.2
     'string' => '1'
-    'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+    'text' => 'this\n
+is\n
+a\n
+very\n
+very\n
+very\n
+very\n
+very\n
+very\r
+long\n\r
 text'
     'object' => stdClass Object &%x (
         'foo' => 'bar'
@@ -138,7 +138,7 @@ EOF
             ],
             'export empty array'      => [[], 'Array &%d ()'],
             'export splObjectStorage' => [$storage,
-                <<<EOF
+                <<<'EOF'
 SplObjectStorage Object &%x (
     'foo' => stdClass Object &%x (
         'foo' => 'bar'
@@ -151,11 +151,11 @@ SplObjectStorage Object &%x (
 EOF
             ],
             'export stdClass with numeric properties' => [$obj3,
-                <<<EOF
+                <<<'EOF'
 stdClass Object &%x (
     0 => 1
     1 => 2
-    2 => 'Test\\r\\n
+    2 => 'Test\r\n
 '
     3 => 4
     4 => 5
@@ -183,7 +183,7 @@ EOF
             ],
             'export Exception without trace' => [
                 new Exception('The exception message', 42),
-                <<<EOF
+                <<<'EOF'
 Exception Object &%x (
     'message' => 'The exception message'
     'string' => ''
@@ -196,7 +196,7 @@ EOF
             ],
             'export Error without trace' => [
                 new Error('The exception message', 42),
-                <<<EOF
+                <<<'EOF'
 Error Object &%x (
     'message' => 'The exception message'
     'string' => ''
@@ -241,7 +241,7 @@ EOF
 
         $array['self'] = &$array;
 
-        $expected = <<<EOF
+        $expected = <<<'EOF'
 Array &%d (
     0 => 0
     'null' => null
@@ -249,16 +249,16 @@ Array &%d (
     'integer' => 1
     'double' => 1.2
     'string' => '1'
-    'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+    'text' => 'this\n
+is\n
+a\n
+very\n
+very\n
+very\n
+very\n
+very\n
+very\r
+long\n\r
 text'
     'object' => stdClass Object &%x (
         'foo' => 'bar'
@@ -274,16 +274,16 @@ text'
         'integer' => 1
         'double' => 1.2
         'string' => '1'
-        'text' => 'this\\n
-is\\n
-a\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\n
-very\\r
-long\\n\\r
+        'text' => 'this\n
+is\n
+a\n
+very\n
+very\n
+very\n
+very\n
+very\n
+very\r
+long\n\r
 text'
         'object' => stdClass Object &%x
         'objectagain' => stdClass Object &%x

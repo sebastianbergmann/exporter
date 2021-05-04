@@ -232,7 +232,7 @@ class Exporter
         }
 
         if (is_float($value) && (float) ((int) $value) === $value) {
-            return "$value.0";
+            return "{$value}.0";
         }
 
         if (is_resource($value)) {
