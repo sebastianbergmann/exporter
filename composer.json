@@ -28,18 +28,19 @@
     ],
     "config": {
         "platform": {
-            "php": "7.3.0"
+            "php": "8.0.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
     },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "sebastian/recursion-context": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3",
+        "phpunit/phpunit": "^10.0",
         "ext-mbstring": "*"
     },
     "autoload": {
@@ -49,7 +50,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "5.0-dev"
         }
     }
 }
