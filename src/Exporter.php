@@ -44,7 +44,7 @@ use SplObjectStorage;
  * print $exporter->export(new Exception);
  * </code>
  */
-class Exporter
+final class Exporter
 {
     /**
      * Exports a value as a string.
@@ -58,23 +58,13 @@ class Exporter
      *  - Strings are always quoted with single quotes
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
-     *
-     * @param int $indentation The indentation level of the 2nd+ line
-     *
-     * @return string
      */
-    public function export($value, $indentation = 0)
+    public function export(mixed $value, int $indentation = 0): string
     {
         return $this->recursiveExport($value, $indentation);
     }
 
-    /**
-     * @param array<mixed> $data
-     * @param Context      $context
-     *
-     * @return string
-     */
-    public function shortenedRecursiveExport(&$data, Context $context = null)
+    public function shortenedRecursiveExport(array &$data, Context $context = null): string
     {
         $result   = [];
         $exporter = new self();
@@ -84,6 +74,8 @@ class Exporter
         }
 
         $array = $data;
+
+        /* @noinspection UnusedFunctionResultInspection */
         $context->add($data);
 
         foreach ($array as $key => $value) {
@@ -112,24 +104,18 @@ class Exporter
      *
      * Newlines are replaced by the visible string '\n'.
      * Contents of arrays and objects (if any) are replaced by '...'.
-     *
-     * @return string
-     *
-     * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    public function shortenedExport($value)
+    public function shortenedExport(mixed $value): string
     {
         if (is_string($value)) {
             $string = str_replace("\n", '', $this->export($value));
 
-            if (function_exists('mb_strlen')) {
-                if (mb_strlen($string) > 40) {
-                    $string = mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
-                }
-            } else {
-                if (strlen($string) > 40) {
-                    $string = substr($string, 0, 30) . '...' . substr($string, -7);
-                }
+            if (function_exists('mb_strlen') && function_exists('mb_substr') && mb_strlen($string) > 40) {
+                return mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
+            }
+
+            if (strlen($string) > 40) {
+                return substr($string, 0, 30) . '...' . substr($string, -7);
             }
 
             return $string;
@@ -156,10 +142,8 @@ class Exporter
     /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
-     *
-     * @return array
      */
-    public function toArray($value)
+    public function toArray(mixed $value): array
     {
         if (!is_object($value)) {
             return (array) $value;
@@ -195,9 +179,9 @@ class Exporter
         // above (fast) mechanism nor with reflection in Zend.
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
-            foreach ($value as $key => $val) {
-                $array[spl_object_hash($val)] = [
-                    'obj' => $val,
+            foreach ($value as $_value) {
+                $array[spl_object_hash($_value)] = [
+                    'obj' => $_value,
                     'inf' => $value->getInfo(),
                 ];
             }
@@ -208,16 +192,8 @@ class Exporter
 
     /**
      * Recursive implementation of export.
-     *
-     * @param mixed                                       $value       The value to export
-     * @param int                                         $indentation The indentation level of the 2nd+ line
-     * @param \SebastianBergmann\RecursionContext\Context $processed   Previously processed objects
-     *
-     * @return string
-     *
-     * @see    SebastianBergmann\Exporter\Exporter::export
      */
-    protected function recursiveExport(&$value, $indentation, $processed = null)
+    private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
     {
         if ($value === null) {
             return 'null';
@@ -232,7 +208,7 @@ class Exporter
         }
 
         if (is_float($value) && (float) ((int) $value) === $value) {
-            return "{$value}.0";
+            return $value . '.0';
         }
 
         if (is_resource($value)) {

@@ -25,14 +25,11 @@ use SplObjectStorage;
 use stdClass;
 
 /**
- * @covers SebastianBergmann\Exporter\Exporter
+ * @covers \SebastianBergmann\Exporter\Exporter
  */
-class ExporterTest extends TestCase
+final class ExporterTest extends TestCase
 {
-    /**
-     * @var Exporter
-     */
-    private $exporter;
+    private Exporter $exporter;
 
     protected function setUp(): void
     {
@@ -73,7 +70,7 @@ class ExporterTest extends TestCase
             'export float 1.2'              => [1.2, '1.2'],
             'export stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
             'export numeric string'         => ['1', "'1'"],
-            'export multidimentional array' => [[[1, 2, 3], [3, 4, 5]],
+            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]],
                 <<<'EOF'
 Array &0 (
     0 => Array &1 (
@@ -417,7 +414,7 @@ EOF;
             'export numeric string'         => [['1'], "'1'"],
             'export with numeric array key' => [[2 => 1], '1'],
             'export with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
-            'export multidimentional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
+            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
             'export object'                 => [[new stdClass], 'stdClass Object ()'],
         ];
     }
@@ -426,6 +423,8 @@ EOF;
     {
         $recursiveValue = [1];
         $context        = new Context();
+
+        /* @noinspection UnusedFunctionResultInspection */
         $context->add($recursiveValue);
 
         $value = [$recursiveValue];
