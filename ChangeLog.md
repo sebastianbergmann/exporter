@@ -42,6 +42,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[5.0.0]: https://github.com/sebastianbergmann/exporter/compare/4.0.3...master
 [4.0.3]: https://github.com/sebastianbergmann/exporter/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/sebastianbergmann/exporter/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/sebastianbergmann/exporter/compare/4.0.0...4.0.1
