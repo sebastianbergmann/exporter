@@ -37,7 +37,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.0",
-        "sebastian/recursion-context": "^4.0"
+        "sebastian/recursion-context": "^5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
