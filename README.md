@@ -1,8 +1,6 @@
 Exporter
 ========
 
-[![Build Status](https://secure.travis-ci.org/sebastianbergmann/exporter.png?branch=master)](https://travis-ci.org/sebastianbergmann/exporter)
-
 This component provides the functionality to export PHP variables for visualization.
 
 ## Usage
