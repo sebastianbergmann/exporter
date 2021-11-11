@@ -1,0 +1,12 @@
+/.gitattributes export-ignore
+/.gitignore     export-ignore
+/.github        export-ignore
+/.phive         export-ignore
+/.php-cs-fixer.dist.php   export-ignore
+/build.xml      export-ignore
+/phpunit.xml    export-ignore
+/tests          export-ignore
+/tools          export-ignore
+/tools/*        binary
+
+*.php diff=php
