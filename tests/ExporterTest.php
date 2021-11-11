@@ -11,6 +11,7 @@ namespace SebastianBergmann\Exporter;
 
 use function array_map;
 use function chr;
+use function fclose;
 use function fopen;
 use function implode;
 use function mb_internal_encoding;
@@ -61,6 +62,9 @@ final class ExporterTest extends TestCase
         $storage->attach($obj2);
         $storage->foo = $obj2;
 
+        $resource = fopen('php://memory', 'r');
+        fclose($resource);
+
         return [
             'export null'                   => [null, 'null'],
             'export boolean true'           => [true, 'true'],
@@ -69,6 +73,7 @@ final class ExporterTest extends TestCase
             'export float 1.0'              => [1.0, '1.0'],
             'export float 1.2'              => [1.2, '1.2'],
             'export stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
+            'export stream (closed)'        => [$resource, 'resource (closed)'],
             'export numeric string'         => ['1', "'1'"],
             'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]],
                 <<<'EOF'

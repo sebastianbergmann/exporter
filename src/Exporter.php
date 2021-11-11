@@ -14,6 +14,7 @@ use function count;
 use function function_exists;
 use function get_class;
 use function get_resource_type;
+use function gettype;
 use function implode;
 use function is_array;
 use function is_float;
@@ -209,6 +210,10 @@ final class Exporter
 
         if (is_float($value) && (float) ((int) $value) === $value) {
             return $value . '.0';
+        }
+
+        if (gettype($value) === 'resource (closed)') {
+            return 'resource (closed)';
         }
 
         if (is_resource($value)) {
