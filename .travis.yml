@@ -5,9 +5,11 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - 7.4snapshot
+  - 7.4
 
 before_install:
+  # - COMPOSER_ROOT_VERSION is needed to get round the recursive dependency when using CI.
+  - export COMPOSER_ROOT_VERSION="3.99.99"
   - composer self-update
   - composer clear-cache
 
