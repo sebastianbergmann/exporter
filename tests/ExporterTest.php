@@ -17,16 +17,6 @@ use SebastianBergmann\RecursionContext\Context;
  */
 class ExporterTest extends TestCase
 {
-    /**
-     * @var Exporter
-     */
-    private $exporter;
-
-    protected function setUp(): void
-    {
-        $this->exporter = new Exporter;
-    }
-
     public function exportProvider()
     {
         $obj2      = new \stdClass;
@@ -209,7 +199,7 @@ EOF
     {
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline($this->exporter->export($value))
+            $this->trimNewline((new Exporter)->export($value))
         );
     }
 
@@ -293,7 +283,7 @@ EOF;
 
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline($this->exporter->export($array))
+            $this->trimNewline((new Exporter)->export($array))
         );
     }
 
@@ -329,7 +319,7 @@ EOF;
     {
         $this->assertSame(
             $expected,
-            $this->trimNewline($this->exporter->shortenedExport($value))
+            $this->trimNewline((new Exporter)->shortenedExport($value))
         );
     }
 
@@ -346,7 +336,7 @@ EOF;
         try {
             $this->assertSame(
               "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-              $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+              $this->trimNewline((new Exporter)->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
             );
         } catch (\Exception $e) {
             \mb_internal_encoding($oldMbInternalEncoding);
@@ -375,13 +365,13 @@ EOF;
     {
         $this->assertRegExp(
             "~'.{{$expectedLength}}'\$~s",
-            $this->exporter->export($value)
+            (new Exporter)->export($value)
         );
     }
 
     public function testNonObjectCanBeReturnedAsArray()
     {
-        $this->assertEquals([true], $this->exporter->toArray(true));
+        $this->assertEquals([true], (new Exporter)->toArray(true));
     }
 
     public function testIgnoreKeysInValue()
@@ -390,7 +380,7 @@ EOF;
         $array = [];
         $array["\0gcdata"] = '';
 
-        $this->assertEquals([], $this->exporter->toArray((object) $array));
+        $this->assertEquals([], (new Exporter)->toArray((object) $array));
     }
 
     private function trimNewline($string)
@@ -403,7 +393,7 @@ EOF;
      */
     public function testShortenedRecursiveExport(array $value, string $expected)
     {
-        $this->assertEquals($expected, $this->exporter->shortenedRecursiveExport($value));
+        $this->assertEquals($expected, (new Exporter)->shortenedRecursiveExport($value));
     }
 
     public function shortenedRecursiveExportProvider()
@@ -431,6 +421,6 @@ EOF;
 
         $value = [$recursiveValue];
 
-        $this->assertEquals('*RECURSION*', $this->exporter->shortenedRecursiveExport($value, $context));
+        $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
     }
 }
