@@ -22,7 +22,7 @@ class ExporterTest extends TestCase
      */
     private $exporter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->exporter = new Exporter;
     }
