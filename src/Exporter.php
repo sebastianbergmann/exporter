@@ -24,7 +24,7 @@ use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function preg_match;
-use function spl_object_hash;
+use function spl_object_id;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
@@ -181,7 +181,7 @@ final class Exporter
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
             foreach ($value as $_value) {
-                $array[spl_object_hash($_value)] = [
+                $array['Object #' . spl_object_id($_value)] = [
                     'obj' => $_value,
                     'inf' => $value->getInfo(),
                 ];
@@ -277,11 +277,11 @@ final class Exporter
         if (is_object($value)) {
             $class = get_class($value);
 
-            if ($hash = $processed->contains($value)) {
-                return sprintf('%s Object &%s', $class, $hash);
+            if ($processed->contains($value)) {
+                return sprintf('%s Object #%d', $class, spl_object_id($value));
             }
 
-            $hash   = $processed->add($value);
+            $processed->add($value);
             $values = '';
             $array  = $this->toArray($value);
 
@@ -298,7 +298,7 @@ final class Exporter
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('%s Object &%s (%s)', $class, $hash, $values);
+            return sprintf('%s Object #%d (%s)', $class, spl_object_id($value), $values);
         }
 
         return var_export($value, true);

@@ -107,10 +107,10 @@ long\n\r
 text'
 EOF
             ],
-            'export empty stdclass'     => [new stdClass, 'stdClass Object &%x ()'],
+            'export empty stdclass'     => [new stdClass, 'stdClass Object #%d ()'],
             'export non empty stdclass' => [$obj,
                 <<<'EOF'
-stdClass Object &%x (
+stdClass Object #%d (
     'null' => null
     'boolean' => true
     'integer' => 1
@@ -127,26 +127,26 @@ very\n
 very\r
 long\n\r
 text'
-    'object' => stdClass Object &%x (
+    'object' => stdClass Object #%d (
         'foo' => 'bar'
     )
-    'objectagain' => stdClass Object &%x
+    'objectagain' => stdClass Object #%d
     'array' => Array &%d (
         'foo' => 'bar'
     )
-    'self' => stdClass Object &%x
+    'self' => stdClass Object #%d
 )
 EOF
             ],
             'export empty array'      => [[], 'Array &%d ()'],
             'export splObjectStorage' => [$storage,
                 <<<'EOF'
-SplObjectStorage Object &%x (
-    'foo' => stdClass Object &%x (
+SplObjectStorage Object #%d (
+    'foo' => stdClass Object #%d (
         'foo' => 'bar'
     )
-    '%x' => Array &0 (
-        'obj' => stdClass Object &%x
+    'Object #%d' => Array &0 (
+        'obj' => stdClass Object #%d
         'inf' => null
     )
 )
@@ -154,7 +154,7 @@ EOF
             ],
             'export stdClass with numeric properties' => [$obj3,
                 <<<'EOF'
-stdClass Object &%x (
+stdClass Object #%d (
     0 => 1
     1 => 2
     2 => 'Test\r\n
@@ -186,7 +186,7 @@ EOF
             'export Exception without trace' => [
                 new Exception('The exception message', 42),
                 <<<'EOF'
-Exception Object &%x (
+Exception Object #%d (
     'message' => 'The exception message'
     'string' => ''
     'code' => 42
@@ -199,7 +199,7 @@ EOF
             'export Error without trace' => [
                 new Error('The exception message', 42),
                 <<<'EOF'
-Error Object &%x (
+Error Object #%d (
     'message' => 'The exception message'
     'string' => ''
     'code' => 42
@@ -262,10 +262,10 @@ very\n
 very\r
 long\n\r
 text'
-    'object' => stdClass Object &%x (
+    'object' => stdClass Object #%d (
         'foo' => 'bar'
     )
-    'objectagain' => stdClass Object &%x
+    'objectagain' => stdClass Object #%d
     'array' => Array &%d (
         'foo' => 'bar'
     )
@@ -287,8 +287,8 @@ very\n
 very\r
 long\n\r
 text'
-        'object' => stdClass Object &%x
-        'objectagain' => stdClass Object &%x
+        'object' => stdClass Object #%d
+        'objectagain' => stdClass Object #%d
         'array' => Array &%d (
             'foo' => 'bar'
         )
