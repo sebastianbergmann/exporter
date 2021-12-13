@@ -11,7 +11,6 @@ namespace SebastianBergmann\Exporter;
 
 use function bin2hex;
 use function count;
-use function function_exists;
 use function get_class;
 use function get_resource_type;
 use function gettype;
@@ -28,8 +27,6 @@ use function spl_object_id;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
-use function strlen;
-use function substr;
 use function var_export;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
@@ -111,12 +108,8 @@ final class Exporter
         if (is_string($value)) {
             $string = str_replace("\n", '', $this->export($value));
 
-            if (function_exists('mb_strlen') && function_exists('mb_substr') && mb_strlen($string) > 40) {
+            if (mb_strlen($string) > 40) {
                 return mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
-            }
-
-            if (strlen($string) > 40) {
-                return substr($string, 0, 30) . '...' . substr($string, -7);
             }
 
             return $string;

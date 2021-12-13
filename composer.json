@@ -37,11 +37,11 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.0",
+        "ext-mbstring": "*",
         "sebastian/recursion-context": "^5.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0",
-        "ext-mbstring": "*"
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "classmap": [
