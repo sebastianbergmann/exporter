@@ -11,5 +11,9 @@
       <code>$hash</code>
       <code>$key</code>
     </InvalidScalarArgument>
+    <NoInterfaceProperties occurrences="6">
+      <code>$value->name</code>
+      <code>$value->value</code>
+    </NoInterfaceProperties>
   </file>
 </files>

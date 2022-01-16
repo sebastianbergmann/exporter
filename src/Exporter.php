@@ -15,6 +15,7 @@ use function get_class;
 use function get_resource_type;
 use function gettype;
 use function implode;
+use function interface_exists;
 use function is_array;
 use function is_float;
 use function is_object;
@@ -28,8 +29,10 @@ use function sprintf;
 use function str_repeat;
 use function str_replace;
 use function var_export;
+use BackedEnum;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
+use UnitEnum;
 
 /**
  * A nifty utility for visualizing PHP variables.
@@ -113,6 +116,26 @@ final class Exporter
             }
 
             return $string;
+        }
+
+        // FIXME: Remove 'interface_exists' check once we drop support for PHP 8.0
+        if (interface_exists('\UnitEnum')) {
+            if ($value instanceof BackedEnum) {
+                return sprintf(
+                    '%s Enum (%s, %s)',
+                    get_class($value),
+                    $value->name,
+                    $this->export($value->value)
+                );
+            }
+
+            if ($value instanceof UnitEnum) {
+                return sprintf(
+                    '%s Enum (%s)',
+                    get_class($value),
+                    $value->name
+                );
+            }
         }
 
         if (is_object($value)) {
@@ -215,6 +238,28 @@ final class Exporter
                 $value,
                 get_resource_type($value)
             );
+        }
+
+        // FIXME: Remove 'interface_exists' check once we drop support for PHP 8.0
+        if (interface_exists('\UnitEnum')) {
+            if ($value instanceof BackedEnum) {
+                return sprintf(
+                    '%s Enum #%d (%s, %s)',
+                    get_class($value),
+                    spl_object_id($value),
+                    $value->name,
+                    $this->export($value->value, $indentation)
+                );
+            }
+
+            if ($value instanceof UnitEnum) {
+                return sprintf(
+                    '%s Enum #%d (%s)',
+                    get_class($value),
+                    spl_object_id($value),
+                    $value->name
+                );
+            }
         }
 
         if (is_string($value)) {
