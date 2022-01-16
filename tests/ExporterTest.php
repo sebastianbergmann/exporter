@@ -365,6 +365,50 @@ EOF;
         mb_language($oldMbLanguage);
     }
 
+    public function enumProvider()
+    {
+        return [
+            'export enum'                          => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)'],
+            'export backed enum'                   => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')'],
+            'shortened export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)'],
+        ];
+    }
+
+    /**
+     * @requires PHP 8.1
+     * @dataProvider enumProvider
+     */
+    public function testEnumExport($value, $expected): void
+    {
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            $expected,
+            $this->trimNewline($this->exporter->export($value))
+        );
+    }
+
+    public function enumShortenedProvider()
+    {
+        return [
+            'shortened export enum'                => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
+            'shortened export string backed enum'  => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
+            'shortened export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
+        ];
+    }
+
+    /**
+     * @requires PHP 8.1
+     * @dataProvider enumShortenedProvider
+     */
+    public function testEnumShortenedExport($value, $expected): void
+    {
+        // FIXME: Merge test into testShortenedExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            $expected,
+            $this->trimNewline($this->exporter->shortenedExport($value))
+        );
+    }
+
     public function provideNonBinaryMultibyteStrings(): array
     {
         return [
