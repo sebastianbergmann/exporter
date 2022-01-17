@@ -370,7 +370,7 @@ EOF;
         return [
             'export enum'                          => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)'],
             'export backed enum'                   => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')'],
-            'shortened export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)'],
+            'export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)'],
         ];
     }
 
