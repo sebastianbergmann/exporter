@@ -365,47 +365,75 @@ EOF;
         mb_language($oldMbLanguage);
     }
 
-    public function enumProvider()
-    {
-        return [
-            'export enum'                          => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)'],
-            'export backed enum'                   => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')'],
-            'export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)'],
-        ];
-    }
-
     /**
      * @requires PHP 8.1
-     * @dataProvider enumProvider
      */
-    public function testEnumExport($value, $expected): void
+    public function testEnumExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
-            $expected,
-            $this->trimNewline($this->exporter->export($value))
+            'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
+            $this->trimNewline($this->exporter->export(ExampleEnum::Value))
         );
-    }
-
-    public function enumShortenedProvider()
-    {
-        return [
-            'shortened export enum'                => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
-            'shortened export string backed enum'  => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
-            'shortened export integer backed enum' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
-        ];
     }
 
     /**
      * @requires PHP 8.1
-     * @dataProvider enumShortenedProvider
      */
-    public function testEnumShortenedExport($value, $expected): void
+    public function testStringBackedEnumExport(): void
     {
-        // FIXME: Merge test into testShortenedExport once we drop support for PHP 8.0
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
-            $expected,
-            $this->trimNewline($this->exporter->shortenedExport($value))
+            'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
+            $this->trimNewline($this->exporter->export(ExampleStringBackedEnum::Value))
+        );
+    }
+
+    /**
+     * @requires PHP 8.1
+     */
+    public function testIntegerBackedEnumExport(): void
+    {
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
+            $this->trimNewline($this->exporter->export(ExampleIntegerBackedEnum::Value))
+        );
+    }
+
+    /**
+     * @requires PHP 8.1
+     */
+    public function testEnumShortenedExport(): void
+    {
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleEnum Enum (Value)',
+            $this->trimNewline($this->exporter->shortenedExport(ExampleEnum::Value))
+        );
+    }
+
+    /**
+     * @requires PHP 8.1
+     */
+    public function testStringBackedEnumShortenedExport(): void
+    {
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')',
+            $this->trimNewline($this->exporter->shortenedExport(ExampleStringBackedEnum::Value))
+        );
+    }
+
+    /**
+     * @requires PHP 8.1
+     */
+    public function testIntegerBackedEnumShortenedExport(): void
+    {
+        // FIXME: Merge test into testExport once we drop support for PHP 8.0
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)',
+            $this->trimNewline($this->exporter->shortenedExport(ExampleIntegerBackedEnum::Value))
         );
     }
 
