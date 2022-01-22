@@ -4,6 +4,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ## [5.0.0] - 2021-MM-DD
 
+### Changed
+
+* [#42](https://github.com/sebastianbergmann/exporter/pull/42): Improve export of enumerations
+
 ### Removed
 
 * This component is no longer supported on PHP 7.3 and PHP 7.4
