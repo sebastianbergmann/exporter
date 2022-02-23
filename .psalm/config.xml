@@ -6,7 +6,6 @@
     resolveFromConfigFile="false"
     cacheDirectory=".psalm/cache"
     errorBaseline=".psalm/baseline.xml"
-    totallyTyped="false"
 >
     <projectFiles>
         <directory name="src" />
