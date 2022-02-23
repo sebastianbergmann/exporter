@@ -7,13 +7,8 @@
     <InvalidArgument occurrences="1">
       <code>$value</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="2">
-      <code>$hash</code>
+    <PossiblyFalseArgument occurrences="1">
       <code>$key</code>
-    </InvalidScalarArgument>
-    <NoInterfaceProperties occurrences="6">
-      <code>$value->name</code>
-      <code>$value->value</code>
-    </NoInterfaceProperties>
+    </PossiblyFalseArgument>
   </file>
 </files>
