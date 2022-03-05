@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
 
       - name: "Run friendsofphp/php-cs-fixer"
         run: "php7.4 ./tools/php-cs-fixer fix --dry-run --show-progress=dots --using-cache=no --verbose"
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
 
       - name: "Update dependencies with composer"
         run: "php7.4 ./tools/composer update --no-ansi --no-interaction --no-progress"
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
 
       - name: "Install PHP with extensions"
         uses: "shivammathur/setup-php@v2"
