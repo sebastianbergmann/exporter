@@ -28,7 +28,7 @@
     ],
     "config": {
         "platform": {
-            "php": "8.0.0"
+            "php": "8.1.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
@@ -36,7 +36,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-mbstring": "*",
         "sebastian/recursion-context": "^5.0"
     },

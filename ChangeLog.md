@@ -2,7 +2,7 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [5.0.0] - 2021-MM-DD
+## [5.0.0] - 2022-MM-DD
 
 ### Changed
 
@@ -10,7 +10,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Removed
 
-* This component is no longer supported on PHP 7.3 and PHP 7.4
+* This component is no longer supported on PHP 7.3, PHP 7.4 and PHP 8.0
 
 ## [4.0.4] - 2021-11-11
 
