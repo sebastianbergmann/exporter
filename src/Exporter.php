@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\Exporter;
 
+use const PHP_INT_MAX;
 use const PHP_VERSION;
 use function bin2hex;
 use function count;
@@ -48,6 +49,14 @@ use UnitEnum;
  */
 final class Exporter
 {
+
+    private int $maxNestingLevel;
+
+    public function __construct(int $maxNestingLevel = PHP_INT_MAX)
+    {
+        $this->maxNestingLevel = $maxNestingLevel;
+    }
+
     /**
      * Exports a value as a string.
      *
@@ -208,7 +217,7 @@ final class Exporter
     /**
      * Recursive implementation of export.
      */
-    private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
+    private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null, int $nestingLevel = 0): string
     {
         if ($value === null) {
             return 'null';
@@ -287,6 +296,10 @@ final class Exporter
                 return 'Array &' . $key;
             }
 
+            if ($nestingLevel > $this->maxNestingLevel) {
+                return sprintf('Array &%s (Max nesting level exceeded)', $key);
+            }
+
             $array  = $value;
             $key    = $processed->add($value);
             $values = '';
@@ -296,8 +309,8 @@ final class Exporter
                     $values .= sprintf(
                         '%s    %s => %s' . "\n",
                         $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                        $this->recursiveExport($k, $indentation, null, $nestingLevel + 1),
+                        $this->recursiveExport($value[$k], $indentation + 1, $processed, $nestingLevel + 1)
                     );
                 }
 
@@ -314,6 +327,10 @@ final class Exporter
                 return sprintf('%s Object #%d', $class, spl_object_id($value));
             }
 
+            if ($nestingLevel > $this->maxNestingLevel) {
+                return sprintf('%s Object #%d (Max nesting level exceeded)', $class, spl_object_id($value));
+            }
+
             $processed->add($value);
             $values = '';
             $array  = $this->toArray($value);
@@ -323,8 +340,8 @@ final class Exporter
                     $values .= sprintf(
                         '%s    %s => %s' . "\n",
                         $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($v, $indentation + 1, $processed)
+                        $this->recursiveExport($k, $indentation, null, $nestingLevel + 1),
+                        $this->recursiveExport($v, $indentation + 1, $processed, $nestingLevel + 1)
                     );
                 }
 
