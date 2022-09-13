@@ -209,8 +209,16 @@ class Exporter
             return 'false';
         }
 
-        if (\is_float($value) && (float) ((int) $value) === $value) {
-            return "$value.0";
+        if (\is_float($value)) {
+            $precisionBackup = ini_get('precision');
+            ini_set('precision', '-1');
+            try {
+                $valueStr = (string) $value;
+
+                return (string) (int) $value === $valueStr ? $valueStr . '.0' : $valueStr;
+            } finally {
+                ini_set('precision', $precisionBackup);
+            }
         }
 
         if ($this->isClosedResource($value)) {
