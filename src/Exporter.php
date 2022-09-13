@@ -17,6 +17,7 @@ use function get_resource_type;
 use function gettype;
 use function implode;
 use function is_array;
+use function is_bool;
 use function is_float;
 use function is_object;
 use function is_resource;
@@ -214,12 +215,8 @@ final class Exporter
             return 'null';
         }
 
-        if ($value === true) {
-            return 'true';
-        }
-
-        if ($value === false) {
-            return 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
         if (is_float($value) && (float) ((int) $value) === $value) {
