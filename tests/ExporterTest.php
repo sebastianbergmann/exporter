@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\Exporter;
 
+use const INF;
+use const NAN;
 use function array_map;
 use function chr;
 use function fclose;
@@ -72,6 +74,13 @@ final class ExporterTest extends TestCase
             'export int 1'                  => [1, '1'],
             'export float 1.0'              => [1.0, '1.0'],
             'export float 1.2'              => [1.2, '1.2'],
+            'export float 1 / 3'            => [1 / 3, '0.3333333333333333'],
+            'export float 1 - 2 / 3'        => [1 - 2 / 3, '0.33333333333333337'],
+            'export float 5.5E+123'         => [5.5E+123, '5.5E+123'],
+            'export float 5.5E-123'         => [5.5E-123, '5.5E-123'],
+            'export float NAN'              => [NAN, 'NAN'],
+            'export float INF'              => [INF, 'INF'],
+            'export float -INF'             => [-INF, '-INF'],
             'export stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
             'export stream (closed)'        => [$resource, 'resource (closed)'],
             'export numeric string'         => ['1', "'1'"],
@@ -313,12 +322,14 @@ EOF;
         ];
 
         return [
-            'shortened export null'           => [null, 'null'],
-            'shortened export boolean true'   => [true, 'true'],
-            'shortened export integer 1'      => [1, '1'],
-            'shortened export float 1.0'      => [1.0, '1.0'],
-            'shortened export float 1.2'      => [1.2, '1.2'],
-            'shortened export numeric string' => ['1', "'1'"],
+            'shortened export null'            => [null, 'null'],
+            'shortened export boolean true'    => [true, 'true'],
+            'shortened export integer 1'       => [1, '1'],
+            'shortened export float 1.0'       => [1.0, '1.0'],
+            'shortened export float 1.2'       => [1.2, '1.2'],
+            'shortened export float 1 / 3'     => [1 / 3, '0.3333333333333333'],
+            'shortened export float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
+            'shortened export numeric string'  => ['1', "'1'"],
             // \n\r and \r is converted to \n
             'shortened export multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
             'shortened export empty stdClass'     => [new stdClass, 'stdClass Object ()'],
