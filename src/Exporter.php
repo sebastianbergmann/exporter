@@ -217,7 +217,11 @@ class Exporter
             try {
                 $valueStr = (string) $value;
 
-                return (string) (int) $value === $valueStr ? $valueStr . '.0' : $valueStr;
+                if ((string) (int) $value === $valueStr) {
+                    return $valueStr . '.0';
+                }
+
+                return $valueStr;
             } finally {
                 \ini_set('precision', $precisionBackup);
             }
