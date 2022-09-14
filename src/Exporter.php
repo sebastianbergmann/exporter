@@ -9,7 +9,6 @@
  */
 namespace SebastianBergmann\Exporter;
 
-use const PHP_VERSION;
 use function bin2hex;
 use function count;
 use function get_class;
@@ -31,7 +30,6 @@ use function sprintf;
 use function str_repeat;
 use function str_replace;
 use function var_export;
-use function version_compare;
 use BackedEnum;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
@@ -121,7 +119,7 @@ final class Exporter
             return $string;
         }
 
-        if ($this->isBackedEnum($value)) {
+        if ($value instanceof BackedEnum) {
             return sprintf(
                 '%s Enum (%s, %s)',
                 get_class($value),
@@ -130,7 +128,7 @@ final class Exporter
             );
         }
 
-        if ($this->isUnitEnum($value)) {
+        if ($value instanceof UnitEnum) {
             return sprintf(
                 '%s Enum (%s)',
                 get_class($value),
@@ -254,7 +252,7 @@ final class Exporter
             );
         }
 
-        if ($this->isBackedEnum($value)) {
+        if ($value instanceof BackedEnum) {
             return sprintf(
                 '%s Enum #%d (%s, %s)',
                 get_class($value),
@@ -264,7 +262,7 @@ final class Exporter
             );
         }
 
-        if ($this->isUnitEnum($value)) {
+        if ($value instanceof UnitEnum) {
             return sprintf(
                 '%s Enum #%d (%s)',
                 get_class($value),
@@ -351,29 +349,5 @@ final class Exporter
         }
 
         return var_export($value, true);
-    }
-
-    /**
-     * @todo Refactor when PHP >= 8.1 is required
-     */
-    private function isBackedEnum(mixed $value): bool
-    {
-        if (version_compare('8.1.0', PHP_VERSION, '>')) {
-            return false;
-        }
-
-        return $value instanceof BackedEnum;
-    }
-
-    /**
-     * @todo Refactor when PHP >= 8.1 is required
-     */
-    private function isUnitEnum(mixed $value): bool
-    {
-        if (version_compare('8.1.0', PHP_VERSION, '>')) {
-            return false;
-        }
-
-        return $value instanceof UnitEnum;
     }
 }
