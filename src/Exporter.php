@@ -16,6 +16,8 @@ use function get_class;
 use function get_resource_type;
 use function gettype;
 use function implode;
+use function ini_get;
+use function ini_set;
 use function is_array;
 use function is_float;
 use function is_object;
@@ -232,8 +234,22 @@ class Exporter
             return 'false';
         }
 
-        if (is_float($value) && (float) ((int) $value) === $value) {
-            return "{$value}.0";
+        if (is_float($value)) {
+            $precisionBackup = ini_get('precision');
+
+            ini_set('precision', '-1');
+
+            try {
+                $valueStr = (string) $value;
+
+                if ((string) (int) $value === $valueStr) {
+                    return $valueStr . '.0';
+                }
+
+                return $valueStr;
+            } finally {
+                ini_set('precision', $precisionBackup);
+            }
         }
 
         if (gettype($value) === 'resource (closed)') {
