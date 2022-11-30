@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
+<files psalm-version="dev-master@">
   <file src="src/Exporter.php">
     <ConflictingReferenceConstraint occurrences="1">
       <code>if (is_object($value)) {</code>
