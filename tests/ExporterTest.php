@@ -68,23 +68,23 @@ final class ExporterTest extends TestCase
         fclose($resource);
 
         return [
-            'export null'                   => [null, 'null'],
-            'export boolean true'           => [true, 'true'],
-            'export boolean false'          => [false, 'false'],
-            'export int 1'                  => [1, '1'],
-            'export float 1.0'              => [1.0, '1.0'],
-            'export float 1.2'              => [1.2, '1.2'],
-            'export float 1 / 3'            => [1 / 3, '0.3333333333333333'],
-            'export float 1 - 2 / 3'        => [1 - 2 / 3, '0.33333333333333337'],
-            'export float 5.5E+123'         => [5.5E+123, '5.5E+123'],
-            'export float 5.5E-123'         => [5.5E-123, '5.5E-123'],
-            'export float NAN'              => [NAN, 'NAN'],
-            'export float INF'              => [INF, 'INF'],
-            'export float -INF'             => [-INF, '-INF'],
-            'export stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
-            'export stream (closed)'        => [$resource, 'resource (closed)'],
-            'export numeric string'         => ['1', "'1'"],
-            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]],
+            'export null'                             => [null, 'null'],
+            'export boolean true'                     => [true, 'true'],
+            'export boolean false'                    => [false, 'false'],
+            'export int 1'                            => [1, '1'],
+            'export float 1.0'                        => [1.0, '1.0'],
+            'export float 1.2'                        => [1.2, '1.2'],
+            'export float 1 / 3'                      => [1 / 3, '0.3333333333333333'],
+            'export float 1 - 2 / 3'                  => [1 - 2 / 3, '0.33333333333333337'],
+            'export float 5.5E+123'                   => [5.5E+123, '5.5E+123'],
+            'export float 5.5E-123'                   => [5.5E-123, '5.5E-123'],
+            'export float NAN'                        => [NAN, 'NAN'],
+            'export float INF'                        => [INF, 'INF'],
+            'export float -INF'                       => [-INF, '-INF'],
+            'export stream'                           => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
+            'export stream (closed)'                  => [$resource, 'resource (closed)'],
+            'export numeric string'                   => ['1', "'1'"],
+            'export multidimensional array'           => [[[1, 2, 3], [3, 4, 5]],
                 <<<'EOF'
 Array &0 (
     0 => Array &1 (
@@ -101,7 +101,7 @@ Array &0 (
 EOF
             ],
             // \n\r and \r is converted to \n
-            'export multiline text' => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
+            'export multiline text'                   => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
                 <<<'EOF'
 'this\n
 is\n
@@ -116,8 +116,8 @@ long\n\r
 text'
 EOF
             ],
-            'export empty stdclass'     => [new stdClass, 'stdClass Object #%d ()'],
-            'export non empty stdclass' => [$obj,
+            'export empty stdclass'                   => [new stdClass, 'stdClass Object #%d ()'],
+            'export non empty stdclass'               => [$obj,
                 <<<'EOF'
 stdClass Object #%d (
     'null' => null
@@ -147,8 +147,8 @@ text'
 )
 EOF
             ],
-            'export empty array'      => [[], 'Array &%d ()'],
-            'export splObjectStorage' => [$storage,
+            'export empty array'                      => [[], 'Array &%d ()'],
+            'export splObjectStorage'                 => [$storage,
                 <<<'EOF'
 SplObjectStorage Object #%d (
     'foo' => stdClass Object #%d (
@@ -192,7 +192,7 @@ EOF
                 '',
                 "''",
             ],
-            'export Exception without trace' => [
+            'export Exception without trace'          => [
                 new Exception('The exception message', 42),
                 <<<'EOF'
 Exception Object #%d (
@@ -205,7 +205,7 @@ Exception Object #%d (
 )
 EOF
             ],
-            'export Error without trace' => [
+            'export Error without trace'              => [
                 new Error('The exception message', 42),
                 <<<'EOF'
 Error Object #%d (
@@ -322,14 +322,14 @@ EOF;
         ];
 
         return [
-            'shortened export null'            => [null, 'null'],
-            'shortened export boolean true'    => [true, 'true'],
-            'shortened export integer 1'       => [1, '1'],
-            'shortened export float 1.0'       => [1.0, '1.0'],
-            'shortened export float 1.2'       => [1.2, '1.2'],
-            'shortened export float 1 / 3'     => [1 / 3, '0.3333333333333333'],
-            'shortened export float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
-            'shortened export numeric string'  => ['1', "'1'"],
+            'shortened export null'               => [null, 'null'],
+            'shortened export boolean true'       => [true, 'true'],
+            'shortened export integer 1'          => [1, '1'],
+            'shortened export float 1.0'          => [1.0, '1.0'],
+            'shortened export float 1.2'          => [1.2, '1.2'],
+            'shortened export float 1 / 3'        => [1 / 3, '0.3333333333333333'],
+            'shortened export float 1 - 2 / 3'    => [1 - 2 / 3, '0.33333333333333337'],
+            'shortened export numeric string'     => ['1', "'1'"],
             // \n\r and \r is converted to \n
             'shortened export multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
             'shortened export empty stdClass'     => [new stdClass, 'stdClass Object ()'],
