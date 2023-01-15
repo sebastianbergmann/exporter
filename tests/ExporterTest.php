@@ -32,13 +32,6 @@ use stdClass;
  */
 final class ExporterTest extends TestCase
 {
-    private Exporter $exporter;
-
-    protected function setUp(): void
-    {
-        $this->exporter = new Exporter;
-    }
-
     public function exportProvider(): array
     {
         $obj2      = new stdClass;
@@ -228,7 +221,7 @@ EOF
     {
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline($this->exporter->export($value))
+            $this->trimNewline((new Exporter)->export($value))
         );
     }
 
@@ -308,7 +301,7 @@ EOF;
 
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline($this->exporter->export($array))
+            $this->trimNewline((new Exporter)->export($array))
         );
     }
 
@@ -346,7 +339,7 @@ EOF;
     {
         $this->assertSame(
             $expected,
-            $this->trimNewline($this->exporter->shortenedExport($value))
+            $this->trimNewline((new Exporter)->shortenedExport($value))
         );
     }
 
@@ -363,7 +356,7 @@ EOF;
         try {
             $this->assertSame(
                 "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-                $this->trimNewline($this->exporter->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+                $this->trimNewline((new Exporter)->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
             );
         } catch (Exception $e) {
             mb_internal_encoding($oldMbInternalEncoding);
@@ -384,7 +377,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
-            $this->trimNewline($this->exporter->export(ExampleEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleEnum::Value))
         );
     }
 
@@ -396,7 +389,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
-            $this->trimNewline($this->exporter->export(ExampleStringBackedEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleStringBackedEnum::Value))
         );
     }
 
@@ -408,7 +401,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
-            $this->trimNewline($this->exporter->export(ExampleIntegerBackedEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleIntegerBackedEnum::Value))
         );
     }
 
@@ -420,7 +413,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleEnum Enum (Value)',
-            $this->trimNewline($this->exporter->shortenedExport(ExampleEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleEnum::Value))
         );
     }
 
@@ -432,7 +425,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')',
-            $this->trimNewline($this->exporter->shortenedExport(ExampleStringBackedEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleStringBackedEnum::Value))
         );
     }
 
@@ -444,7 +437,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)',
-            $this->trimNewline($this->exporter->shortenedExport(ExampleIntegerBackedEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleIntegerBackedEnum::Value))
         );
     }
 
@@ -464,13 +457,13 @@ EOF;
     {
         $this->assertMatchesRegularExpression(
             "~'.{{$expectedLength}}'\$~s",
-            $this->exporter->export($value)
+            (new Exporter)->export($value)
         );
     }
 
     public function testNonObjectCanBeReturnedAsArray(): void
     {
-        $this->assertEquals([true], $this->exporter->toArray(true));
+        $this->assertEquals([true], (new Exporter)->toArray(true));
     }
 
     public function testIgnoreKeysInValue(): void
@@ -479,7 +472,7 @@ EOF;
         $array             = [];
         $array["\0gcdata"] = '';
 
-        $this->assertEquals([], $this->exporter->toArray((object) $array));
+        $this->assertEquals([], (new Exporter)->toArray((object) $array));
     }
 
     /**
@@ -487,7 +480,7 @@ EOF;
      */
     public function testShortenedRecursiveExport(array $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->exporter->shortenedRecursiveExport($value));
+        $this->assertEquals($expected, (new Exporter)->shortenedRecursiveExport($value));
     }
 
     public function shortenedRecursiveExportProvider(): array
@@ -517,7 +510,7 @@ EOF;
 
         $value = [$recursiveValue];
 
-        $this->assertEquals('*RECURSION*', $this->exporter->shortenedRecursiveExport($value, $context));
+        $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
     }
 
     private function trimNewline(string $string): string
