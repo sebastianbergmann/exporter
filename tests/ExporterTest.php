@@ -395,9 +395,6 @@ EOF;
         mb_language($oldMbLanguage);
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testEnumExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
@@ -407,9 +404,6 @@ EOF;
         );
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testStringBackedEnumExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
@@ -419,9 +413,6 @@ EOF;
         );
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testIntegerBackedEnumExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
@@ -431,9 +422,6 @@ EOF;
         );
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testEnumShortenedExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
@@ -443,9 +431,6 @@ EOF;
         );
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testStringBackedEnumShortenedExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
@@ -455,9 +440,6 @@ EOF;
         );
     }
 
-    /**
-     * @requires PHP 8.1
-     */
     public function testIntegerBackedEnumShortenedExport(): void
     {
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
