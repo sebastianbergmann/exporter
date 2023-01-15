@@ -510,7 +510,7 @@ EOF;
     public function testShortenedRecursiveOccurredRecursion(): void
     {
         $recursiveValue = [1];
-        $context        = new Context();
+        $context        = new Context;
 
         /* @noinspection UnusedFunctionResultInspection */
         $context->add($recursiveValue);

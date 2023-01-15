@@ -11,7 +11,6 @@ namespace SebastianBergmann\Exporter;
 
 use function bin2hex;
 use function count;
-use function get_class;
 use function get_resource_type;
 use function gettype;
 use function implode;
@@ -69,7 +68,7 @@ final class Exporter
     public function shortenedRecursiveExport(array &$data, Context $context = null): string
     {
         $result   = [];
-        $exporter = new self();
+        $exporter = new self;
 
         if (!$context) {
             $context = new Context;
@@ -122,7 +121,7 @@ final class Exporter
         if ($value instanceof BackedEnum) {
             return sprintf(
                 '%s Enum (%s, %s)',
-                get_class($value),
+                $value::class,
                 $value->name,
                 $this->export($value->value)
             );
@@ -131,7 +130,7 @@ final class Exporter
         if ($value instanceof UnitEnum) {
             return sprintf(
                 '%s Enum (%s)',
-                get_class($value),
+                $value::class,
                 $value->name
             );
         }
@@ -139,7 +138,7 @@ final class Exporter
         if (is_object($value)) {
             return sprintf(
                 '%s Object (%s)',
-                get_class($value),
+                $value::class,
                 count($this->toArray($value)) > 0 ? '...' : ''
             );
         }
@@ -255,7 +254,7 @@ final class Exporter
         if ($value instanceof BackedEnum) {
             return sprintf(
                 '%s Enum #%d (%s, %s)',
-                get_class($value),
+                $value::class,
                 spl_object_id($value),
                 $value->name,
                 $this->export($value->value, $indentation)
@@ -265,7 +264,7 @@ final class Exporter
         if ($value instanceof UnitEnum) {
             return sprintf(
                 '%s Enum #%d (%s)',
-                get_class($value),
+                $value::class,
                 spl_object_id($value),
                 $value->name
             );
@@ -322,7 +321,7 @@ final class Exporter
         }
 
         if (is_object($value)) {
-            $class = get_class($value);
+            $class = $value::class;
 
             if ($processed->contains($value)) {
                 return sprintf('%s Object #%d', $class, spl_object_id($value));
