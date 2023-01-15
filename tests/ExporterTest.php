@@ -32,7 +32,7 @@ use stdClass;
  */
 final class ExporterTest extends TestCase
 {
-    public function exportProvider(): array
+    public static function exportProvider(): array
     {
         $obj2      = new stdClass;
         $obj2->foo = 'bar';
@@ -214,6 +214,59 @@ EOF
         ];
     }
 
+    public static function shortenedExportProvider(): array
+    {
+        $obj      = new stdClass;
+        $obj->foo = 'bar';
+
+        $array = [
+            'foo' => 'bar',
+        ];
+
+        return [
+            'shortened export null'               => [null, 'null'],
+            'shortened export boolean true'       => [true, 'true'],
+            'shortened export integer 1'          => [1, '1'],
+            'shortened export float 1.0'          => [1.0, '1.0'],
+            'shortened export float 1.2'          => [1.2, '1.2'],
+            'shortened export float 1 / 3'        => [1 / 3, '0.3333333333333333'],
+            'shortened export float 1 - 2 / 3'    => [1 - 2 / 3, '0.33333333333333337'],
+            'shortened export numeric string'     => ['1', "'1'"],
+            // \n\r and \r is converted to \n
+            'shortened export multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
+            'shortened export empty stdClass'     => [new stdClass, 'stdClass Object ()'],
+            'shortened export not empty stdClass' => [$obj, 'stdClass Object (...)'],
+            'shortened export empty array'        => [[], 'Array ()'],
+            'shortened export not empty array'    => [$array, 'Array (...)'],
+        ];
+    }
+
+    public static function provideNonBinaryMultibyteStrings(): array
+    {
+        return [
+            [implode('', array_map('chr', range(0x09, 0x0d))), 9],
+            [implode('', array_map('chr', range(0x20, 0x7f))), 96],
+            [implode('', array_map('chr', range(0x80, 0xff))), 128],
+        ];
+    }
+
+    public static function shortenedRecursiveExportProvider(): array
+    {
+        return [
+            'export null'                   => [[null], 'null'],
+            'export boolean true'           => [[true], 'true'],
+            'export boolean false'          => [[false], 'false'],
+            'export int 1'                  => [[1], '1'],
+            'export float 1.0'              => [[1.0], '1.0'],
+            'export float 1.2'              => [[1.2], '1.2'],
+            'export numeric string'         => [['1'], "'1'"],
+            'export with numeric array key' => [[2 => 1], '1'],
+            'export with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
+            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
+            'export object'                 => [[new stdClass], 'stdClass Object ()'],
+        ];
+    }
+
     /**
      * @dataProvider exportProvider
      */
@@ -303,33 +356,6 @@ EOF;
             $expected,
             $this->trimNewline((new Exporter)->export($array))
         );
-    }
-
-    public function shortenedExportProvider(): array
-    {
-        $obj      = new stdClass;
-        $obj->foo = 'bar';
-
-        $array = [
-            'foo' => 'bar',
-        ];
-
-        return [
-            'shortened export null'               => [null, 'null'],
-            'shortened export boolean true'       => [true, 'true'],
-            'shortened export integer 1'          => [1, '1'],
-            'shortened export float 1.0'          => [1.0, '1.0'],
-            'shortened export float 1.2'          => [1.2, '1.2'],
-            'shortened export float 1 / 3'        => [1 / 3, '0.3333333333333333'],
-            'shortened export float 1 - 2 / 3'    => [1 - 2 / 3, '0.33333333333333337'],
-            'shortened export numeric string'     => ['1', "'1'"],
-            // \n\r and \r is converted to \n
-            'shortened export multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
-            'shortened export empty stdClass'     => [new stdClass, 'stdClass Object ()'],
-            'shortened export not empty stdClass' => [$obj, 'stdClass Object (...)'],
-            'shortened export empty array'        => [[], 'Array ()'],
-            'shortened export not empty array'    => [$array, 'Array (...)'],
-        ];
     }
 
     /**
@@ -441,15 +467,6 @@ EOF;
         );
     }
 
-    public function provideNonBinaryMultibyteStrings(): array
-    {
-        return [
-            [implode('', array_map('chr', range(0x09, 0x0d))), 9],
-            [implode('', array_map('chr', range(0x20, 0x7f))), 96],
-            [implode('', array_map('chr', range(0x80, 0xff))), 128],
-        ];
-    }
-
     /**
      * @dataProvider provideNonBinaryMultibyteStrings
      */
@@ -481,23 +498,6 @@ EOF;
     public function testShortenedRecursiveExport(array $value, string $expected): void
     {
         $this->assertEquals($expected, (new Exporter)->shortenedRecursiveExport($value));
-    }
-
-    public function shortenedRecursiveExportProvider(): array
-    {
-        return [
-            'export null'                   => [[null], 'null'],
-            'export boolean true'           => [[true], 'true'],
-            'export boolean false'          => [[false], 'false'],
-            'export int 1'                  => [[1], '1'],
-            'export float 1.0'              => [[1.0], '1.0'],
-            'export float 1.2'              => [[1.2], '1.2'],
-            'export numeric string'         => [['1'], "'1'"],
-            'export with numeric array key' => [[2 => 1], '1'],
-            'export with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
-            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
-            'export object'                 => [[new stdClass], 'stdClass Object ()'],
-        ];
     }
 
     public function testShortenedRecursiveOccurredRecursion(): void
