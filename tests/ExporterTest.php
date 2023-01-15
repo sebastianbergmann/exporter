@@ -22,14 +22,15 @@ use function preg_replace;
 use function range;
 use Error;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use stdClass;
 
-/**
- * @covers \SebastianBergmann\Exporter\Exporter
- */
+#[CoversClass(Exporter::class)]
 final class ExporterTest extends TestCase
 {
     public static function exportProvider(): array
@@ -267,9 +268,7 @@ EOF
         ];
     }
 
-    /**
-     * @dataProvider exportProvider
-     */
+    #[DataProvider('exportProvider')]
     public function testExport($value, $expected): void
     {
         $this->assertStringMatchesFormat(
@@ -358,9 +357,7 @@ EOF;
         );
     }
 
-    /**
-     * @dataProvider shortenedExportProvider
-     */
+    #[DataProvider('shortenedExportProvider')]
     public function testShortenedExport($value, $expected): void
     {
         $this->assertSame(
@@ -369,9 +366,7 @@ EOF;
         );
     }
 
-    /**
-     * @requires extension mbstring
-     */
+    #[RequiresPhpExtension('mbstring')]
     public function testShortenedExportForMultibyteCharacters(): void
     {
         $oldMbLanguage = mb_language();
@@ -449,9 +444,7 @@ EOF;
         );
     }
 
-    /**
-     * @dataProvider provideNonBinaryMultibyteStrings
-     */
+    #[DataProvider('provideNonBinaryMultibyteStrings')]
     public function testNonBinaryStringExport($value, $expectedLength): void
     {
         $this->assertMatchesRegularExpression(
@@ -474,9 +467,7 @@ EOF;
         $this->assertEquals([], (new Exporter)->toArray((object) $array));
     }
 
-    /**
-     * @dataProvider shortenedRecursiveExportProvider
-     */
+    #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected): void
     {
         $this->assertEquals($expected, (new Exporter)->shortenedRecursiveExport($value));
