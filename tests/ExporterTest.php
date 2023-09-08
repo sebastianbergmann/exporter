@@ -25,12 +25,14 @@ use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use stdClass;
 
 #[CoversClass(Exporter::class)]
+#[Small]
 final class ExporterTest extends TestCase
 {
     public static function exportProvider(): array
