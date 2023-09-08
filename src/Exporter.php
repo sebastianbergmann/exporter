@@ -34,17 +34,6 @@ use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use UnitEnum;
 
-/**
- * A nifty utility for visualizing PHP variables.
- *
- * <code>
- * <?php
- * use SebastianBergmann\Exporter\Exporter;
- *
- * $exporter = new Exporter;
- * print $exporter->export(new Exception);
- * </code>
- */
 final class Exporter
 {
     /**
@@ -204,9 +193,6 @@ final class Exporter
         return $array;
     }
 
-    /**
-     * Recursive implementation of export.
-     */
     private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
     {
         if ($value === null) {
