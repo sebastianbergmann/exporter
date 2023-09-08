@@ -41,9 +41,9 @@ final class ExporterTest extends TestCase
         $obj3 = (object) [1, 2, "Test\r\n", 4, 5, 6, 7, 8];
 
         $obj = new stdClass;
-        //@codingStandardsIgnoreStart
+        // @codingStandardsIgnoreStart
         $obj->null = null;
-        //@codingStandardsIgnoreEnd
+        // @codingStandardsIgnoreEnd
         $obj->boolean     = true;
         $obj->integer     = 1;
         $obj->double      = 1.2;
@@ -175,7 +175,7 @@ EOF
                 'Binary String: 0x000102030405',
             ],
             [
-                implode('', array_map('chr', range(0x0e, 0x1f))),
+                implode('', array_map('chr', range(0x0E, 0x1F))),
                 'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f',
             ],
             [
@@ -245,9 +245,9 @@ EOF
     public static function provideNonBinaryMultibyteStrings(): array
     {
         return [
-            [implode('', array_map('chr', range(0x09, 0x0d))), 9],
-            [implode('', array_map('chr', range(0x20, 0x7f))), 96],
-            [implode('', array_map('chr', range(0x80, 0xff))), 128],
+            [implode('', array_map('chr', range(0x09, 0x0D))), 9],
+            [implode('', array_map('chr', range(0x20, 0x7F))), 96],
+            [implode('', array_map('chr', range(0x80, 0xFF))), 128],
         ];
     }
 
@@ -273,7 +273,7 @@ EOF
     {
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline((new Exporter)->export($value))
+            $this->trimNewline((new Exporter)->export($value)),
         );
     }
 
@@ -353,7 +353,7 @@ EOF;
 
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline((new Exporter)->export($array))
+            $this->trimNewline((new Exporter)->export($array)),
         );
     }
 
@@ -362,7 +362,7 @@ EOF;
     {
         $this->assertSame(
             $expected,
-            $this->trimNewline((new Exporter)->shortenedExport($value))
+            $this->trimNewline((new Exporter)->shortenedExport($value)),
         );
     }
 
@@ -377,7 +377,7 @@ EOF;
         try {
             $this->assertSame(
                 "'いろはにほへとちりぬるをわかよたれそつねならむうゐのおくや...しゑひもせす'",
-                $this->trimNewline((new Exporter)->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす'))
+                $this->trimNewline((new Exporter)->shortenedExport('いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす')),
             );
         } catch (Exception $e) {
             mb_internal_encoding($oldMbInternalEncoding);
@@ -395,7 +395,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
-            $this->trimNewline((new Exporter)->export(ExampleEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleEnum::Value)),
         );
     }
 
@@ -404,7 +404,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
-            $this->trimNewline((new Exporter)->export(ExampleStringBackedEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleStringBackedEnum::Value)),
         );
     }
 
@@ -413,7 +413,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
-            $this->trimNewline((new Exporter)->export(ExampleIntegerBackedEnum::Value))
+            $this->trimNewline((new Exporter)->export(ExampleIntegerBackedEnum::Value)),
         );
     }
 
@@ -422,7 +422,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleEnum Enum (Value)',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleEnum::Value)),
         );
     }
 
@@ -431,7 +431,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleStringBackedEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleStringBackedEnum::Value)),
         );
     }
 
@@ -440,7 +440,7 @@ EOF;
         // FIXME: Merge test into testExport once we drop support for PHP 8.0
         $this->assertStringMatchesFormat(
             'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleIntegerBackedEnum::Value))
+            $this->trimNewline((new Exporter)->shortenedExport(ExampleIntegerBackedEnum::Value)),
         );
     }
 
@@ -449,7 +449,7 @@ EOF;
     {
         $this->assertMatchesRegularExpression(
             "~'.{{$expectedLength}}'\$~s",
-            (new Exporter)->export($value)
+            (new Exporter)->export($value),
         );
     }
 
