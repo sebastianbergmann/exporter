@@ -188,6 +188,8 @@ final class Exporter
                     'inf' => $value->getInfo(),
                 ];
             }
+
+            $value->rewind();
         }
 
         return $array;
