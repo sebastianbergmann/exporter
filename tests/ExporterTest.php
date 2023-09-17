@@ -82,18 +82,18 @@ final class ExporterTest extends TestCase
             'export numeric string'         => ['1', "'1'"],
             'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]],
                 <<<'EOF'
-Array &0 (
-    0 => Array &1 (
-        0 => 1
-        1 => 2
-        2 => 3
-    )
-    1 => Array &2 (
-        0 => 3
-        1 => 4
-        2 => 5
-    )
-)
+Array &0 [
+    0 => Array &1 [
+        0 => 1,
+        1 => 2,
+        2 => 3,
+    ],
+    1 => Array &2 [
+        0 => 3,
+        1 => 4,
+        2 => 5,
+    ],
+]
 EOF
             ],
             // \n\r and \r is converted to \n
@@ -116,11 +116,11 @@ EOF
             'export non empty stdclass' => [$obj,
                 <<<'EOF'
 stdClass Object #%d (
-    'null' => null
-    'boolean' => true
-    'integer' => 1
-    'double' => 1.2
-    'string' => '1'
+    'null' => null,
+    'boolean' => true,
+    'integer' => 1,
+    'double' => 1.2,
+    'string' => '1',
     'text' => 'this\n
 is\n
 a\n
@@ -131,44 +131,44 @@ very\n
 very\n
 very\r
 long\n\r
-text'
+text',
     'object' => stdClass Object #%d (
-        'foo' => 'bar'
-    )
-    'objectagain' => stdClass Object #%d
-    'array' => Array &%d (
-        'foo' => 'bar'
-    )
-    'self' => stdClass Object #%d
+        'foo' => 'bar',
+    ),
+    'objectagain' => stdClass Object #%d,
+    'array' => Array &%d [
+        'foo' => 'bar',
+    ],
+    'self' => stdClass Object #%d,
 )
 EOF
             ],
-            'export empty array'      => [[], 'Array &%d ()'],
+            'export empty array'      => [[], 'Array &%d []'],
             'export splObjectStorage' => [$storage,
                 <<<'EOF'
 SplObjectStorage Object #%d (
     'foo' => stdClass Object #%d (
-        'foo' => 'bar'
-    )
-    'Object #%d' => Array &0 (
-        'obj' => stdClass Object #%d
-        'inf' => null
-    )
+        'foo' => 'bar',
+    ),
+    'Object #%d' => Array &0 [
+        'obj' => stdClass Object #%d,
+        'inf' => null,
+    ],
 )
 EOF
             ],
             'export stdClass with numeric properties' => [$obj3,
                 <<<'EOF'
 stdClass Object #%d (
-    0 => 1
-    1 => 2
+    0 => 1,
+    1 => 2,
     2 => 'Test\r\n
-'
-    3 => 4
-    4 => 5
-    5 => 6
-    6 => 7
-    7 => 8
+',
+    3 => 4,
+    4 => 5,
+    5 => 6,
+    6 => 7,
+    7 => 8,
 )
 EOF
             ],
@@ -192,12 +192,12 @@ EOF
                 new Exception('The exception message', 42),
                 <<<'EOF'
 Exception Object #%d (
-    'message' => 'The exception message'
-    'string' => ''
-    'code' => 42
-    'file' => '%s/tests/ExporterTest.php'
-    'line' => %d
-    'previous' => null
+    'message' => 'The exception message',
+    'string' => '',
+    'code' => 42,
+    'file' => '%s/tests/ExporterTest.php',
+    'line' => %d,
+    'previous' => null,
 )
 EOF
             ],
@@ -205,12 +205,12 @@ EOF
                 new Error('The exception message', 42),
                 <<<'EOF'
 Error Object #%d (
-    'message' => 'The exception message'
-    'string' => ''
-    'code' => 42
-    'file' => '%s/tests/ExporterTest.php'
-    'line' => %d
-    'previous' => null
+    'message' => 'The exception message',
+    'string' => '',
+    'code' => 42,
+    'file' => '%s/tests/ExporterTest.php',
+    'line' => %d,
+    'previous' => null,
 )
 EOF
             ],
@@ -239,8 +239,8 @@ EOF
             'shortened export multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
             'shortened export empty stdClass'     => [new stdClass, 'stdClass Object ()'],
             'shortened export not empty stdClass' => [$obj, 'stdClass Object (...)'],
-            'shortened export empty array'        => [[], 'Array ()'],
-            'shortened export not empty array'    => [$array, 'Array (...)'],
+            'shortened export empty array'        => [[], '[]'],
+            'shortened export not empty array'    => [$array, '[...]'],
         ];
     }
 
@@ -265,7 +265,7 @@ EOF
             'export numeric string'         => [['1'], "'1'"],
             'export with numeric array key' => [[2 => 1], '1'],
             'export with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
-            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]], 'array(1, 2, 3), array(3, 4, 5)'],
+            'export multidimensional array' => [[[1, 2, 3], [3, 4, 5]], '[1, 2, 3], [3, 4, 5]'],
             'export object'                 => [[new stdClass], 'stdClass Object ()'],
         ];
     }
@@ -300,13 +300,13 @@ EOF
         $array['self'] = &$array;
 
         $expected = <<<'EOF'
-Array &%d (
-    0 => 0
-    'null' => null
-    'boolean' => true
-    'integer' => 1
-    'double' => 1.2
-    'string' => '1'
+Array &%d [
+    0 => 0,
+    'null' => null,
+    'boolean' => true,
+    'integer' => 1,
+    'double' => 1.2,
+    'string' => '1',
     'text' => 'this\n
 is\n
 a\n
@@ -317,21 +317,21 @@ very\n
 very\n
 very\r
 long\n\r
-text'
+text',
     'object' => stdClass Object #%d (
-        'foo' => 'bar'
-    )
-    'objectagain' => stdClass Object #%d
-    'array' => Array &%d (
-        'foo' => 'bar'
-    )
-    'self' => Array &%d (
-        0 => 0
-        'null' => null
-        'boolean' => true
-        'integer' => 1
-        'double' => 1.2
-        'string' => '1'
+        'foo' => 'bar',
+    ),
+    'objectagain' => stdClass Object #%d,
+    'array' => Array &%d [
+        'foo' => 'bar',
+    ],
+    'self' => Array &%d [
+        0 => 0,
+        'null' => null,
+        'boolean' => true,
+        'integer' => 1,
+        'double' => 1.2,
+        'string' => '1',
         'text' => 'this\n
 is\n
 a\n
@@ -342,15 +342,15 @@ very\n
 very\n
 very\r
 long\n\r
-text'
-        'object' => stdClass Object #%d
-        'objectagain' => stdClass Object #%d
-        'array' => Array &%d (
-            'foo' => 'bar'
-        )
-        'self' => Array &%d
-    )
-)
+text',
+        'object' => stdClass Object #%d,
+        'objectagain' => stdClass Object #%d,
+        'array' => Array &%d [
+            'foo' => 'bar',
+        ],
+        'self' => Array &%d,
+    ],
+]
 EOF;
 
         $this->assertStringMatchesFormat(
