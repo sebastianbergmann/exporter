@@ -73,10 +73,7 @@ final class Exporter
                 if ($context->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = sprintf(
-                        'array(%s)',
-                        $this->shortenedRecursiveExport($data[$key], $context),
-                    );
+                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $context));
                 }
             } else {
                 $result[] = $exporter->shortenedExport($value);
@@ -134,7 +131,7 @@ final class Exporter
 
         if (is_array($value)) {
             return sprintf(
-                'Array (%s)',
+                '[%s]',
                 count($value) > 0 ? '...' : '',
             );
         }
@@ -295,7 +292,7 @@ final class Exporter
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
                     $values .= sprintf(
-                        '%s    %s => %s' . "\n",
+                        '%s    %s => %s,' . "\n",
                         $whitespace,
                         $this->recursiveExport($k, $indentation),
                         $this->recursiveExport($value[$k], $indentation + 1, $processed),
@@ -305,7 +302,7 @@ final class Exporter
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('Array &%s (%s)', $key, $values);
+            return sprintf('Array &%s [%s]', $key, $values);
         }
 
         if (is_object($value)) {
@@ -322,7 +319,7 @@ final class Exporter
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
                     $values .= sprintf(
-                        '%s    %s => %s' . "\n",
+                        '%s    %s => %s' . ",\n",
                         $whitespace,
                         $this->recursiveExport($k, $indentation),
                         $this->recursiveExport($v, $indentation + 1, $processed),
