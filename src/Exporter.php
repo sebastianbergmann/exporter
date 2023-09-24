@@ -160,9 +160,9 @@ final class Exporter
             }
 
             // properties are transformed to keys in the following way:
-            // private   $property => "\0Classname\0property"
-            // protected $property => "\0*\0property"
-            // public    $property => "property"
+            // private   $propertyName => "\0ClassName\0propertyName"
+            // protected $propertyName => "\0*\0propertyName"
+            // public    $propertyName => "propertyName"
             if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
                 $key = $matches[1];
             }
@@ -175,7 +175,7 @@ final class Exporter
             $array[$key] = $val;
         }
 
-        // Some internal classes like SplObjectStorage don't work with the
+        // Some internal classes like SplObjectStorage do not work with the
         // above (fast) mechanism nor with reflection in Zend.
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
