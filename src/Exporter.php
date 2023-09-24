@@ -291,25 +291,26 @@ final class Exporter
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s,' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed),
-                    );
+                    $values .=
+                        $whitespace
+                        . '    ' .
+                        $this->recursiveExport($k, $indentation)
+                        . ' => ' .
+                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                        . ",\n";
                 }
 
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('Array &%s [%s]', $key, $values);
+            return 'Array &' . (string) $key . ' [' . $values . ']';
         }
 
         if (is_object($value)) {
             $class = $value::class;
 
             if ($processed->contains($value)) {
-                return sprintf('%s Object #%d', $class, spl_object_id($value));
+                return $class . ' Object #' . spl_object_id($value);
             }
 
             $processed->add($value);
@@ -318,18 +319,19 @@ final class Exporter
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . ",\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($v, $indentation + 1, $processed),
-                    );
+                    $values .=
+                        $whitespace
+                        . '    ' .
+                        $this->recursiveExport($k, $indentation)
+                        . ' => ' .
+                        $this->recursiveExport($v, $indentation + 1, $processed)
+                        . ",\n";
                 }
 
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('%s Object #%d (%s)', $class, spl_object_id($value), $values);
+            return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
         }
 
         return var_export($value, true);
