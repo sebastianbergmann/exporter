@@ -32,6 +32,7 @@ use SplObjectStorage;
 use stdClass;
 
 #[CoversClass(Exporter::class)]
+#[CoversClass(AbstractExporterBase::class)]
 #[Small]
 final class ExporterTest extends TestCase
 {
