@@ -192,6 +192,33 @@ final class Exporter
         return $array;
     }
 
+    /**
+     * Exports nested array items (the "interior" of array or an object
+     * converted to array).
+     */
+    public function exportNestedItems(array $array, int $indentation, Context $processed): string
+    {
+        $items = '';
+
+        if (count($array) > 0) {
+            $whitespace = str_repeat(' ', 4 * $indentation);
+
+            foreach ($array as $k => &$v) {
+                $items .=
+                    $whitespace
+                    . '    ' .
+                    $this->recursiveExport($k, $indentation)
+                    . ' => ' .
+                    $this->recursiveExport($v, $indentation + 1, $processed)
+                    . ",\n";
+            }
+
+            $items = "\n" . $items . $whitespace;
+        }
+
+        return $items;
+    }
+
     private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
     {
         if ($value === null) {
@@ -274,8 +301,6 @@ final class Exporter
             "'";
         }
 
-        $whitespace = str_repeat(' ', 4 * $indentation);
-
         if (!$processed) {
             $processed = new Context;
         }
@@ -285,25 +310,11 @@ final class Exporter
                 return 'Array &' . $key;
             }
 
-            $array  = $value;
-            $key    = $processed->add($value);
-            $values = '';
+            $array = $value;
+            $key   = $processed->add($value);
+            $items = $this->exportNestedItems($array, $indentation, $processed);
 
-            if (count($array) > 0) {
-                foreach ($array as $k => $v) {
-                    $values .=
-                        $whitespace
-                        . '    ' .
-                        $this->recursiveExport($k, $indentation)
-                        . ' => ' .
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
-                        . ",\n";
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return 'Array &' . (string) $key . ' [' . $values . ']';
+            return 'Array &' . (string) $key . ' [' . $items . ']';
         }
 
         if (is_object($value)) {
@@ -314,24 +325,10 @@ final class Exporter
             }
 
             $processed->add($value);
-            $values = '';
-            $array  = $this->toArray($value);
+            $array = $this->toArray($value);
+            $items = $this->exportNestedItems($array, $indentation, $processed);
 
-            if (count($array) > 0) {
-                foreach ($array as $k => $v) {
-                    $values .=
-                        $whitespace
-                        . '    ' .
-                        $this->recursiveExport($k, $indentation)
-                        . ' => ' .
-                        $this->recursiveExport($v, $indentation + 1, $processed)
-                        . ",\n";
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
+            return $class . ' Object #' . spl_object_id($value) . ' (' . $items . ')';
         }
 
         return var_export($value, true);

@@ -270,6 +270,45 @@ EOF
         ];
     }
 
+    public static function exportNestedItemsProvider(): array
+    {
+        return [
+            'export empty array'                      => [[], 0, ''],
+            'export empty array non-zero indentation' => [[], 3, ''],
+            'export multidimensional array'           => [[[1, 2, 3], [3, 4, 5]], 0,
+                <<<'EOF'
+
+    0 => Array &0 [
+        0 => 1,
+        1 => 2,
+        2 => 3,
+    ],
+    1 => Array &1 [
+        0 => 3,
+        1 => 4,
+        2 => 5,
+    ],
+EOF
+            ],
+
+            'export multidimensional array non-zero indentation' => [[[1, 2, 3], [3, 4, 5]], 2,
+                <<<'EOF'
+
+            0 => Array &0 [
+                0 => 1,
+                1 => 2,
+                2 => 3,
+            ],
+            1 => Array &1 [
+                0 => 3,
+                1 => 4,
+                2 => 5,
+            ],
+EOF . "\n        ",
+            ],
+        ];
+    }
+
     #[DataProvider('exportProvider')]
     public function testExport($value, $expected): void
     {
@@ -486,6 +525,17 @@ EOF;
         $value = [$recursiveValue];
 
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
+    }
+
+    #[DataProvider('exportNestedItemsProvider')]
+    public function testExportNestedItems(array $array, int $indentation, $expected): void
+    {
+        $context = new Context;
+
+        $this->assertStringMatchesFormat(
+            $expected,
+            $this->trimNewline((new Exporter)->exportNestedItems($array, $indentation, $context)),
+        );
     }
 
     private function trimNewline(string $string): string
