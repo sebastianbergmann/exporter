@@ -20,6 +20,7 @@ use function mb_internal_encoding;
 use function mb_language;
 use function preg_replace;
 use function range;
+use function spl_object_id;
 use Error;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -536,6 +537,58 @@ EOF;
             $expected,
             $this->trimNewline((new Exporter)->exportNestedItems($array, $indentation, $context)),
         );
+    }
+
+    public function testWithSelfExportable(): void
+    {
+        $object = new class implements SelfExportableInterface
+        {
+            public function __construct(public string $string = 'foo', public array $array = ['zero'])
+            {
+                $this->array['self'] = $this;
+                $this->array[]       = 'one';
+            }
+
+            public function exportSelf(ExporterInterface $exporter, int $indentation, Context $context): string
+            {
+                if ($context->contains($this) !== false) {
+                    return 'SelfExportable #' . spl_object_id($this);
+                }
+
+                $context->add($this);
+                $array = $exporter->toArray($this);
+                $items = $exporter->exportNestedItems($array, $indentation, $context);
+
+                return 'SelfExportable #' . spl_object_id($this) . ' (' . $items . ')';
+            }
+
+            public function shortenedExportSelf(ExporterInterface $exporter, Context $context): string
+            {
+                if ($context->contains($this) !== false) {
+                    return '*RECURSION*';
+                }
+                $context->add($this);
+                $array = $exporter->toArray($this);
+
+                return 'SelfExportable(' . $exporter->shortenedRecursiveExport($array, $context) . ')';
+            }
+        };
+
+        $exporter = new Exporter;
+
+        $id       = spl_object_id($object);
+        $expected = <<<'EOF'
+SelfExportable #%d (
+    'string' => 'foo',
+    'array' => Array &%d [
+        0 => 'zero',
+        'self' => SelfExportable #%d,
+        1 => 'one',
+    ],
+)
+EOF;
+        $this->assertStringMatchesFormat($expected, $exporter->export($object));
+        $this->assertSame("SelfExportable('foo', ['zero', *RECURSION*, 'one'])", $exporter->shortenedExport($object));
     }
 
     private function trimNewline(string $string): string

@@ -68,13 +68,16 @@ final class Exporter implements ExporterInterface
         /* @noinspection UnusedFunctionResultInspection */
         $context->add($data);
 
-        foreach ($array as $key => $value) {
+        /** @psalm-var mixed $value */
+        foreach ($array as $key => &$value) {
             if (is_array($value)) {
-                if ($context->contains($data[$key]) !== false) {
+                if ($context->contains($value) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $context));
+                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($value, $context));
                 }
+            } elseif ($value instanceof SelfExportableInterface) {
+                $result[] = $value->shortenedExportSelf($exporter, $context);
             } else {
                 $result[] = $exporter->shortenedExport($value);
             }
@@ -121,6 +124,10 @@ final class Exporter implements ExporterInterface
             );
         }
 
+        if ($value instanceof SelfExportableInterface) {
+            return $value->shortenedExportSelf($this, new Context);
+        }
+
         if (is_object($value)) {
             return sprintf(
                 '%s Object (%s)',
@@ -151,6 +158,7 @@ final class Exporter implements ExporterInterface
 
         $array = [];
 
+        /** @psalm-var mixed $val */
         foreach ((array) $value as $key => $val) {
             // Exception traces commonly reference hundreds to thousands of
             // objects currently loaded in memory. Including them in the result
@@ -172,6 +180,7 @@ final class Exporter implements ExporterInterface
                 continue;
             }
 
+            /** @psalm-var mixed */
             $array[$key] = $val;
         }
 
@@ -203,6 +212,7 @@ final class Exporter implements ExporterInterface
         if (count($array) > 0) {
             $whitespace = str_repeat(' ', 4 * $indentation);
 
+            /** @psalm-var mixed $v */
             foreach ($array as $k => &$v) {
                 $items .=
                     $whitespace
@@ -315,6 +325,10 @@ final class Exporter implements ExporterInterface
             $items = $this->exportNestedItems($array, $indentation, $processed);
 
             return 'Array &' . (string) $key . ' [' . $items . ']';
+        }
+
+        if ($value instanceof SelfExportableInterface) {
+            return $value->exportSelf($this, $indentation, $processed);
         }
 
         if (is_object($value)) {
