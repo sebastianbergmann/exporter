@@ -100,7 +100,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
-[6.0.0]: https://github.com/sebastianbergmann/exporter/compare/5.1...main
+[6.0.0]: https://github.com/sebastianbergmann/exporter/compare/5.1...6.0.0
 [5.1.1]: https://github.com/sebastianbergmann/exporter/compare/5.1.0...5.1.1
 [5.1.0]: https://github.com/sebastianbergmann/exporter/compare/5.0.1...5.1.0
 [5.0.1]: https://github.com/sebastianbergmann/exporter/compare/5.0.0...5.0.1
