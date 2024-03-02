@@ -54,7 +54,7 @@ final class Exporter
         return $this->recursiveExport($value, $indentation);
     }
 
-    public function shortenedRecursiveExport(array &$data, Context $context = null): string
+    public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
     {
         $result   = [];
         $exporter = new self;
