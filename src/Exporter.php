@@ -77,7 +77,7 @@ class Exporter
      *
      * @return string
      */
-    public function shortenedRecursiveExport(&$data, Context $context = null)
+    public function shortenedRecursiveExport(&$data, ?Context $context = null)
     {
         $result   = [];
         $exporter = new self();
