@@ -36,6 +36,8 @@ use UnitEnum;
 
 final class Exporter
 {
+    private ?int $maxLevel;
+
     /**
      * Exports a value as a string.
      *
@@ -49,9 +51,11 @@ final class Exporter
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      */
-    public function export(mixed $value, int $indentation = 0): string
+    public function export(mixed $value, int $indentation = 0, ?int $maxLevel = null): string
     {
-        return $this->recursiveExport($value, $indentation);
+        $this->maxLevel = $maxLevel;
+
+        return $this->recursiveExport($value, $indentation, null, 0);
     }
 
     public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
@@ -192,8 +196,14 @@ final class Exporter
         return $array;
     }
 
-    private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
+    private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null, $level = 0): string
     {
+        if ($this->maxLevel !== null) {
+            if ($level > $this->maxLevel) {
+                return '** Max recursion level reached **';
+            }
+        }
+
         if ($value === null) {
             return 'null';
         }
@@ -296,7 +306,7 @@ final class Exporter
                         . '    ' .
                         $this->recursiveExport($k, $indentation)
                         . ' => ' .
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                        $this->recursiveExport($value[$k], $indentation + 1, $processed, $level + 1)
                         . ",\n";
                 }
 
@@ -324,7 +334,7 @@ final class Exporter
                         . '    ' .
                         $this->recursiveExport($k, $indentation)
                         . ' => ' .
-                        $this->recursiveExport($v, $indentation + 1, $processed)
+                        $this->recursiveExport($v, $indentation + 1, $processed, $level + 1)
                         . ",\n";
                 }
 
