@@ -34,7 +34,7 @@ use SebastianBergmann\RecursionContext\Context as RecursionContext;
 use SplObjectStorage;
 use UnitEnum;
 
-final class Exporter
+final readonly class Exporter
 {
     /**
      * Exports a value as a string.
