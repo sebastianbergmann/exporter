@@ -336,6 +336,7 @@ final class Exporter
         }
 
         $processed->add($value);
+
         $values = '';
         $array  = $this->toArray($value);
 
