@@ -11,10 +11,12 @@ namespace SebastianBergmann\Exporter;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 #[CoversClass(ObjectExporterChain::class)]
+#[UsesClass(Exporter::class)]
 #[Small]
 final class ObjectExporterChainTest extends TestCase
 {
@@ -45,7 +47,7 @@ final class ObjectExporterChainTest extends TestCase
 
         $chain = new ObjectExporterChain([$firstExporter, $secondExporter]);
 
-        $this->assertSame('string', $chain->export(new stdClass));
+        $this->assertSame('string', $chain->export(new stdClass, new Exporter));
     }
 
     public function testCannotExportObjectWhenNoExporterHandlesIt(): void
@@ -57,6 +59,6 @@ final class ObjectExporterChainTest extends TestCase
 
         $this->expectException(ObjectNotSupportedException::class);
 
-        $this->assertSame('string', $chain->export(new stdClass));
+        $this->assertSame('string', $chain->export(new stdClass, new Exporter));
     }
 }

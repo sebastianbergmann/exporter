@@ -348,7 +348,7 @@ final readonly class Exporter
         $processed->add($value);
 
         if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
-            $buffer = $this->objectExporter->export($value);
+            $buffer = $this->objectExporter->export($value, $this);
         } else {
             $buffer = $this->defaultObjectExport($value, $processed, $whitespace, $indentation);
         }
