@@ -207,21 +207,7 @@ final class Exporter
         }
 
         if (is_float($value)) {
-            $precisionBackup = ini_get('precision');
-
-            ini_set('precision', '-1');
-
-            try {
-                $valueStr = (string) $value;
-
-                if ((string) (int) $value === $valueStr) {
-                    return $valueStr . '.0';
-                }
-
-                return $valueStr;
-            } finally {
-                ini_set('precision', $precisionBackup);
-            }
+            return $this->exportFloat($value);
         }
 
         if (gettype($value) === 'resource (closed)') {
@@ -256,12 +242,53 @@ final class Exporter
         }
 
         if (is_string($value)) {
-            // Match for most non-printable chars somewhat taking multibyte chars into account
-            if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
-                return 'Binary String: 0x' . bin2hex($value);
+            return $this->exportString($value);
+        }
+
+        $whitespace = str_repeat(' ', 4 * $indentation);
+
+        if (!$processed) {
+            $processed = new Context;
+        }
+
+        if (is_array($value)) {
+            return $this->exportArray($processed, $value, $whitespace, $indentation);
+        }
+
+        if (is_object($value)) {
+            return $this->exportObject($value, $processed, $whitespace, $indentation);
+        }
+
+        return var_export($value, true);
+    }
+
+    private function exportFloat(float $value): string
+    {
+        $precisionBackup = ini_get('precision');
+
+        ini_set('precision', '-1');
+
+        try {
+            $valueStr = (string) $value;
+
+            if ((string) (int) $value === $valueStr) {
+                return $valueStr . '.0';
             }
 
-            return "'" .
+            return $valueStr;
+        } finally {
+            ini_set('precision', $precisionBackup);
+        }
+    }
+
+    private function exportString(string $value): string
+    {
+        // Match for most non-printable chars somewhat taking multibyte chars into account
+        if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
+            return 'Binary String: 0x' . bin2hex($value);
+        }
+
+        return "'" .
             str_replace(
                 '<lf>',
                 "\n",
@@ -272,68 +299,61 @@ final class Exporter
                 ),
             ) .
             "'";
+    }
+
+    private function exportArray(Context $processed, array &$value, string $whitespace, int $indentation): string
+    {
+        if (($key = $processed->contains($value)) !== false) {
+            return 'Array &' . $key;
         }
 
-        $whitespace = str_repeat(' ', 4 * $indentation);
+        $array  = $value;
+        $key    = $processed->add($value);
+        $values = '';
 
-        if (!$processed) {
-            $processed = new Context;
+        if (count($array) > 0) {
+            foreach ($array as $k => $v) {
+                $values .=
+                    $whitespace
+                    . '    ' .
+                    $this->recursiveExport($k, $indentation)
+                    . ' => ' .
+                    $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                    . ",\n";
+            }
+
+            $values = "\n" . $values . $whitespace;
         }
 
-        if (is_array($value)) {
-            if (($key = $processed->contains($value)) !== false) {
-                return 'Array &' . $key;
-            }
+        return 'Array &' . (string) $key . ' [' . $values . ']';
+    }
 
-            $array  = $value;
-            $key    = $processed->add($value);
-            $values = '';
+    private function exportObject(mixed $value, Context $processed, string $whitespace, int $indentation): string
+    {
+        $class = $value::class;
 
-            if (count($array) > 0) {
-                foreach ($array as $k => $v) {
-                    $values .=
-                        $whitespace
-                        . '    ' .
-                        $this->recursiveExport($k, $indentation)
-                        . ' => ' .
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
-                        . ",\n";
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return 'Array &' . (string) $key . ' [' . $values . ']';
+        if ($processed->contains($value) !== false) {
+            return $class . ' Object #' . spl_object_id($value);
         }
 
-        if (is_object($value)) {
-            $class = $value::class;
+        $processed->add($value);
+        $values = '';
+        $array  = $this->toArray($value);
 
-            if ($processed->contains($value) !== false) {
-                return $class . ' Object #' . spl_object_id($value);
+        if (count($array) > 0) {
+            foreach ($array as $k => $v) {
+                $values .=
+                    $whitespace
+                    . '    ' .
+                    $this->recursiveExport($k, $indentation)
+                    . ' => ' .
+                    $this->recursiveExport($v, $indentation + 1, $processed)
+                    . ",\n";
             }
 
-            $processed->add($value);
-            $values = '';
-            $array  = $this->toArray($value);
-
-            if (count($array) > 0) {
-                foreach ($array as $k => $v) {
-                    $values .=
-                        $whitespace
-                        . '    ' .
-                        $this->recursiveExport($k, $indentation)
-                        . ' => ' .
-                        $this->recursiveExport($v, $indentation + 1, $processed)
-                        . ",\n";
-                }
-
-                $values = "\n" . $values . $whitespace;
-            }
-
-            return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
+            $values = "\n" . $values . $whitespace;
         }
 
-        return var_export($value, true);
+        return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
     }
 }
