@@ -6,8 +6,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Removed
 
-* Removed the optional `$indentation` parameter of `Exporter::export()`
-* The `Exporter::toArray()` method is no longer public
+* Remove the optional `$indentation` parameter of `Exporter::export()`
 
 ## [6.0.1] - 2024-03-02
 

@@ -124,7 +124,7 @@ final class Exporter
             return sprintf(
                 '%s Object (%s)',
                 $value::class,
-                count($this->objectToArray($value)) > 0 ? '...' : '',
+                count($this->toArray($value)) > 0 ? '...' : '',
             );
         }
 
@@ -136,6 +136,59 @@ final class Exporter
         }
 
         return $this->export($value);
+    }
+
+    /**
+     * Converts an object to an array containing all of its private, protected
+     * and public properties.
+     */
+    public function toArray(mixed $value): array
+    {
+        if (!is_object($value)) {
+            return (array) $value;
+        }
+
+        $array = [];
+
+        foreach ((array) $value as $key => $val) {
+            // Exception traces commonly reference hundreds to thousands of
+            // objects currently loaded in memory. Including them in the result
+            // has a severe negative performance impact.
+            if ("\0Error\0trace" === $key || "\0Exception\0trace" === $key) {
+                continue;
+            }
+
+            // properties are transformed to keys in the following way:
+            // private   $propertyName => "\0ClassName\0propertyName"
+            // protected $propertyName => "\0*\0propertyName"
+            // public    $propertyName => "propertyName"
+            if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
+                $key = $matches[1];
+            }
+
+            // See https://github.com/php/php-src/commit/5721132
+            if ($key === "\0gcdata") {
+                continue;
+            }
+
+            $array[$key] = $val;
+        }
+
+        // Some internal classes like SplObjectStorage do not work with the
+        // above (fast) mechanism nor with reflection in Zend.
+        // Format the output similarly to print_r() in this case
+        if ($value instanceof SplObjectStorage) {
+            foreach ($value as $_value) {
+                $array['Object #' . spl_object_id($_value)] = [
+                    'obj' => $_value,
+                    'inf' => $value->getInfo(),
+                ];
+            }
+
+            $value->rewind();
+        }
+
+        return $array;
     }
 
     private function recursiveExport(mixed &$value, int $indentation = 0, ?Context $processed = null): string
@@ -285,7 +338,7 @@ final class Exporter
         $processed->add($value);
 
         $values = '';
-        $array  = $this->objectToArray($value);
+        $array  = $this->toArray($value);
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
@@ -302,52 +355,5 @@ final class Exporter
         }
 
         return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
-    }
-
-    private function objectToArray(object $object): array
-    {
-        $array = [];
-
-        foreach ((array) $object as $key => $val) {
-            // Exception traces commonly reference hundreds to thousands of
-            // objects currently loaded in memory. Including them in the result
-            // has a severe negative performance impact.
-            if ("\0Error\0trace" === $key || "\0Exception\0trace" === $key) {
-                continue;
-            }
-
-            // properties are transformed to keys in the following way:
-            // private   $propertyName => "\0ClassName\0propertyName"
-            // protected $propertyName => "\0*\0propertyName"
-            // public    $propertyName => "propertyName"
-            if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
-                $key = $matches[1];
-            }
-
-            // See https://github.com/php/php-src/commit/5721132
-            if ($key === "\0gcdata") {
-                // @codeCoverageIgnoreStart
-                continue;
-                // @codeCoverageIgnoreEnd
-            }
-
-            $array[$key] = $val;
-        }
-
-        // Some internal classes like SplObjectStorage do not work with the
-        // above (fast) mechanism nor with reflection in Zend.
-        // Format the output similarly to print_r() in this case
-        if ($object instanceof SplObjectStorage) {
-            foreach ($object as $_value) {
-                $array['Object #' . spl_object_id($_value)] = [
-                    'obj' => $_value,
-                    'inf' => $object->getInfo(),
-                ];
-            }
-
-            $object->rewind();
-        }
-
-        return $array;
     }
 }
