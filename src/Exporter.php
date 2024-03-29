@@ -251,7 +251,7 @@ final class Exporter
         }
 
         if (is_array($value)) {
-            return $this->exportArray($processed, $value, $whitespace, $indentation);
+            return $this->exportArray($value, $processed, $whitespace, $indentation);
         }
 
         if (is_object($value)) {
@@ -300,7 +300,7 @@ final class Exporter
             "'";
     }
 
-    private function exportArray(Context $processed, array &$value, string $whitespace, int $indentation): string
+    private function exportArray(array &$value, Context $processed, string $whitespace, int $indentation): string
     {
         if (($key = $processed->contains($value)) !== false) {
             return 'Array &' . $key;
