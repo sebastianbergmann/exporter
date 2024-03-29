@@ -56,8 +56,7 @@ final class Exporter
 
     public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
     {
-        $result   = [];
-        $exporter = new self;
+        $result = [];
 
         if (!$context) {
             $context = new Context;
@@ -76,7 +75,7 @@ final class Exporter
                     $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $context));
                 }
             } else {
-                $result[] = $exporter->shortenedExport($value);
+                $result[] = $this->shortenedExport($value);
             }
         }
 
