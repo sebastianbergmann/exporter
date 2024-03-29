@@ -49,9 +49,9 @@ final class Exporter
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      */
-    public function export(mixed $value): string
+    public function export(mixed $value, int $indentation = 0): string
     {
-        return $this->recursiveExport($value);
+        return $this->recursiveExport($value, $indentation);
     }
 
     public function shortenedRecursiveExport(array &$data, ?RecursionContext $processed = null): string
