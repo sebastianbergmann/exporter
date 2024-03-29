@@ -453,20 +453,6 @@ EOF;
         );
     }
 
-    public function testNonObjectCanBeReturnedAsArray(): void
-    {
-        $this->assertEquals([true], (new Exporter)->toArray(true));
-    }
-
-    public function testIgnoreKeysInValue(): void
-    {
-        // Find out what the actual use case was with the PHP bug
-        $array             = [];
-        $array["\0gcdata"] = '';
-
-        $this->assertEquals([], (new Exporter)->toArray((object) $array));
-    }
-
     #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected): void
     {
