@@ -227,7 +227,7 @@ final class Exporter
                 $value::class,
                 spl_object_id($value),
                 $value->name,
-                $this->export($value->value, $indentation),
+                $this->export($value->value),
             );
         }
 
