@@ -309,7 +309,7 @@ final class Exporter
         if (is_object($value)) {
             $class = $value::class;
 
-            if ($processed->contains($value)) {
+            if ($processed->contains($value) !== false) {
                 return $class . ' Object #' . spl_object_id($value);
             }
 
