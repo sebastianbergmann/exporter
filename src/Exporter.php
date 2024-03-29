@@ -30,7 +30,7 @@ use function str_repeat;
 use function str_replace;
 use function var_export;
 use BackedEnum;
-use SebastianBergmann\RecursionContext\Context as RecursionContext;
+use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use UnitEnum;
 
@@ -51,28 +51,28 @@ final class Exporter
      */
     public function export(mixed $value): string
     {
-        return $this->doExport($value, new RecursionContext);
+        return $this->doExport($value, new Context);
     }
 
-    public function shortenedRecursiveExport(array &$data, ?RecursionContext $processed = null): string
+    public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
     {
         $result = [];
 
-        if (!$processed) {
-            $processed = new RecursionContext;
+        if (!$context) {
+            $context = new Context;
         }
 
         $array = $data;
 
         /* @noinspection UnusedFunctionResultInspection */
-        $processed->add($data);
+        $context->add($data);
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                if ($processed->contains($data[$key]) !== false) {
+                if ($context->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $processed));
+                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $context));
                 }
             } else {
                 $result[] = $this->shortenedExport($value);
@@ -138,7 +138,7 @@ final class Exporter
         return $this->export($value);
     }
 
-    private function doExport(mixed &$value, RecursionContext $processed, int $indentation = 0): string
+    private function doExport(mixed &$value, Context $processed, int $indentation = 0): string
     {
         if ($value === null) {
             return 'null';
@@ -243,7 +243,7 @@ final class Exporter
             "'";
     }
 
-    private function exportArray(array &$value, RecursionContext $processed, string $whitespace, int $indentation): string
+    private function exportArray(array &$value, Context $processed, string $whitespace, int $indentation): string
     {
         if (($key = $processed->contains($value)) !== false) {
             return 'Array &' . $key;
@@ -258,7 +258,7 @@ final class Exporter
                 $values .=
                     $whitespace
                     . '    ' .
-                    $this->doExport($k, new RecursionContext, $indentation)
+                    $this->doExport($k, new Context, $indentation)
                     . ' => ' .
                     $this->doExport($value[$k], $processed, $indentation + 1)
                     . ",\n";
@@ -270,7 +270,7 @@ final class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
-    private function exportObject(mixed $value, RecursionContext $processed, string $whitespace, int $indentation): string
+    private function exportObject(mixed $value, Context $processed, string $whitespace, int $indentation): string
     {
         $class = $value::class;
 
@@ -288,7 +288,7 @@ final class Exporter
                 $values .=
                     $whitespace
                     . '    ' .
-                    $this->doExport($k, new RecursionContext, $indentation)
+                    $this->doExport($k, new Context, $indentation)
                     . ' => ' .
                     $this->doExport($v, $processed, $indentation + 1)
                     . ",\n";
