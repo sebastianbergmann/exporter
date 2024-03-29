@@ -51,7 +51,7 @@ final class Exporter
      */
     public function export(mixed $value): string
     {
-        return $this->recursiveExport($value);
+        return $this->doExport($value);
     }
 
     public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
@@ -138,7 +138,7 @@ final class Exporter
         return $this->export($value);
     }
 
-    private function recursiveExport(mixed &$value, int $indentation = 0, ?Context $processed = null): string
+    private function doExport(mixed &$value, int $indentation = 0, ?Context $processed = null): string
     {
         if ($value === null) {
             return 'null';
@@ -262,9 +262,9 @@ final class Exporter
                 $values .=
                     $whitespace
                     . '    ' .
-                    $this->recursiveExport($k, $indentation)
+                    $this->doExport($k, $indentation)
                     . ' => ' .
-                    $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                    $this->doExport($value[$k], $indentation + 1, $processed)
                     . ",\n";
             }
 
@@ -292,9 +292,9 @@ final class Exporter
                 $values .=
                     $whitespace
                     . '    ' .
-                    $this->recursiveExport($k, $indentation)
+                    $this->doExport($k, $indentation)
                     . ' => ' .
-                    $this->recursiveExport($v, $indentation + 1, $processed)
+                    $this->doExport($v, $indentation + 1, $processed)
                     . ",\n";
             }
 
