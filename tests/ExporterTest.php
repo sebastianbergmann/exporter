@@ -457,11 +457,11 @@ EOF;
 
         $exporter = new Exporter(new ObjectExporterChain([$objectExporter]));
 
-        $this->assertSame(
+        $this->assertStringMatchesFormat(
             <<<'EOT'
 Array &0 [
-    0 => custom object export,
-    1 => custom object export,
+    0 => stdClass Object #%d (custom object export),
+    1 => stdClass Object #%d (custom object export),
 ]
 EOT
             ,

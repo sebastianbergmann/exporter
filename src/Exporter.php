@@ -337,7 +337,7 @@ final readonly class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
-    private function exportObject(mixed $value, RecursionContext $processed, string $whitespace, int $indentation): string
+    private function exportObject(object $value, RecursionContext $processed, string $whitespace, int $indentation): string
     {
         $class = $value::class;
 
@@ -348,15 +348,22 @@ final readonly class Exporter
         $processed->add($value);
 
         if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
-            return $this->objectExporter->export($value);
+            $buffer = $this->objectExporter->export($value);
+        } else {
+            $buffer = $this->defaultObjectExport($value, $processed, $whitespace, $indentation);
         }
 
-        $values = '';
-        $array  = $this->toArray($value);
+        return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
+    }
+
+    private function defaultObjectExport(object $object, RecursionContext $processed, string $whitespace, int $indentation): string
+    {
+        $buffer = '';
+        $array  = $this->toArray($object);
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
-                $values .=
+                $buffer .=
                     $whitespace
                     . '    ' .
                     $this->recursiveExport($k, $indentation)
@@ -365,9 +372,9 @@ final readonly class Exporter
                     . ",\n";
             }
 
-            $values = "\n" . $values . $whitespace;
+            $buffer = "\n" . $buffer . $whitespace;
         }
 
-        return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
+        return $buffer;
     }
 }
