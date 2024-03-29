@@ -56,12 +56,13 @@ final class Exporter
 
     public function shortenedRecursiveExport(array &$data, ?RecursionContext $processed = null): string
     {
+        $result = [];
+
         if (!$processed) {
             $processed = new RecursionContext;
         }
 
-        $array  = $data;
-        $result = [];
+        $array = $data;
 
         /* @noinspection UnusedFunctionResultInspection */
         $processed->add($data);
