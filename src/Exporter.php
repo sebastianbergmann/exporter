@@ -37,6 +37,13 @@ use UnitEnum;
 
 final readonly class Exporter
 {
+    private ?ObjectExporterChain $objectExporter;
+
+    public function __construct(?ObjectExporterChain $objectExporter = null)
+    {
+        $this->objectExporter = $objectExporter;
+    }
+
     /**
      * Exports a value as a string.
      *
@@ -339,6 +346,10 @@ final readonly class Exporter
         }
 
         $processed->add($value);
+
+        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
+            return $this->objectExporter->export($value);
+        }
 
         $values = '';
         $array  = $this->toArray($value);
