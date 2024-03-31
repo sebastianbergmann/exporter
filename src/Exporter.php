@@ -247,18 +247,16 @@ final readonly class Exporter
             return $this->exportString($value);
         }
 
-        $whitespace = str_repeat(' ', 4 * $indentation);
-
         if (!$processed) {
             $processed = new RecursionContext;
         }
 
         if (is_array($value)) {
-            return $this->exportArray($value, $processed, $whitespace, $indentation);
+            return $this->exportArray($value, $processed, $indentation);
         }
 
         if (is_object($value)) {
-            return $this->exportObject($value, $processed, $whitespace, $indentation);
+            return $this->exportObject($value, $processed, $indentation);
         }
 
         return var_export($value, true);
@@ -303,15 +301,16 @@ final readonly class Exporter
             "'";
     }
 
-    private function exportArray(array &$value, RecursionContext $processed, string $whitespace, int $indentation): string
+    private function exportArray(array &$value, RecursionContext $processed, int $indentation): string
     {
         if (($key = $processed->contains($value)) !== false) {
             return 'Array &' . $key;
         }
 
-        $array  = $value;
-        $key    = $processed->add($value);
-        $values = '';
+        $array      = $value;
+        $key        = $processed->add($value);
+        $values     = '';
+        $whitespace = str_repeat(' ', 4 * $indentation);
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
@@ -330,7 +329,7 @@ final readonly class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
-    private function exportObject(mixed $value, RecursionContext $processed, string $whitespace, int $indentation): string
+    private function exportObject(mixed $value, RecursionContext $processed, int $indentation): string
     {
         $class = $value::class;
 
@@ -340,8 +339,9 @@ final readonly class Exporter
 
         $processed->add($value);
 
-        $values = '';
-        $array  = $this->toArray($value);
+        $array      = $this->toArray($value);
+        $values     = '';
+        $whitespace = str_repeat(' ', 4 * $indentation);
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
