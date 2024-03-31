@@ -38,11 +38,11 @@ final class ObjectExporterChain implements ObjectExporter
     /**
      * @throws ObjectNotSupportedException
      */
-    public function export(object $object, Exporter $exporter): string
+    public function export(object $object, Exporter $exporter, int $indentation): string
     {
         foreach ($this->exporter as $objectExporter) {
             if ($objectExporter->handles($object)) {
-                return $objectExporter->export($object, $exporter);
+                return $objectExporter->export($object, $exporter, $indentation);
             }
         }
 

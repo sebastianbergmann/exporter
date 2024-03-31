@@ -13,5 +13,5 @@ interface ObjectExporter
 {
     public function handles(object $object): bool;
 
-    public function export(object $object, Exporter $exporter): string;
+    public function export(object $object, Exporter $exporter, int $indentation): string;
 }

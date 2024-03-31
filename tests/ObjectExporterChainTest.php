@@ -47,7 +47,7 @@ final class ObjectExporterChainTest extends TestCase
 
         $chain = new ObjectExporterChain([$firstExporter, $secondExporter]);
 
-        $this->assertSame('string', $chain->export(new stdClass, new Exporter));
+        $this->assertSame('string', $chain->export(new stdClass, new Exporter, 0));
     }
 
     public function testCannotExportObjectWhenNoExporterHandlesIt(): void
@@ -59,6 +59,6 @@ final class ObjectExporterChainTest extends TestCase
 
         $this->expectException(ObjectNotSupportedException::class);
 
-        $this->assertSame('string', $chain->export(new stdClass, new Exporter));
+        $this->assertSame('string', $chain->export(new stdClass, new Exporter, 0));
     }
 }
