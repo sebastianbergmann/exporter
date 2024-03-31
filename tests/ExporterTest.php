@@ -26,12 +26,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use stdClass;
 
 #[CoversClass(Exporter::class)]
+#[UsesClass(ObjectExporterChain::class)]
 #[Small]
 final class ExporterTest extends TestCase
 {
@@ -445,6 +447,27 @@ EOF;
         $value = [$recursiveValue];
 
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
+    }
+
+    public function testExportOfObjectsCanBeCustomized(): void
+    {
+        $objectExporter = $this->createStub(ObjectExporter::class);
+        $objectExporter->method('handles')->willReturn(true);
+        $objectExporter->method('export')->willReturn('custom object export');
+
+        $exporter = new Exporter(new ObjectExporterChain([$objectExporter]));
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Array &0 [
+    0 => stdClass Object #%d (custom object export),
+    1 => stdClass Object #%d (custom object export),
+]
+EOT
+            ,
+            $exporter->export([new stdClass, new stdClass]),
+        );
+
     }
 
     private function trimNewline(string $string): string

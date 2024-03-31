@@ -4,6 +4,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ## [6.1.0] - 2024-MM-DD
 
+### Added
+
+* [#56](https://github.com/sebastianbergmann/exporter/pull/56): The export of objects can now be customized using a chain of (see `ObjectExporterChain`) `ObjectExporter` objects
+
 ## [6.0.1] - 2024-03-02
 
 ### Changed

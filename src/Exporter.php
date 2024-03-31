@@ -37,6 +37,13 @@ use UnitEnum;
 
 final readonly class Exporter
 {
+    private ?ObjectExporterChain $objectExporter;
+
+    public function __construct(?ObjectExporterChain $objectExporter = null)
+    {
+        $this->objectExporter = $objectExporter;
+    }
+
     /**
      * Exports a value as a string.
      *
@@ -329,7 +336,7 @@ final readonly class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
-    private function exportObject(mixed $value, RecursionContext $processed, int $indentation): string
+    private function exportObject(object $value, RecursionContext $processed, int $indentation): string
     {
         $class = $value::class;
 
@@ -339,13 +346,24 @@ final readonly class Exporter
 
         $processed->add($value);
 
-        $array      = $this->toArray($value);
-        $values     = '';
+        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
+            $buffer = $this->objectExporter->export($value, $this, $indentation);
+        } else {
+            $buffer = $this->defaultObjectExport($value, $processed, $indentation);
+        }
+
+        return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
+    }
+
+    private function defaultObjectExport(object $object, RecursionContext $processed, int $indentation): string
+    {
+        $array      = $this->toArray($object);
+        $buffer     = '';
         $whitespace = str_repeat(' ', 4 * $indentation);
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
-                $values .=
+                $buffer .=
                     $whitespace
                     . '    ' .
                     $this->recursiveExport($k, $indentation)
@@ -354,9 +372,9 @@ final readonly class Exporter
                     . ",\n";
             }
 
-            $values = "\n" . $values . $whitespace;
+            $buffer = "\n" . $buffer . $whitespace;
         }
 
-        return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
+        return $buffer;
     }
 }
