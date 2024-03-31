@@ -65,23 +65,23 @@ final class ExporterTest extends TestCase
         fclose($resource);
 
         return [
-            'null'                   => [null, 'null'],
-            'boolean true'           => [true, 'true'],
-            'boolean false'          => [false, 'false'],
-            'int 1'                  => [1, '1'],
-            'float 1.0'              => [1.0, '1.0'],
-            'float 1.2'              => [1.2, '1.2'],
-            'float 1 / 3'            => [1 / 3, '0.3333333333333333'],
-            'float 1 - 2 / 3'        => [1 - 2 / 3, '0.33333333333333337'],
-            'float 5.5E+123'         => [5.5E+123, '5.5E+123'],
-            'float 5.5E-123'         => [5.5E-123, '5.5E-123'],
-            'float NAN'              => [NAN, 'NAN'],
-            'float INF'              => [INF, 'INF'],
-            'float -INF'             => [-INF, '-INF'],
-            'stream'                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)'],
-            'stream (closed)'        => [$resource, 'resource (closed)'],
-            'numeric string'         => ['1', "'1'"],
-            'multidimensional array' => [[[1, 2, 3], [3, 4, 5]],
+            'null'                                   => [null, 'null', 0],
+            'boolean true'                           => [true, 'true', 0],
+            'boolean false'                          => [false, 'false', 0],
+            'int 1'                                  => [1, '1', 0],
+            'float 1.0'                              => [1.0, '1.0', 0],
+            'float 1.2'                              => [1.2, '1.2', 0],
+            'float 1 / 3'                            => [1 / 3, '0.3333333333333333', 0],
+            'float 1 - 2 / 3'                        => [1 - 2 / 3, '0.33333333333333337', 0],
+            'float 5.5E+123'                         => [5.5E+123, '5.5E+123', 0],
+            'float 5.5E-123'                         => [5.5E-123, '5.5E-123', 0],
+            'float NAN'                              => [NAN, 'NAN', 0],
+            'float INF'                              => [INF, 'INF', 0],
+            'float -INF'                             => [-INF, '-INF', 0],
+            'stream'                                 => [fopen('php://memory', 'r'), 'resource(%d) of type (stream)', 0],
+            'stream (closed)'                        => [$resource, 'resource (closed)', 0],
+            'numeric string'                         => ['1', "'1'", 0],
+            'multidimensional array (indentation=0)' => [[[1, 2, 3], [3, 4, 5]],
                 <<<'EOF'
 Array &0 [
     0 => Array &1 [
@@ -95,7 +95,42 @@ Array &0 [
         2 => 5,
     ],
 ]
-EOF
+EOF,
+                0,
+            ],
+            'multidimensional array (indentation=1)' => [[[1, 2, 3], [3, 4, 5]],
+                <<<'EOF'
+Array &0 [
+        0 => Array &1 [
+            0 => 1,
+            1 => 2,
+            2 => 3,
+        ],
+        1 => Array &2 [
+            0 => 3,
+            1 => 4,
+            2 => 5,
+        ],
+    ]
+EOF,
+                1,
+            ],
+            'multidimensional array (indentation=2)' => [[[1, 2, 3], [3, 4, 5]],
+                <<<'EOF'
+Array &0 [
+            0 => Array &1 [
+                0 => 1,
+                1 => 2,
+                2 => 3,
+            ],
+            1 => Array &2 [
+                0 => 3,
+                1 => 4,
+                2 => 5,
+            ],
+        ]
+EOF,
+                2,
             ],
             // \n\r and \r is converted to \n
             'export multiline text' => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
@@ -111,9 +146,10 @@ very\n
 very\r
 long\n\r
 text'
-EOF
+EOF,
+                0,
             ],
-            'empty stdclass'     => [new stdClass, 'stdClass Object #%d ()'],
+            'empty stdclass'     => [new stdClass, 'stdClass Object #%d ()', 0],
             'non empty stdclass' => [$obj,
                 <<<'EOF'
 stdClass Object #%d (
@@ -142,9 +178,10 @@ text',
     ],
     'self' => stdClass Object #%d,
 )
-EOF
+EOF,
+                0,
             ],
-            'empty array'      => [[], 'Array &%d []'],
+            'empty array'      => [[], 'Array &%d []', 0],
             'splObjectStorage' => [$storage,
                 <<<'EOF'
 SplObjectStorage Object #%d (
@@ -155,7 +192,8 @@ SplObjectStorage Object #%d (
         'inf' => null,
     ],
 )
-EOF
+EOF,
+                0,
             ],
             'stdClass with numeric properties' => [$obj3,
                 <<<'EOF'
@@ -170,23 +208,28 @@ stdClass Object #%d (
     6 => 7,
     7 => 8,
 )
-EOF
+EOF,
+                0,
             ],
             [
                 chr(0) . chr(1) . chr(2) . chr(3) . chr(4) . chr(5),
                 'Binary String: 0x000102030405',
+                0,
             ],
             [
                 implode('', array_map('chr', range(0x0E, 0x1F))),
                 'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f',
+                0,
             ],
             [
                 chr(0x00) . chr(0x09),
                 'Binary String: 0x0009',
+                0,
             ],
             [
                 '',
                 "''",
+                0,
             ],
             'Exception without trace' => [
                 new Exception('The exception message', 42),
@@ -199,7 +242,8 @@ Exception Object #%d (
     'line' => %d,
     'previous' => null,
 )
-EOF
+EOF,
+                0,
             ],
             'Error without trace' => [
                 new Error('The exception message', 42),
@@ -212,19 +256,23 @@ Error Object #%d (
     'line' => %d,
     'previous' => null,
 )
-EOF
+EOF,
+                0,
             ],
             'enum' => [
                 ExampleEnum::Value,
                 'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
+                0,
             ],
             'backed enum (string)' => [
                 ExampleStringBackedEnum::Value,
                 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
+                0,
             ],
             'backed enum (integer)' => [
                 ExampleIntegerBackedEnum::Value,
                 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
+                0,
             ],
         ];
     }
@@ -286,11 +334,11 @@ EOF
     }
 
     #[DataProvider('exportProvider')]
-    public function testExport(mixed $value, string $expected): void
+    public function testExport(mixed $value, string $expected, int $indentation): void
     {
         $this->assertStringMatchesFormat(
             $expected,
-            $this->trimNewline((new Exporter)->export($value)),
+            $this->trimNewline((new Exporter)->export($value, $indentation)),
         );
     }
 
