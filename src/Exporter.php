@@ -37,9 +37,9 @@ use UnitEnum;
 
 final readonly class Exporter
 {
-    private ?ObjectExporterChain $objectExporter;
+    private ?ObjectExporter $objectExporter;
 
-    public function __construct(?ObjectExporterChain $objectExporter = null)
+    public function __construct(?ObjectExporter $objectExporter = null)
     {
         $this->objectExporter = $objectExporter;
     }
