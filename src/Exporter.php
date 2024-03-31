@@ -30,6 +30,7 @@ use function str_repeat;
 use function str_replace;
 use function var_export;
 use BackedEnum;
+use ReflectionObject;
 use SebastianBergmann\RecursionContext\Context as RecursionContext;
 use SplObjectStorage;
 use UnitEnum;
@@ -121,10 +122,12 @@ final readonly class Exporter
         }
 
         if (is_object($value)) {
+            $numberOfProperties = count((new ReflectionObject($value))->getProperties());
+
             return sprintf(
                 '%s Object (%s)',
                 $value::class,
-                count($this->toArray($value)) > 0 ? '...' : '',
+                $numberOfProperties > 0 ? '...' : '',
             );
         }
 
