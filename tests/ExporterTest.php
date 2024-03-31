@@ -212,6 +212,18 @@ Error Object #%d (
 )
 EOF
             ],
+            'enum' => [
+                ExampleEnum::Value,
+                'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
+            ],
+            'backed enum (string)' => [
+                ExampleStringBackedEnum::Value,
+                'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
+            ],
+            'backed enum (integer)' => [
+                ExampleIntegerBackedEnum::Value,
+                'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
+            ],
         ];
     }
 
@@ -234,11 +246,14 @@ EOF
             'float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
             'numeric string'  => ['1', "'1'"],
             // \n\r and \r is converted to \n
-            'multilinestring'    => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
-            'empty stdClass'     => [new stdClass, 'stdClass Object ()'],
-            'not empty stdClass' => [$obj, 'stdClass Object (...)'],
-            'empty array'        => [[], '[]'],
-            'not empty array'    => [$array, '[...]'],
+            'multilinestring'       => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
+            'empty stdClass'        => [new stdClass, 'stdClass Object ()'],
+            'not empty stdClass'    => [$obj, 'stdClass Object (...)'],
+            'empty array'           => [[], '[]'],
+            'not empty array'       => [$array, '[...]'],
+            'enum'                  => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
+            'backed enum (string)'  => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
+            'backen enum (integer)' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
         ];
     }
 
@@ -388,60 +403,6 @@ EOF;
 
         mb_internal_encoding($oldMbInternalEncoding);
         mb_language($oldMbLanguage);
-    }
-
-    public function testEnumExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
-            $this->trimNewline((new Exporter)->export(ExampleEnum::Value)),
-        );
-    }
-
-    public function testStringBackedEnumExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
-            $this->trimNewline((new Exporter)->export(ExampleStringBackedEnum::Value)),
-        );
-    }
-
-    public function testIntegerBackedEnumExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
-            $this->trimNewline((new Exporter)->export(ExampleIntegerBackedEnum::Value)),
-        );
-    }
-
-    public function testEnumShortenedExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleEnum Enum (Value)',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleEnum::Value)),
-        );
-    }
-
-    public function testStringBackedEnumShortenedExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleStringBackedEnum::Value)),
-        );
-    }
-
-    public function testIntegerBackedEnumShortenedExport(): void
-    {
-        // FIXME: Merge test into testExport once we drop support for PHP 8.0
-        $this->assertStringMatchesFormat(
-            'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)',
-            $this->trimNewline((new Exporter)->shortenedExport(ExampleIntegerBackedEnum::Value)),
-        );
     }
 
     #[DataProvider('provideNonBinaryMultibyteStrings')]
