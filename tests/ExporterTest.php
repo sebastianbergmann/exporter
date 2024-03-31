@@ -286,7 +286,7 @@ EOF
     }
 
     #[DataProvider('exportProvider')]
-    public function testExport($value, $expected): void
+    public function testExport(mixed $value, string $expected): void
     {
         $this->assertStringMatchesFormat(
             $expected,
@@ -375,7 +375,7 @@ EOF;
     }
 
     #[DataProvider('shortenedExportProvider')]
-    public function testShortenedExport($value, $expected): void
+    public function testShortenedExport(mixed $value, string $expected): void
     {
         $this->assertSame(
             $expected,
