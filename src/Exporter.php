@@ -17,6 +17,7 @@ use function implode;
 use function ini_get;
 use function ini_set;
 use function is_array;
+use function is_bool;
 use function is_float;
 use function is_object;
 use function is_resource;
@@ -198,12 +199,8 @@ final class Exporter
             return 'null';
         }
 
-        if ($value === true) {
-            return 'true';
-        }
-
-        if ($value === false) {
-            return 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
         if (is_float($value)) {
