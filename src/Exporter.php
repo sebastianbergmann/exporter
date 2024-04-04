@@ -164,7 +164,7 @@ final class Exporter
             // private   $propertyName => "\0ClassName\0propertyName"
             // protected $propertyName => "\0*\0propertyName"
             // public    $propertyName => "propertyName"
-            if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
+            if (preg_match('/\0.+\0(.+)/', (string) $key, $matches)) {
                 $key = $matches[1];
             }
 
