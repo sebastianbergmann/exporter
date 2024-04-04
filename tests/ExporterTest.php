@@ -20,6 +20,7 @@ use function mb_internal_encoding;
 use function mb_language;
 use function preg_replace;
 use function range;
+use function str_repeat;
 use Error;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -246,14 +247,18 @@ EOF
             'float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
             'numeric string'  => ['1', "'1'"],
             // \n\r and \r is converted to \n
-            'multi-line string'     => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
-            'empty stdClass'        => [new stdClass, 'stdClass Object ()'],
-            'not empty stdClass'    => [$obj, 'stdClass Object (...)'],
-            'empty array'           => [[], '[]'],
-            'not empty array'       => [$array, '[...]'],
-            'enum'                  => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
-            'backed enum (string)'  => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
-            'backen enum (integer)' => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
+            '38 single-byte characters' => [str_repeat('A', 38), '\'' . str_repeat('A', 38) . '\''],
+            '39 single-byte characters' => [str_repeat('A', 39), '\'' . str_repeat('A', 29) . '...' . str_repeat('A', 6) . '\''],
+            '38 multi-byte characters'  => [str_repeat('🧪', 38), '\'' . str_repeat('🧪', 38) . '\''],
+            '39 multi-byte characters'  => [str_repeat('🧪', 39), '\'' . str_repeat('🧪', 29) . '...' . str_repeat('🧪', 6) . '\''],
+            'multi-line string'         => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
+            'empty stdClass'            => [new stdClass, 'stdClass Object ()'],
+            'not empty stdClass'        => [$obj, 'stdClass Object (...)'],
+            'empty array'               => [[], '[]'],
+            'not empty array'           => [$array, '[...]'],
+            'enum'                      => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
+            'backed enum (string)'      => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
+            'backen enum (integer)'     => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
         ];
     }
 
