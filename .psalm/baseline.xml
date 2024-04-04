@@ -4,8 +4,5 @@
     <ConflictingReferenceConstraint>
       <code><![CDATA[if (is_object($value)) {]]></code>
     </ConflictingReferenceConstraint>
-    <InvalidArgument>
-      <code><![CDATA[$value]]></code>
-    </InvalidArgument>
   </file>
 </files>

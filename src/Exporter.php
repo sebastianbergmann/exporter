@@ -226,7 +226,7 @@ final class Exporter
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
-                $value,
+                (int) $value,
                 get_resource_type($value),
             );
         }
