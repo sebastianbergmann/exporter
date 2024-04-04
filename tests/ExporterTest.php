@@ -246,7 +246,7 @@ EOF
             'float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
             'numeric string'  => ['1', "'1'"],
             // \n\r and \r is converted to \n
-            'multilinestring'       => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
+            'multi-line string'     => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
             'empty stdClass'        => [new stdClass, 'stdClass Object ()'],
             'not empty stdClass'    => [$obj, 'stdClass Object (...)'],
             'empty array'           => [[], '[]'],
