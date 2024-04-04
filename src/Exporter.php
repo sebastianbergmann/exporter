@@ -17,6 +17,7 @@ use function implode;
 use function ini_get;
 use function ini_set;
 use function is_array;
+use function is_bool;
 use function is_float;
 use function is_object;
 use function is_resource;
@@ -172,7 +173,7 @@ final readonly class Exporter
             // private   $propertyName => "\0ClassName\0propertyName"
             // protected $propertyName => "\0*\0propertyName"
             // public    $propertyName => "propertyName"
-            if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
+            if (preg_match('/\0.+\0(.+)/', (string) $key, $matches)) {
                 $key = $matches[1];
             }
 
@@ -207,12 +208,8 @@ final readonly class Exporter
             return 'null';
         }
 
-        if ($value === true) {
-            return 'true';
-        }
-
-        if ($value === false) {
-            return 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
         if (is_float($value)) {
@@ -226,7 +223,7 @@ final readonly class Exporter
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
-                $value,
+                (int) $value,
                 get_resource_type($value),
             );
         }
@@ -275,17 +272,15 @@ final readonly class Exporter
 
         ini_set('precision', '-1');
 
-        try {
-            $valueStr = (string) $value;
+        $valueAsString = (string) $value;
 
-            if ((string) (int) $value === $valueStr) {
-                return $valueStr . '.0';
-            }
+        ini_set('precision', $precisionBackup);
 
-            return $valueStr;
-        } finally {
-            ini_set('precision', $precisionBackup);
+        if ((string) (int) $value === $valueAsString) {
+            return $valueAsString . '.0';
         }
+
+        return $valueAsString;
     }
 
     private function exportString(string $value): string
