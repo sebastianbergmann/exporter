@@ -1,0 +1,13 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.28.1/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "mutators": {
+        "@default": true
+    },
+    "minMsi": 100,
+    "minCoveredMsi": 100
+}
