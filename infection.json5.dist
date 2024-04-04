@@ -6,7 +6,9 @@
         ]
     },
     "mutators": {
-        "@default": true
+        "@default": true,
+        "FunctionCallRemoval": false,
+        "MethodCallRemoval": false
     },
     "minMsi": 100,
     "minCoveredMsi": 100
