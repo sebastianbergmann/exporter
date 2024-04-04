@@ -208,17 +208,15 @@ final class Exporter
 
             ini_set('precision', '-1');
 
-            try {
-                $valueStr = (string) $value;
+            $valueAsString = (string) $value;
 
-                if ((string) (int) $value === $valueStr) {
-                    return $valueStr . '.0';
-                }
+            ini_set('precision', $precisionBackup);
 
-                return $valueStr;
-            } finally {
-                ini_set('precision', $precisionBackup);
+            if ((string) (int) $value === $valueAsString) {
+                return $valueAsString . '.0';
             }
+
+            return $valueAsString;
         }
 
         if (gettype($value) === 'resource (closed)') {
