@@ -81,7 +81,7 @@ final readonly class Exporter
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $processed));
+                    $result[] = '['. $this->shortenedRecursiveExport($data[$key], $processed) .']';
                 }
             } else {
                 $result[] = $this->shortenedExport($value);
