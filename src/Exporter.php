@@ -76,7 +76,7 @@ final readonly class Exporter
 
         foreach ($array as $key => $value) {
             if ($count > self::MAX_SHORTENED_ITEMS && $i > self::MAX_SHORTENED_ITEMS) {
-                $result[] = sprintf('...%d more elements', $count - 10);
+                $result[] = sprintf('...%d more elements', $count - self::MAX_SHORTENED_ITEMS);
 
                 break;
             }
