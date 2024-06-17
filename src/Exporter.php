@@ -38,13 +38,6 @@ use UnitEnum;
 
 final readonly class Exporter
 {
-    private ?ObjectExporter $objectExporter;
-
-    public function __construct(?ObjectExporter $objectExporter = null)
-    {
-        $this->objectExporter = $objectExporter;
-    }
-
     /**
      * Exports a value as a string.
      *
@@ -341,18 +334,7 @@ final readonly class Exporter
 
         $processed->add($value);
 
-        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
-            $buffer = $this->objectExporter->export($value, $this, $indentation);
-        } else {
-            $buffer = $this->defaultObjectExport($value, $processed, $indentation);
-        }
-
-        return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
-    }
-
-    private function defaultObjectExport(object $object, RecursionContext $processed, int $indentation): string
-    {
-        $array      = $this->toArray($object);
+        $array      = $this->toArray($value);
         $buffer     = '';
         $whitespace = str_repeat(' ', 4 * $indentation);
 
@@ -370,6 +352,6 @@ final readonly class Exporter
             $buffer = "\n" . $buffer . $whitespace;
         }
 
-        return $buffer;
+        return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
     }
 }

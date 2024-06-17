@@ -502,27 +502,6 @@ EOF;
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
     }
 
-    public function testExportOfObjectsCanBeCustomized(): void
-    {
-        $objectExporter = $this->createStub(ObjectExporter::class);
-        $objectExporter->method('handles')->willReturn(true);
-        $objectExporter->method('export')->willReturn('custom object export');
-
-        $exporter = new Exporter(new ObjectExporterChain([$objectExporter]));
-
-        $this->assertStringMatchesFormat(
-            <<<'EOT'
-Array &0 [
-    0 => stdClass Object #%d (custom object export),
-    1 => stdClass Object #%d (custom object export),
-]
-EOT
-            ,
-            $exporter->export([new stdClass, new stdClass]),
-        );
-
-    }
-
     private function trimNewline(string $string): string
     {
         return preg_replace('/[ ]*\n/', "\n", $string);
