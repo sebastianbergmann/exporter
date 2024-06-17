@@ -321,6 +321,11 @@ EOF,
 
     public static function shortenedRecursiveExportProvider(): array
     {
+        $bigArray = [];
+        for ($i = 0; $i < 20_000; $i++) {
+            $bigArray[] = 'cast(\'foo' . $i . '\' as blob)';
+        }
+
         return [
             'null'                   => [[null], 'null'],
             'boolean true'           => [[true], 'true'],
@@ -333,6 +338,7 @@ EOF,
             'with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
             'multidimensional array' => [[[1, 2, 3], [3, 4, 5]], '[1, 2, 3], [3, 4, 5]'],
             'object'                 => [[new stdClass], 'stdClass Object ()'],
+            'big array'              => [$bigArray, "'cast('foo0' as blob)', 'cast('foo1' as blob)', 'cast('foo2' as blob)', 'cast('foo3' as blob)', 'cast('foo4' as blob)', 'cast('foo5' as blob)', 'cast('foo6' as blob)', 'cast('foo7' as blob)', 'cast('foo8' as blob)', 'cast('foo9' as blob)', 'cast('foo10' as blob)', ...19992 more elements"],
         ];
     }
 
