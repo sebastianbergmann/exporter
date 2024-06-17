@@ -38,7 +38,10 @@ use UnitEnum;
 
 final readonly class Exporter
 {
-    private const MAX_SHORTENED_ITEMS = 10;
+    public function __construct(
+        private int $shortenArraysLongerThan = 10
+    ) {
+    }
 
     /**
      * Exports a value as a string.
@@ -75,8 +78,8 @@ final readonly class Exporter
         $count = count($data, COUNT_RECURSIVE);
 
         foreach ($array as $key => $value) {
-            if ($count > self::MAX_SHORTENED_ITEMS && $i > self::MAX_SHORTENED_ITEMS) {
-                $result[] = sprintf('...%d more elements', $count - self::MAX_SHORTENED_ITEMS);
+            if ($count > $this->shortenArraysLongerThan && $i > $this->shortenArraysLongerThan) {
+                $result[] = sprintf('...%d more elements', $count - $this->shortenArraysLongerThan);
 
                 break;
             }
