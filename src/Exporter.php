@@ -71,11 +71,13 @@ final readonly class Exporter
         /* @noinspection UnusedFunctionResultInspection */
         $processed->add($data);
 
-        $i = 0;
+        $i     = 0;
         $count = count($data, COUNT_RECURSIVE);
+
         foreach ($array as $key => $value) {
             if ($count > self::MAX_SHORTENED_ITEMS && $i > self::MAX_SHORTENED_ITEMS) {
                 $result[] = sprintf('...%d more elements', $count - 10);
+
                 break;
             }
 

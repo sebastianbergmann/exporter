@@ -322,6 +322,7 @@ EOF,
     public static function shortenedRecursiveExportProvider(): array
     {
         $bigArray = [];
+
         for ($i = 0; $i < 20_000; $i++) {
             $bigArray[] = 'cast(\'foo' . $i . '\' as blob)';
         }
