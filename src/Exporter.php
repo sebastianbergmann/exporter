@@ -69,7 +69,14 @@ final readonly class Exporter
         /* @noinspection UnusedFunctionResultInspection */
         $processed->add($data);
 
+        $i = 0;
+        $count = count($data, COUNT_RECURSIVE);
         foreach ($array as $key => $value) {
+            if ($count > 10 && $i > 10) {
+                $result[] = sprintf('...%d more elements', $count - 10);
+                break;
+            }
+
             if (is_array($value)) {
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
@@ -79,6 +86,8 @@ final readonly class Exporter
             } else {
                 $result[] = $this->shortenedExport($value);
             }
+
+            $i++;
         }
 
         return implode(', ', $result);
