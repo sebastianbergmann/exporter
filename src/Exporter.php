@@ -69,7 +69,7 @@ final readonly class Exporter
         $overallCount = count($data, COUNT_RECURSIVE);
         $counter      = 0;
 
-        $export = $this->_shortenedRecursiveExport($data, $processed, $overallCount, $counter);
+        $export = $this->shortenedCountedRecursiveExport($data, $processed, $overallCount, $counter);
 
         if ($overallCount > $this->shortenArraysLongerThan) {
             $export .= sprintf(' ...%d more elements', $overallCount - $this->shortenArraysLongerThan);
@@ -189,7 +189,7 @@ final readonly class Exporter
         return $array;
     }
 
-    private function _shortenedRecursiveExport(array &$data, RecursionContext $processed, int $overallCount, int &$counter): string
+    private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int $overallCount, int &$counter): string
     {
         $result = [];
 
@@ -207,7 +207,7 @@ final readonly class Exporter
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = '[' . $this->_shortenedRecursiveExport($data[$key], $processed, $overallCount, $counter) . ']';
+                    $result[] = '[' . $this->shortenedCountedRecursiveExport($data[$key], $processed, $overallCount, $counter) . ']';
                 }
             } else {
                 $result[] = $this->shortenedExport($value);
