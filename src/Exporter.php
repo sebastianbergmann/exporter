@@ -96,7 +96,7 @@ final readonly class Exporter
     public function shortenedExport(mixed $value): string
     {
         if (is_string($value)) {
-            $string = str_replace("\n", '', $this->export($value));
+            $string = str_replace("\n", '', $this->exportString($value));
 
             if (mb_strlen($string) > 40) {
                 return mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
