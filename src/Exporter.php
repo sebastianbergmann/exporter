@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\Exporter;
 
+use const COUNT_RECURSIVE;
 use function bin2hex;
 use function count;
 use function get_resource_type;
