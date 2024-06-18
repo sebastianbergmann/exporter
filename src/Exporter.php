@@ -30,6 +30,7 @@ use function spl_object_id;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
+use function strtr;
 use function var_export;
 use BackedEnum;
 use ReflectionObject;
@@ -318,14 +319,14 @@ final readonly class Exporter
         }
 
         return "'" .
-            str_replace(
-                '<lf>',
-                "\n",
-                str_replace(
-                    ["\r\n", "\n\r", "\r", "\n"],
-                    ['\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'],
-                    $value,
-                ),
+            strtr(
+                $value,
+                [
+                    "\r\n" => '\r\n' . "\n",
+                    "\n\r" => '\n\r' . "\n",
+                    "\r"   => '\r' . "\n",
+                    "\n"   => '\n' . "\n",
+                ],
             ) .
             "'";
     }
