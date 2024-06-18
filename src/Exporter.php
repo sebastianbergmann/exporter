@@ -38,9 +38,11 @@ use UnitEnum;
 
 final readonly class Exporter
 {
-    public function __construct(
-        private int $shortenArraysLongerThan = 10
-    ) {
+    private int $shortenArraysLongerThan;
+
+    public function __construct(int $shortenArraysLongerThan = 10)
+    {
+        $this->shortenArraysLongerThan = $shortenArraysLongerThan;
     }
 
     /**
