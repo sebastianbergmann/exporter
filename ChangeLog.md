@@ -4,6 +4,11 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ## [6.1.2] - 2024-MM-DD
 
+### Changed
+
+* [#64](https://github.com/sebastianbergmann/exporter/pull/64): Improve performance of `Exporter::exportString()`
+* [#65](https://github.com/sebastianbergmann/exporter/pull/65): Prevent unnecessary calls to `str_repeat()`
+
 ### Fixed
 
 * [#62](https://github.com/sebastianbergmann/exporter/issues/62): Do not limit export of arrays by default (to restore BC with versions prior to 6.1.0)
