@@ -74,6 +74,7 @@ final readonly class Exporter
         if (!$processed) {
             $processed = new RecursionContext;
         }
+
         $overallCount = count($data, COUNT_RECURSIVE);
         $counter      = 0;
 
