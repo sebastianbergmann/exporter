@@ -38,8 +38,14 @@ use UnitEnum;
 
 final readonly class Exporter
 {
+    /**
+     * @var positive-int
+     */
     private int $shortenArraysLongerThan;
 
+    /**
+     * @param positive-int $shortenArraysLongerThan
+     */
     public function __construct(int $shortenArraysLongerThan = 10)
     {
         $this->shortenArraysLongerThan = $shortenArraysLongerThan;
