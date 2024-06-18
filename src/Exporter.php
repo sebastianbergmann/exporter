@@ -40,14 +40,14 @@ use UnitEnum;
 final readonly class Exporter
 {
     /**
-     * @var positive-int
+     * @var non-negative-int
      */
     private int $shortenArraysLongerThan;
 
     /**
-     * @param positive-int $shortenArraysLongerThan
+     * @param non-negative-int $shortenArraysLongerThan
      */
-    public function __construct(int $shortenArraysLongerThan = 10)
+    public function __construct(int $shortenArraysLongerThan = 0)
     {
         $this->shortenArraysLongerThan = $shortenArraysLongerThan;
     }
@@ -81,7 +81,8 @@ final readonly class Exporter
 
         $export = $this->shortenedCountedRecursiveExport($data, $processed, $counter);
 
-        if ($overallCount > $this->shortenArraysLongerThan) {
+        if ($this->shortenArraysLongerThan > 0 &&
+            $overallCount > $this->shortenArraysLongerThan) {
             $export .= sprintf(', ...%d more elements', $overallCount - $this->shortenArraysLongerThan);
         }
 
@@ -209,7 +210,8 @@ final readonly class Exporter
         $processed->add($data);
 
         foreach ($array as $key => $value) {
-            if ($counter > $this->shortenArraysLongerThan) {
+            if ($this->shortenArraysLongerThan > 0 &&
+                $counter > $this->shortenArraysLongerThan) {
                 break;
             }
 

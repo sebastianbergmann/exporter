@@ -349,19 +349,19 @@ EOF,
         $deepArray = [$array, [$array, [$array, [$array, [$array, [$array, [$array, [$array, [$array, [$array]]]]]]]]]];
 
         return [
-            'null'                   => [[null], 'null'],
-            'boolean true'           => [[true], 'true'],
-            'boolean false'          => [[false], 'false'],
-            'int 1'                  => [[1], '1'],
-            'float 1.0'              => [[1.0], '1.0'],
-            'float 1.2'              => [[1.2], '1.2'],
-            'numeric string'         => [['1'], "'1'"],
-            'with numeric array key' => [[2 => 1], '1'],
-            'with assoc array key'   => [['foo' => 'bar'], '\'bar\''],
-            'multidimensional array' => [[[1, 2, 3], [3, 4, 5]], '[1, 2, 3], [3, 4, 5]'],
-            'object'                 => [[new stdClass], 'stdClass Object ()'],
-            'big array'              => [$bigArray, "'cast('foo0' as blob)', 'cast('foo1' as blob)', 'cast('foo2' as blob)', 'cast('foo3' as blob)', 'cast('foo4' as blob)', 'cast('foo5' as blob)', 'cast('foo6' as blob)', 'cast('foo7' as blob)', 'cast('foo8' as blob)', 'cast('foo9' as blob)', 'cast('foo10' as blob)', ...19990 more elements"],
-            'deep array'             => [$deepArray, "[1, 2, 'hello', 'world', true, false], [[1, 2, 'hello', 'world']], ...69 more elements"],
+            'null'                   => [[null], 'null', 0],
+            'boolean true'           => [[true], 'true', 0],
+            'boolean false'          => [[false], 'false', 0],
+            'int 1'                  => [[1], '1', 0],
+            'float 1.0'              => [[1.0], '1.0', 0],
+            'float 1.2'              => [[1.2], '1.2', 0],
+            'numeric string'         => [['1'], "'1'", 0],
+            'with numeric array key' => [[2 => 1], '1', 0],
+            'with assoc array key'   => [['foo' => 'bar'], '\'bar\'', 0],
+            'multidimensional array' => [[[1, 2, 3], [3, 4, 5]], '[1, 2, 3], [3, 4, 5]', 0],
+            'object'                 => [[new stdClass], 'stdClass Object ()', 0],
+            'big array'              => [$bigArray, "'cast('foo0' as blob)', 'cast('foo1' as blob)', 'cast('foo2' as blob)', 'cast('foo3' as blob)', 'cast('foo4' as blob)', 'cast('foo5' as blob)', 'cast('foo6' as blob)', 'cast('foo7' as blob)', 'cast('foo8' as blob)', 'cast('foo9' as blob)', 'cast('foo10' as blob)', ...19990 more elements", 10],
+            'deep array'             => [$deepArray, "[1, 2, 'hello', 'world', true, false], [[1, 2, 'hello', 'world']], ...69 more elements", 10],
         ];
     }
 
@@ -511,9 +511,9 @@ EOF;
     }
 
     #[DataProvider('shortenedRecursiveExportProvider')]
-    public function testShortenedRecursiveExport(array $value, string $expected): void
+    public function testShortenedRecursiveExport(array $value, string $expected, int $limit): void
     {
-        $this->assertEquals($expected, (new Exporter)->shortenedRecursiveExport($value));
+        $this->assertEquals($expected, (new Exporter($limit))->shortenedRecursiveExport($value));
     }
 
     public function testShortenedRecursiveOccurredRecursion(): void
