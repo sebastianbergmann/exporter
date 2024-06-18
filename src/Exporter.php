@@ -76,7 +76,7 @@ final readonly class Exporter
             $processed = new RecursionContext;
         }
 
-        $overallCount = count($data, COUNT_RECURSIVE);
+        $overallCount = @count($data, COUNT_RECURSIVE);
         $counter      = 0;
 
         $export = $this->shortenedCountedRecursiveExport($data, $processed, $counter);

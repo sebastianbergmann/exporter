@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [6.1.1] - 2024-06-18
+
+### Fixed
+
+* [#61](https://github.com/sebastianbergmann/exporter/issues/61): `count(): Recursion detected` warning triggered
+
 ## [6.1.0] - 2024-06-18
 
 ### Added
@@ -134,6 +140,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[6.1.1]: https://github.com/sebastianbergmann/exporter/compare/6.1.0...6.1.1
 [6.1.0]: https://github.com/sebastianbergmann/exporter/compare/6.0.3...6.1.0
 [6.0.3]: https://github.com/sebastianbergmann/exporter/compare/fe0dca49a60d34440e2f086951952dd13aa9a5d2...6.0.3
 [6.0.2]: https://github.com/sebastianbergmann/exporter/compare/6.0.1...fe0dca49a60d34440e2f086951952dd13aa9a5d2

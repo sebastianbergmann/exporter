@@ -63,6 +63,9 @@ final class ExporterTest extends TestCase
         $resource = fopen('php://memory', 'r');
         fclose($resource);
 
+        $recursiveArray    = [];
+        $recursiveArray[0] = &$recursiveArray;
+
         return [
             'null'                                   => [null, 'null', 0],
             'boolean true'                           => [true, 'true', 0],
@@ -273,6 +276,17 @@ EOF,
                 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum #%d (Value, 0)',
                 0,
             ],
+            'recursive array' => [
+                $recursiveArray,
+                <<<'EOF'
+Array &0 [
+    0 => Array &1 [
+        0 => Array &1,
+    ],
+]
+EOF,
+                0,
+            ],
         ];
     }
 
@@ -284,6 +298,9 @@ EOF,
         $array = [
             'foo' => 'bar',
         ];
+
+        $recursiveArray    = [];
+        $recursiveArray[0] = &$recursiveArray;
 
         return [
             'null'            => [null, 'null'],
@@ -307,6 +324,7 @@ EOF,
             'enum'                      => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
             'backed enum (string)'      => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
             'backen enum (integer)'     => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
+            'recursive array'           => [$recursiveArray, '[...]', 0],
         ];
     }
 
