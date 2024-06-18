@@ -339,12 +339,13 @@ final readonly class Exporter
             return 'Array &' . $key;
         }
 
-        $array      = $value;
-        $key        = $processed->add($value);
-        $values     = '';
-        $whitespace = str_repeat(' ', 4 * $indentation);
+        $array  = $value;
+        $key    = $processed->add($value);
+        $values = '';
 
         if (count($array) > 0) {
+            $whitespace = str_repeat(' ', 4 * $indentation);
+
             foreach ($array as $k => $v) {
                 $values .=
                     $whitespace
@@ -371,11 +372,12 @@ final readonly class Exporter
 
         $processed->add($value);
 
-        $array      = $this->toArray($value);
-        $buffer     = '';
-        $whitespace = str_repeat(' ', 4 * $indentation);
+        $array  = $this->toArray($value);
+        $buffer = '';
 
         if (count($array) > 0) {
+            $whitespace = str_repeat(' ', 4 * $indentation);
+
             foreach ($array as $k => $v) {
                 $buffer .=
                     $whitespace
