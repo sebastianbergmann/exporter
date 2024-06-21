@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [6.1.3] - 2024-MM-DD
+
+### Changed
+
+* [#66](https://github.com/sebastianbergmann/exporter/pull/66): Avoid using the Reflection API for some classes
+
 ## [6.1.2] - 2024-06-18
 
 ### Changed
@@ -151,6 +157,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[6.1.3]: https://github.com/sebastianbergmann/exporter/compare/6.1.2...main
 [6.1.2]: https://github.com/sebastianbergmann/exporter/compare/6.1.1...6.1.2
 [6.1.1]: https://github.com/sebastianbergmann/exporter/compare/6.1.0...6.1.1
 [6.1.0]: https://github.com/sebastianbergmann/exporter/compare/6.0.3...6.1.0
