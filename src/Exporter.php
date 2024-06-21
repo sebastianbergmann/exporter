@@ -133,7 +133,9 @@ final readonly class Exporter
             if ($this->canBeReflected($value)) {
                 $numberOfProperties = count((new ReflectionObject($value))->getProperties());
             } else {
+                // @codeCoverageIgnoreStart
                 $numberOfProperties = count($this->toArray($value));
+                // @codeCoverageIgnoreEnd
             }
 
             return sprintf(
@@ -403,7 +405,9 @@ final readonly class Exporter
     {
         /** @psalm-suppress UndefinedClass */
         if ($object instanceof Message) {
+            // @codeCoverageIgnoreStart
             return false;
+            // @codeCoverageIgnoreEnd
         }
 
         return true;
