@@ -33,6 +33,7 @@ use function str_replace;
 use function strtr;
 use function var_export;
 use BackedEnum;
+use Google\Protobuf\Internal\Message;
 use ReflectionObject;
 use SebastianBergmann\RecursionContext\Context as RecursionContext;
 use SplObjectStorage;
@@ -129,7 +130,9 @@ final readonly class Exporter
         }
 
         if (is_object($value)) {
-            $numberOfProperties = count((new ReflectionObject($value))->getProperties());
+            $numberOfProperties = $this->cannotUseReflection($value)
+                ? count($this->toArray($value))
+                : count((new ReflectionObject($value))->getProperties());
 
             return sprintf(
                 '%s Object (%s)',
@@ -392,5 +395,10 @@ final readonly class Exporter
         }
 
         return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
+    }
+
+    private function cannotUseReflection(object $object): bool
+    {
+        return $object instanceof Message;
     }
 }
