@@ -130,9 +130,11 @@ final readonly class Exporter
         }
 
         if (is_object($value)) {
-            $numberOfProperties = $this->cannotUseReflection($value)
-                ? count($this->toArray($value))
-                : count((new ReflectionObject($value))->getProperties());
+            if ($this->canBeReflected($value)) {
+                $numberOfProperties = count((new ReflectionObject($value))->getProperties());
+            } else {
+                $numberOfProperties = count($this->toArray($value));
+            }
 
             return sprintf(
                 '%s Object (%s)',
@@ -397,8 +399,13 @@ final readonly class Exporter
         return $class . ' Object #' . spl_object_id($value) . ' (' . $buffer . ')';
     }
 
-    private function cannotUseReflection(object $object): bool
+    private function canBeReflected(object $object): bool
     {
-        return $object instanceof Message;
+        /** @psalm-suppress UndefinedClass */
+        if ($object instanceof Message) {
+            return false;
+        }
+
+        return true;
     }
 }
