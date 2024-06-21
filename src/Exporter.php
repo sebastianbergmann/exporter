@@ -130,18 +130,10 @@ final readonly class Exporter
         }
 
         if (is_object($value)) {
-            if ($this->canBeReflected($value)) {
-                $numberOfProperties = count((new ReflectionObject($value))->getProperties());
-            } else {
-                // @codeCoverageIgnoreStart
-                $numberOfProperties = count($this->toArray($value));
-                // @codeCoverageIgnoreEnd
-            }
-
             return sprintf(
                 '%s Object (%s)',
                 $value::class,
-                $numberOfProperties > 0 ? '...' : '',
+                $this->countProperties($value) > 0 ? '...' : '',
             );
         }
 
@@ -206,6 +198,19 @@ final readonly class Exporter
         }
 
         return $array;
+    }
+
+    public function countProperties(object $value): int
+    {
+        if ($this->canBeReflected($value)) {
+            $numberOfProperties = count((new ReflectionObject($value))->getProperties());
+        } else {
+            // @codeCoverageIgnoreStart
+            $numberOfProperties = count($this->toArray($value));
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $numberOfProperties;
     }
 
     private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int &$counter): string
