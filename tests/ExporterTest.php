@@ -555,6 +555,6 @@ EOF;
 
     private function trimNewline(string $string): string
     {
-        return preg_replace('/[ ]*\n/', "\n", $string);
+        return (string) preg_replace('/[ ]*\n/', "\n", $string);
     }
 }
