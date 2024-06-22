@@ -532,7 +532,8 @@ EOF;
     }
 
     /**
-     * @param array<mixed> $value
+     * @param array<mixed>     $value
+     * @param non-negative-int $limit
      */
     #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected, int $limit): void
