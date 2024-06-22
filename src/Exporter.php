@@ -408,7 +408,7 @@ final readonly class Exporter
 
     private function canBeReflected(object $object): bool
     {
-        /** @psalm-suppress UndefinedClass */
+        /** @phpstan-ignore class.notFound */
         if ($object instanceof Message) {
             // @codeCoverageIgnoreStart
             return false;
