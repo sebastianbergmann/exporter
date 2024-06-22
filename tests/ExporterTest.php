@@ -12,10 +12,13 @@ namespace SebastianBergmann\Exporter;
 use const INF;
 use const NAN;
 use function array_map;
+use function assert;
 use function chr;
 use function fclose;
 use function fopen;
 use function implode;
+use function is_resource;
+use function is_string;
 use function mb_internal_encoding;
 use function mb_language;
 use function preg_replace;
@@ -64,6 +67,9 @@ final class ExporterTest extends TestCase
         $storage->attach($obj2);
 
         $resource = fopen('php://memory', 'r');
+
+        assert(is_resource($resource));
+
         fclose($resource);
 
         $recursiveArray    = [];
@@ -479,6 +485,9 @@ EOF;
     public function testShortenedExportForMultibyteCharacters(): void
     {
         $oldMbLanguage = mb_language();
+
+        assert(is_string($oldMbLanguage));
+
         mb_language('Japanese');
         $oldMbInternalEncoding = mb_internal_encoding();
         mb_internal_encoding('UTF-8');
