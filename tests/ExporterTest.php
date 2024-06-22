@@ -36,6 +36,9 @@ use stdClass;
 #[Small]
 final class ExporterTest extends TestCase
 {
+    /**
+     * @return array<list<mixed>>
+     */
     public static function exportProvider(): array
     {
         $obj2      = new stdClass;
@@ -290,6 +293,9 @@ EOF,
         ];
     }
 
+    /**
+     * @return array<list<mixed>>
+     */
     public static function shortenedExportProvider(): array
     {
         $obj      = new stdClass;
@@ -328,6 +334,9 @@ EOF,
         ];
     }
 
+    /**
+     * @return array<list<mixed>>
+     */
     public static function provideNonBinaryMultibyteStrings(): array
     {
         return [
@@ -337,6 +346,9 @@ EOF,
         ];
     }
 
+    /**
+     * @return array<list<mixed>>
+     */
     public static function shortenedRecursiveExportProvider(): array
     {
         $bigArray = [];
