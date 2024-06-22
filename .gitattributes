@@ -3,10 +3,10 @@
 /.github                export-ignore
 /.phive                 export-ignore
 /.php-cs-fixer.dist.php export-ignore
-/.psalm                 export-ignore
 /build                  export-ignore
 /build.xml              export-ignore
-infection.json5.dist    export-ignore
+/infection.json5.dist   export-ignore
+/phpstan.neon           export-ignore
 /phpunit.xml            export-ignore
 /tests                  export-ignore
 /tools                  export-ignore
