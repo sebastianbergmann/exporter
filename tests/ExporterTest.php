@@ -510,6 +510,9 @@ EOF;
         $this->assertEquals([], (new Exporter)->toArray((object) $array));
     }
 
+    /**
+     * @param array<mixed> $value
+     */
     #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected, int $limit): void
     {

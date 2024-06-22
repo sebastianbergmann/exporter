@@ -72,6 +72,9 @@ final readonly class Exporter
         return $this->recursiveExport($value, $indentation);
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function shortenedRecursiveExport(array &$data, ?RecursionContext $processed = null): string
     {
         if (!$processed) {
@@ -150,6 +153,8 @@ final readonly class Exporter
     /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
+     *
+     * @return array<mixed>
      */
     public function toArray(mixed $value): array
     {
@@ -213,6 +218,9 @@ final readonly class Exporter
         return $numberOfProperties;
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int &$counter): string
     {
         $result = [];
@@ -345,6 +353,9 @@ final readonly class Exporter
             "'";
     }
 
+    /**
+     * @param array<mixed> $value
+     */
     private function exportArray(array &$value, RecursionContext $processed, int $indentation): string
     {
         if (($key = $processed->contains($value)) !== false) {
