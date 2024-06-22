@@ -509,7 +509,7 @@ EOF;
     }
 
     #[DataProvider('provideNonBinaryMultibyteStrings')]
-    public function testNonBinaryStringExport($value, $expectedLength): void
+    public function testNonBinaryStringExport(string $value, int $expectedLength): void
     {
         $this->assertMatchesRegularExpression(
             "~'.{{$expectedLength}}'\$~s",
