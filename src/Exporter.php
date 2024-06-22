@@ -270,6 +270,7 @@ final readonly class Exporter
             return 'resource (closed)';
         }
 
+        /** @phpstan-ignore function.impossibleType */
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
