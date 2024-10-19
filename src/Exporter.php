@@ -102,14 +102,16 @@ final readonly class Exporter
      *
      * Newlines are replaced by the visible string '\n'.
      * Contents of arrays and objects (if any) are replaced by '...'.
+     *
+     * @param positive-int $maxLengthForStrings
      */
-    public function shortenedExport(mixed $value): string
+    public function shortenedExport(mixed $value, int $maxLengthForStrings = 40): string
     {
         if (is_string($value)) {
             $string = str_replace("\n", '', $this->exportString($value));
 
-            if (mb_strlen($string) > 40) {
-                return mb_substr($string, 0, 30) . '...' . mb_substr($string, -7);
+            if (mb_strlen($string) > $maxLengthForStrings) {
+                return mb_substr($string, 0, $maxLengthForStrings - 10) . '...' . mb_substr($string, -7);
             }
 
             return $string;

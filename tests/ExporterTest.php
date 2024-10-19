@@ -324,19 +324,20 @@ EOF,
             'float 1 - 2 / 3' => [1 - 2 / 3, '0.33333333333333337'],
             'numeric string'  => ['1', "'1'"],
             // \n\r and \r is converted to \n
-            '38 single-byte characters' => [str_repeat('A', 38), '\'' . str_repeat('A', 38) . '\''],
-            '39 single-byte characters' => [str_repeat('A', 39), '\'' . str_repeat('A', 29) . '...' . str_repeat('A', 6) . '\''],
-            '38 multi-byte characters'  => [str_repeat('🧪', 38), '\'' . str_repeat('🧪', 38) . '\''],
-            '39 multi-byte characters'  => [str_repeat('🧪', 39), '\'' . str_repeat('🧪', 29) . '...' . str_repeat('🧪', 6) . '\''],
-            'multi-line string'         => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
-            'empty stdClass'            => [new stdClass, 'stdClass Object ()'],
-            'not empty stdClass'        => [$obj, 'stdClass Object (...)'],
-            'empty array'               => [[], '[]'],
-            'not empty array'           => [$array, '[...]'],
-            'enum'                      => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
-            'backed enum (string)'      => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
-            'backen enum (integer)'     => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
-            'recursive array'           => [$recursiveArray, '[...]', 0],
+            '38 single-byte characters'                       => [str_repeat('A', 38), '\'' . str_repeat('A', 38) . '\''],
+            '39 single-byte characters'                       => [str_repeat('A', 39), '\'' . str_repeat('A', 29) . '...' . str_repeat('A', 6) . '\''],
+            '38 multi-byte characters'                        => [str_repeat('🧪', 38), '\'' . str_repeat('🧪', 38) . '\''],
+            '39 multi-byte characters'                        => [str_repeat('🧪', 39), '\'' . str_repeat('🧪', 29) . '...' . str_repeat('🧪', 6) . '\''],
+            'string longer than custom maximum string length' => [str_repeat('A', 21), '\'' . str_repeat('A', 9) . '...' . str_repeat('A', 6) . '\'', 20],
+            'multi-line string'                               => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext", "'this\\nis\\na\\nvery\\nvery\\nvery...\\rtext'"],
+            'empty stdClass'                                  => [new stdClass, 'stdClass Object ()'],
+            'not empty stdClass'                              => [$obj, 'stdClass Object (...)'],
+            'empty array'                                     => [[], '[]'],
+            'not empty array'                                 => [$array, '[...]'],
+            'enum'                                            => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
+            'backed enum (string)'                            => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
+            'backen enum (integer)'                           => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
+            'recursive array'                                 => [$recursiveArray, '[...]', 0],
         ];
     }
 
@@ -472,12 +473,15 @@ EOF;
         );
     }
 
+    /**
+     * @param positive-int $maxLengthForStrings
+     */
     #[DataProvider('shortenedExportProvider')]
-    public function testShortenedExport(mixed $value, string $expected): void
+    public function testShortenedExport(mixed $value, string $expected, int $maxLengthForStrings = 40): void
     {
         $this->assertSame(
             $expected,
-            $this->trimNewline((new Exporter)->shortenedExport($value)),
+            $this->trimNewline((new Exporter)->shortenedExport($value, $maxLengthForStrings)),
         );
     }
 

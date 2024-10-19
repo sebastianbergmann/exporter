@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [6.2.0] - 2024-MM-DD
+
+### Added
+
+* [#67](https://github.com/sebastianbergmann/exporter/issues/67): Optional argument for `shortenedExport()` to control maximum string length
+
 ## [6.1.3] - 2024-07-03
 
 ### Changed
@@ -158,6 +164,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[6.2.0]: https://github.com/sebastianbergmann/exporter/compare/6.1.3...main
 [6.1.3]: https://github.com/sebastianbergmann/exporter/compare/6.1.2...6.1.3
 [6.1.2]: https://github.com/sebastianbergmann/exporter/compare/6.1.1...6.1.2
 [6.1.1]: https://github.com/sebastianbergmann/exporter/compare/6.1.0...6.1.1
