@@ -74,8 +74,9 @@ final readonly class Exporter
 
     /**
      * @param array<mixed> $data
+     * @param positive-int $maxLengthForStrings
      */
-    public function shortenedRecursiveExport(array &$data, ?RecursionContext $processed = null): string
+    public function shortenedRecursiveExport(array &$data, int $maxLengthForStrings = 40, ?RecursionContext $processed = null): string
     {
         if (!$processed) {
             $processed = new RecursionContext;
@@ -84,7 +85,7 @@ final readonly class Exporter
         $overallCount = @count($data, COUNT_RECURSIVE);
         $counter      = 0;
 
-        $export = $this->shortenedCountedRecursiveExport($data, $processed, $counter);
+        $export = $this->shortenedCountedRecursiveExport($data, $processed, $counter, $maxLengthForStrings);
 
         if ($this->shortenArraysLongerThan > 0 &&
             $overallCount > $this->shortenArraysLongerThan) {
@@ -222,8 +223,9 @@ final readonly class Exporter
 
     /**
      * @param array<mixed> $data
+     * @param positive-int $maxLengthForStrings
      */
-    private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int &$counter): string
+    private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int &$counter, int $maxLengthForStrings): string
     {
         $result = [];
 
@@ -242,10 +244,10 @@ final readonly class Exporter
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = '[' . $this->shortenedCountedRecursiveExport($data[$key], $processed, $counter) . ']';
+                    $result[] = '[' . $this->shortenedCountedRecursiveExport($data[$key], $processed, $counter, $maxLengthForStrings) . ']';
                 }
             } else {
-                $result[] = $this->shortenedExport($value);
+                $result[] = $this->shortenedExport($value, $maxLengthForStrings);
             }
 
             $counter++;

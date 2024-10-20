@@ -555,7 +555,7 @@ EOF;
 
         $value = [$recursiveValue];
 
-        $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, $context));
+        $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
     }
 
     private function trimNewline(string $string): string
