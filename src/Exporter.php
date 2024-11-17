@@ -10,6 +10,7 @@
 namespace SebastianBergmann\Exporter;
 
 use const COUNT_RECURSIVE;
+use function assert;
 use function bin2hex;
 use function count;
 use function get_resource_type;
@@ -241,9 +242,13 @@ final readonly class Exporter
             }
 
             if (is_array($value)) {
+                assert(is_array($data[$key]) || is_object($data[$key]));
+
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
+                    assert(is_array($data[$key]));
+
                     $result[] = '[' . $this->shortenedCountedRecursiveExport($data[$key], $processed, $counter, $maxLengthForStrings) . ']';
                 }
             } else {
@@ -274,7 +279,6 @@ final readonly class Exporter
             return 'resource (closed)';
         }
 
-        /** @phpstan-ignore function.impossibleType */
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
