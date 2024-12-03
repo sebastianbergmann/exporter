@@ -28,9 +28,11 @@ use Error;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use stdClass;
@@ -338,6 +340,7 @@ EOF,
             'backed enum (string)'                            => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
             'backen enum (integer)'                           => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
             'recursive array'                                 => [$recursiveArray, '[...]', 0],
+            'class'                                           => [new ExampleClass('bar'), 'SebastianBergmann\Exporter\ExampleClass Object (...)', 0],
         ];
     }
 
@@ -556,6 +559,17 @@ EOF;
         $value = [$recursiveValue];
 
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
+    }
+
+    #[RequiresPhp('8.4')]
+    public function testShortenedExportDoesNotUnlazyLazyObject(): void
+    {
+        $reflector = new ReflectionClass(ExampleClass::class);
+        $object    = $reflector->newLazyProxy(static fn () => new ExampleClass('bar'));
+
+        (new Exporter)->shortenedExport($object, 10);
+
+        $this->assertTrue($reflector->isUninitializedLazyObject($object));
     }
 
     private function trimNewline(string $string): string
