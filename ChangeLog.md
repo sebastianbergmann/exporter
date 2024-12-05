@@ -8,11 +8,11 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * [#67](https://github.com/sebastianbergmann/exporter/issues/67): Optional argument for `shortenedExport()` to control maximum string length
 
-## [6.1.3] - 2024-07-03
-
 ### Changed
 
 * [#69](https://github.com/sebastianbergmann/exporter/pull/69): Do not initialize lazy objects during export
+
+## [6.1.3] - 2024-07-03
 
 ### Changed
 
