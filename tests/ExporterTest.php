@@ -21,6 +21,7 @@ use function is_resource;
 use function is_string;
 use function mb_internal_encoding;
 use function mb_language;
+use function method_exists;
 use function preg_replace;
 use function range;
 use function str_repeat;
@@ -565,7 +566,11 @@ EOF;
     public function testShortenedExportDoesNotInitializeLazyObject(): void
     {
         $reflector = new ReflectionClass(ExampleClass::class);
-        $object    = $reflector->newLazyProxy(static fn () => new ExampleClass('bar'));
+
+        assert(method_exists($reflector, 'newLazyProxy'));
+        assert(method_exists($reflector, 'isUninitializedLazyObject'));
+
+        $object = $reflector->newLazyProxy(static fn () => new ExampleClass('bar'));
 
         (new Exporter)->shortenedExport($object, 10);
 
