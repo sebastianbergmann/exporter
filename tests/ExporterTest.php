@@ -485,6 +485,11 @@ EOF;
     {
         $this->assertSame(
             $expected,
+            $this->trimNewline((new Exporter(0, $maxLengthForStrings))->shortenedExport($value)),
+        );
+
+        $this->assertSame(
+            $expected,
             $this->trimNewline((new Exporter)->shortenedExport($value, $maxLengthForStrings)),
         );
     }
