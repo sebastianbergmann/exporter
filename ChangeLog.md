@@ -12,6 +12,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Changed
 
+* [#69](https://github.com/sebastianbergmann/exporter/pull/69): Do not initialize lazy objects during export
+
+### Changed
+
 * [#66](https://github.com/sebastianbergmann/exporter/pull/66): Avoid using the Reflection API for some classes
 * This project now uses PHPStan instead of Psalm for static analysis
 
