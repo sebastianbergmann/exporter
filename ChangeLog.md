@@ -2,7 +2,7 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [6.3.0] - 2024-MM-DD
+## [6.3.0] - 2024-12-05
 
 ### Added
 
@@ -178,7 +178,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
-[6.3.0]: https://github.com/sebastianbergmann/exporter/compare/6.2.0...main
+[6.3.0]: https://github.com/sebastianbergmann/exporter/compare/6.2.0...6.3.0
 [6.2.0]: https://github.com/sebastianbergmann/exporter/compare/6.1.3...6.2.0
 [6.1.3]: https://github.com/sebastianbergmann/exporter/compare/6.1.2...6.1.3
 [6.1.2]: https://github.com/sebastianbergmann/exporter/compare/6.1.1...6.1.2
