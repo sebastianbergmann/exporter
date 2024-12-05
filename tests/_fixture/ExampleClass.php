@@ -14,6 +14,9 @@ namespace SebastianBergmann\Exporter;
  */
 class ExampleClass
 {
+    /**
+     * @phpstan-ignore property.onlyWritten
+     */
     private string $foo;
 
     public function __construct(string $foo)
