@@ -561,7 +561,7 @@ EOF;
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
     }
 
-    #[RequiresPhp('8.4')]
+    #[RequiresPhp('^8.4')]
     public function testShortenedExportDoesNotUnlazyLazyObject(): void
     {
         $reflector = new ReflectionClass(ExampleClass::class);
