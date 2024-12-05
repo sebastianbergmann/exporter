@@ -6,7 +6,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Added
 
-* [#67](https://github.com/sebastianbergmann/exporter/issues/67): Optional argument for `shortenedExport()` to control maximum string length
+* [#67](https://github.com/sebastianbergmann/exporter/issues/67): Optional argument for `shortenedRecursiveExport()` and `shortenedExport()` to control maximum string length
 
 ### Changed
 
