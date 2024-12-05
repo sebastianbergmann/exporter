@@ -562,7 +562,7 @@ EOF;
     }
 
     #[RequiresPhp('^8.4')]
-    public function testShortenedExportDoesNotUnlazyLazyObject(): void
+    public function testShortenedExportDoesNotInitializeLazyObject(): void
     {
         $reflector = new ReflectionClass(ExampleClass::class);
         $object    = $reflector->newLazyProxy(static fn () => new ExampleClass('bar'));
