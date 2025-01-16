@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [7.0.0] - 2025-02-07
+
+### Removed
+
+* This component is no longer supported on PHP 8.2
+
 ## [6.3.0] - 2024-12-05
 
 ### Added
@@ -178,6 +184,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[7.0.0]: https://github.com/sebastianbergmann/exporter/compare/6.3...main
 [6.3.0]: https://github.com/sebastianbergmann/exporter/compare/6.2.0...6.3.0
 [6.2.0]: https://github.com/sebastianbergmann/exporter/compare/6.1.3...6.2.0
 [6.1.3]: https://github.com/sebastianbergmann/exporter/compare/6.1.2...6.1.3
