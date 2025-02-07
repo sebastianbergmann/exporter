@@ -37,15 +37,14 @@
         "optimize-autoloader": true,
         "sort-packages": true
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
         "ext-mbstring": "*",
-        "sebastian/recursion-context": "^7.0-dev"
+        "sebastian/recursion-context": "^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.0-dev"
+        "phpunit/phpunit": "^12.0"
     },
     "autoload": {
         "classmap": [
