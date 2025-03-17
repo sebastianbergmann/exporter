@@ -12,7 +12,7 @@ namespace SebastianBergmann\Exporter;
 /*
  * Helper to test export of enums.
  */
-class ExampleClass
+final class ExampleClass
 {
     /**
      * @phpstan-ignore property.onlyWritten
