@@ -92,7 +92,7 @@ final readonly class Exporter
             $maxLengthForStrings = $this->maxLengthForStrings;
         }
 
-        if (!$processed) {
+        if ($processed === null) {
             $processed = new RecursionContext;
         }
 
@@ -197,7 +197,7 @@ final readonly class Exporter
             // private   $propertyName => "\0ClassName\0propertyName"
             // protected $propertyName => "\0*\0propertyName"
             // public    $propertyName => "propertyName"
-            if (preg_match('/\0.+\0(.+)/', (string) $key, $matches)) {
+            if (preg_match('/\0.+\0(.+)/', (string) $key, $matches) === 1) {
                 $key = $matches[1];
             }
 
@@ -330,7 +330,7 @@ final readonly class Exporter
             return $this->exportString($value);
         }
 
-        if (!$processed) {
+        if ($processed === null) {
             $processed = new RecursionContext;
         }
 
@@ -365,7 +365,7 @@ final readonly class Exporter
     private function exportString(string $value): string
     {
         // Match for most non-printable chars somewhat taking multibyte chars into account
-        if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
+        if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value) === 1) {
             return 'Binary String: 0x' . bin2hex($value);
         }
 
