@@ -262,7 +262,7 @@ final readonly class Exporter
             }
 
             if (is_array($value)) {
-                assert(is_array($data[$key]) || is_object($data[$key]));
+                assert(isset($data[$key]) && (is_array($data[$key]) || is_object($data[$key])));
 
                 if ($processed->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
