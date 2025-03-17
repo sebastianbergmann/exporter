@@ -302,6 +302,7 @@ final readonly class Exporter
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
+                /** @phpstan-ignore cast.useless */
                 (int) $value,
                 get_resource_type($value),
             );
