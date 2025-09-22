@@ -242,7 +242,7 @@ class Exporter
             try {
                 $valueStr = (string) $value;
 
-                if ((string) (int) $value === $valueStr) {
+                if ((string) @(int) $value === $valueStr) {
                     return $valueStr . '.0';
                 }
 

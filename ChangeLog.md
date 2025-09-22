@@ -44,6 +44,22 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 7.0, PHP 7.1, and PHP 7.2
 
+## [3.1.7] - 2025-09-22
+
+### Changed
+
+* Suppress `not representable as an int, cast occurred` warning triggered on PHP 8.5
+
+## [3.1.6] - 2024-03-02
+
+### Changed
+
+* Do not use implicitly nullable parameters
+
+### Removed
+
+* This component is no longer supported on PHP 7.0 and PHP 7.1
+
 ## [3.1.5] - 2022-09-14
 
 ### Fixed
@@ -79,6 +95,8 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 [4.0.2]: https://github.com/sebastianbergmann/exporter/compare/4.0.1...4.0.2
 [4.0.1]: https://github.com/sebastianbergmann/exporter/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/sebastianbergmann/exporter/compare/3.1.2...4.0.0
+[3.1.7]: https://github.com/sebastianbergmann/exporter/compare/3.1.6...3.1.7
+[3.1.6]: https://github.com/sebastianbergmann/exporter/compare/3.1.5...3.1.6
 [3.1.5]: https://github.com/sebastianbergmann/exporter/compare/3.1.4...3.1.5
 [3.1.4]: https://github.com/sebastianbergmann/exporter/compare/3.1.3...3.1.4
 [3.1.3]: https://github.com/sebastianbergmann/exporter/compare/3.1.2...3.1.3
