@@ -356,7 +356,7 @@ final readonly class Exporter
 
         ini_set('precision', $precisionBackup);
 
-        if ((string) (int) $value === $valueAsString) {
+        if ((string) @(int) $value === $valueAsString) {
             return $valueAsString . '.0';
         }
 
@@ -405,6 +405,7 @@ final readonly class Exporter
                     . '    ' .
                     $this->recursiveExport($k, $indentation)
                     . ' => ' .
+                    /** @phpstan-ignore offsetAccess.invalidOffset */
                     $this->recursiveExport($value[$k], $indentation + 1, $processed)
                     . ",\n";
             }
