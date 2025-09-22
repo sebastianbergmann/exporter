@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [5.1.3] - 2025-09-22
+
+### Changed
+
+* Suppress `not representable as an int, cast occurred` warning triggered on PHP 8.5
+
 ## [5.1.2] - 2024-03-02
 
 ### Changed
@@ -20,6 +26,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * [#51](https://github.com/sebastianbergmann/exporter/pull/51): Export arrays using short array syntax
 
+[5.1.3]: https://github.com/sebastianbergmann/exporter/compare/5.1.2...5.1.3
 [5.1.2]: https://github.com/sebastianbergmann/exporter/compare/5.1.1...5.1.2
 [5.1.1]: https://github.com/sebastianbergmann/exporter/compare/5.1.0...5.1.1
 [5.1.0]: https://github.com/sebastianbergmann/exporter/compare/5.0.1...5.1.0

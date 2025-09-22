@@ -212,7 +212,7 @@ final class Exporter
 
             ini_set('precision', $precisionBackup);
 
-            if ((string) (int) $value === $valueAsString) {
+            if ((string) @(int) $value === $valueAsString) {
                 return $valueAsString . '.0';
             }
 
