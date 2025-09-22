@@ -46,7 +46,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
-[3.1.7]: https://github.com/sebastianbergmann/exporter/compare/3.1.6...3.1
+[3.1.7]: https://github.com/sebastianbergmann/exporter/compare/3.1.6...3.1.7
 [3.1.6]: https://github.com/sebastianbergmann/exporter/compare/3.1.5...3.1.6
 [3.1.5]: https://github.com/sebastianbergmann/exporter/compare/3.1.4...3.1.5
 [3.1.4]: https://github.com/sebastianbergmann/exporter/compare/3.1.3...3.1.4
