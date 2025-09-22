@@ -404,6 +404,7 @@ final readonly class Exporter
                     . '    ' .
                     $this->recursiveExport($k, $indentation)
                     . ' => ' .
+                    /** @phpstan-ignore offsetAccess.invalidOffset */
                     $this->recursiveExport($value[$k], $indentation + 1, $processed)
                     . ",\n";
             }
