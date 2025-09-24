@@ -40,7 +40,7 @@ class ExporterTest extends TestCase
 
         $storage = new \SplObjectStorage;
         $storage->offsetSet($obj2);
-        $storage->foo = $obj2;
+        @$storage->foo = $obj2;
 
         $resource = \fopen('php://memory', 'r');
         \fclose($resource);
