@@ -351,7 +351,7 @@ final readonly class Exporter
 
         ini_set('precision', '-1');
 
-        $valueAsString = (string) $value;
+        $valueAsString = @(string) $value;
 
         ini_set('precision', $precisionBackup);
 
