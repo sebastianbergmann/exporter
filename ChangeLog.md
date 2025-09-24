@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [4.0.8] - 2025-09-24
+
+### Changed
+
+* Suppress `unexpected NAN value was coerced to string` warning triggered on PHP 8.5
+
 ## [4.0.7] - 2025-09-22
 
 ### Changed
@@ -50,6 +56,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 7.0, PHP 7.1, and PHP 7.2
 
+[4.0.8]: https://github.com/sebastianbergmann/exporter/compare/4.0.7...4.0.8
 [4.0.7]: https://github.com/sebastianbergmann/exporter/compare/4.0.6...4.0.7
 [4.0.6]: https://github.com/sebastianbergmann/exporter/compare/4.0.5...4.0.6
 [4.0.5]: https://github.com/sebastianbergmann/exporter/compare/4.0.4...4.0.5
