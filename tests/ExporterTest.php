@@ -21,7 +21,6 @@ use function is_resource;
 use function is_string;
 use function mb_internal_encoding;
 use function mb_language;
-use function method_exists;
 use function preg_replace;
 use function range;
 use function str_repeat;
@@ -29,7 +28,6 @@ use Error;
 use Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
@@ -567,13 +565,9 @@ EOF;
         $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
     }
 
-    #[RequiresPhp('^8.4')]
     public function testShortenedExportDoesNotInitializeLazyObject(): void
     {
         $reflector = new ReflectionClass(ExampleClass::class);
-
-        assert(method_exists($reflector, 'newLazyProxy'));
-        assert(method_exists($reflector, 'isUninitializedLazyObject'));
 
         $object = $reflector->newLazyProxy(static fn () => new ExampleClass('bar'));
 
