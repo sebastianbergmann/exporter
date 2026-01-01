@@ -229,7 +229,7 @@ EOF,
                 0,
             ],
             [
-                implode('', array_map('chr', range(0x0E, 0x1F))),
+                implode('', array_map(chr(...), range(0x0E, 0x1F))),
                 'Binary String: 0x0e0f101112131415161718191a1b1c1d1e1f',
                 0,
             ],
@@ -349,9 +349,9 @@ EOF,
     public static function provideNonBinaryMultibyteStrings(): array
     {
         return [
-            [implode('', array_map('chr', range(0x09, 0x0D))), 9],
-            [implode('', array_map('chr', range(0x20, 0x7F))), 96],
-            [implode('', array_map('chr', range(0x80, 0xFF))), 128],
+            [implode('', array_map(chr(...), range(0x09, 0x0D))), 9],
+            [implode('', array_map(chr(...), range(0x20, 0x7F))), 96],
+            [implode('', array_map(chr(...), range(0x80, 0xFF))), 128],
         ];
     }
 
@@ -483,7 +483,7 @@ EOF;
     {
         $this->assertSame(
             $expected,
-            $this->trimNewline((new Exporter(0, $maxLengthForStrings))->shortenedExport($value)),
+            $this->trimNewline(new Exporter(0, $maxLengthForStrings)->shortenedExport($value)),
         );
 
         $this->assertSame(
@@ -549,7 +549,7 @@ EOF;
     #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected, int $limit): void
     {
-        $this->assertEquals($expected, (new Exporter($limit))->shortenedRecursiveExport($value));
+        $this->assertEquals($expected, new Exporter($limit)->shortenedRecursiveExport($value));
     }
 
     public function testShortenedRecursiveOccurredRecursion(): void

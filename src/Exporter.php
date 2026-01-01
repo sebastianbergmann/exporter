@@ -236,10 +236,10 @@ final readonly class Exporter
 
         if (!$value instanceof stdClass) {
             // using ReflectionClass prevents initialization of potential lazy objects
-            return count((new ReflectionClass($value))->getProperties());
+            return count(new ReflectionClass($value)->getProperties());
         }
 
-        return count((new ReflectionObject($value))->getProperties());
+        return count(new ReflectionObject($value)->getProperties());
     }
 
     /**
