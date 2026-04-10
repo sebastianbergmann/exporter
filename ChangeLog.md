@@ -2,7 +2,7 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [8.0.1] - 2026-MM-DD
+## [8.0.1] - 2026-04-10
 
 ### Changed
 
@@ -32,7 +32,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.2
 
-[8.0.1]: https://github.com/sebastianbergmann/exporter/compare/8.0.0...main
+[8.0.1]: https://github.com/sebastianbergmann/exporter/compare/8.0.0...8.0.1
 [8.0.0]: https://github.com/sebastianbergmann/exporter/compare/7.0...8.0.0
 [7.0.2]: https://github.com/sebastianbergmann/exporter/compare/7.0.1...7.0.2
 [7.0.1]: https://github.com/sebastianbergmann/exporter/compare/7.0.0...7.0.1
