@@ -10,6 +10,8 @@
 namespace SebastianBergmann\Exporter;
 
 use const COUNT_RECURSIVE;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use function assert;
 use function bin2hex;
 use function count;
@@ -21,6 +23,8 @@ use function ini_set;
 use function is_array;
 use function is_bool;
 use function is_float;
+use function is_infinite;
+use function is_nan;
 use function is_object;
 use function is_resource;
 use function is_string;
@@ -348,15 +352,23 @@ final readonly class Exporter
 
     private function exportFloat(float $value): string
     {
+        if (is_nan($value)) {
+            return 'NAN';
+        }
+
+        if (is_infinite($value)) {
+            return $value > 0 ? 'INF' : '-INF';
+        }
+
         $precisionBackup = ini_get('precision');
 
         ini_set('precision', '-1');
 
-        $valueAsString = @(string) $value;
+        $valueAsString = (string) $value;
 
         ini_set('precision', $precisionBackup);
 
-        if ((string) @(int) $value === $valueAsString) {
+        if ($value >= PHP_INT_MIN && $value <= PHP_INT_MAX && (string) (int) $value === $valueAsString) {
             return $valueAsString . '.0';
         }
 
