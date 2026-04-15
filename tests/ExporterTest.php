@@ -87,6 +87,7 @@ final class ExporterTest extends TestCase
             'float 1 - 2 / 3'                        => [1 - 2 / 3, '0.33333333333333337', 0],
             'float 5.5E+123'                         => [5.5E+123, '5.5E+123', 0],
             'float 5.5E-123'                         => [5.5E-123, '5.5E-123', 0],
+            'float 9.2233720368547758E+18'           => [9.2233720368547758E+18, '9.223372036854776E+18', 0],
             'float NAN'                              => [NAN, 'NAN', 0],
             'float INF'                              => [INF, 'INF', 0],
             'float -INF'                             => [-INF, '-INF', 0],
