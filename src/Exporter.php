@@ -10,8 +10,6 @@
 namespace SebastianBergmann\Exporter;
 
 use const COUNT_RECURSIVE;
-use const PHP_INT_MAX;
-use const PHP_INT_MIN;
 use function assert;
 use function bin2hex;
 use function count;
@@ -35,6 +33,7 @@ use function spl_object_id;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
+use function strpbrk;
 use function strtr;
 use function var_export;
 use BackedEnum;
@@ -368,7 +367,8 @@ final readonly class Exporter
 
         ini_set('precision', $precisionBackup);
 
-        if ($value >= PHP_INT_MIN && $value <= PHP_INT_MAX && (string) (int) $value === $valueAsString) {
+        // Add '.0' only if decimals and scientific notation are absent.
+        if (strpbrk($valueAsString, '.E') === false) {
             return $valueAsString . '.0';
         }
 
