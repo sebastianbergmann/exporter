@@ -41,7 +41,7 @@
     "require": {
         "php": ">=8.3",
         "ext-mbstring": "*",
-        "sebastian/recursion-context": "^7.0"
+        "sebastian/recursion-context": "^7.0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.0"
