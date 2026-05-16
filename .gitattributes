@@ -8,6 +8,7 @@
 /infection.json5.dist   export-ignore
 /phpstan.neon           export-ignore
 /phpunit.xml            export-ignore
+/renovate.json          export-ignore
 /tests                  export-ignore
 /tools                  export-ignore
 /tools/*                binary
