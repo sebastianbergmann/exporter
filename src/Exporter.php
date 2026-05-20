@@ -230,6 +230,12 @@ final readonly class Exporter
         // above (fast) mechanism nor with reflection in Zend.
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
+            $key = null;
+
+            if ($value->valid()) {
+                $key = $value->key();
+            }
+
             foreach ($value as $_value) {
                 $array['Object #' . spl_object_id($_value)] = [
                     'obj' => $_value,
@@ -237,7 +243,9 @@ final readonly class Exporter
                 ];
             }
 
-            $value->rewind();
+            if ($key !== null) {
+                $value->seek($key);
+            }
         }
 
         return $array;
