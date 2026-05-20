@@ -18,6 +18,12 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.3
 
+## [7.0.3] - 2026-MM-DD
+
+### Fixed
+
+* [#90](https://github.com/sebastianbergmann/exporter/issues/90): `Exporter::toArray()` silently drops a private property that is redeclared in a derived class
+
 ## [7.0.2] - 2025-09-24
 
 ### Changed
@@ -39,6 +45,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 [8.0.2]: https://github.com/sebastianbergmann/exporter/compare/8.0.1...8.0.2
 [8.0.1]: https://github.com/sebastianbergmann/exporter/compare/8.0.0...8.0.1
 [8.0.0]: https://github.com/sebastianbergmann/exporter/compare/7.0...8.0.0
+[7.0.3]: https://github.com/sebastianbergmann/exporter/compare/7.0.2...7.0
 [7.0.2]: https://github.com/sebastianbergmann/exporter/compare/7.0.1...7.0.2
 [7.0.1]: https://github.com/sebastianbergmann/exporter/compare/7.0.0...7.0.1
 [7.0.0]: https://github.com/sebastianbergmann/exporter/compare/6.3...7.0.0
