@@ -28,11 +28,16 @@ use function is_resource;
 use function is_string;
 use function mb_strlen;
 use function mb_substr;
+use function ord;
 use function preg_match;
+use function preg_match_all;
+use function preg_replace_callback;
 use function spl_object_id;
 use function sprintf;
+use function str_contains;
 use function str_repeat;
 use function str_replace;
+use function strlen;
 use function strpbrk;
 use function strtr;
 use function var_export;
@@ -437,21 +442,44 @@ final readonly class Exporter
     private function exportString(string $value): string
     {
         // Match for most non-printable chars somewhat taking multibyte chars into account
-        if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value) === 1) {
+        $unprintableCount = preg_match_all('/[^\x09-\x0d\x1b\x20-\xff]/', $value);
+
+        if ($unprintableCount === false || $unprintableCount === 0) {
+            return "'" .
+                strtr(
+                    $value,
+                    [
+                        "\r\n" => '\r\n' . "\n",
+                        "\n\r" => '\n\r' . "\n",
+                        "\r"   => '\r' . "\n",
+                        "\n"   => '\n' . "\n",
+                    ],
+                ) .
+                "'";
+        }
+
+        // A NUL byte or a high ratio of unprintable bytes signals truly
+        // binary data; keep the compact hex dump in those cases.
+        if (str_contains($value, "\x00") || ($unprintableCount / strlen($value)) > 0.3) {
             return 'Binary String: 0x' . bin2hex($value);
         }
 
-        return "'" .
-            strtr(
+        // Mostly printable: keep printable bytes visible and escape only
+        // the offending ones inline using PHP-style \xNN escapes.
+        return 'Binary String: "' .
+            preg_replace_callback(
+                '/[\x00-\x1f\x7f"\\\\]/',
+                static fn (array $m): string => match ($m[0]) {
+                    "\t"    => '\t',
+                    "\n"    => '\n',
+                    "\r"    => '\r',
+                    '"'     => '\"',
+                    '\\'    => '\\\\',
+                    default => sprintf('\x%02x', ord($m[0])),
+                },
                 $value,
-                [
-                    "\r\n" => '\r\n' . "\n",
-                    "\n\r" => '\n\r' . "\n",
-                    "\r"   => '\r' . "\n",
-                    "\n"   => '\n' . "\n",
-                ],
             ) .
-            "'";
+            '"';
     }
 
     /**

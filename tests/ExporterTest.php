@@ -239,6 +239,26 @@ EOF,
                 'Binary String: 0x0009',
                 0,
             ],
+            'mostly printable string with a single control byte' => [
+                'Hello' . chr(0x01) . 'World',
+                'Binary String: "Hello\x01World"',
+                0,
+            ],
+            'mostly printable string with several control bytes' => [
+                'BEGIN' . chr(0x01) . 'DATA' . chr(0x1F) . 'END',
+                'Binary String: "BEGIN\x01DATA\x1fEND"',
+                0,
+            ],
+            'mixed string with embedded double quote and backslash' => [
+                'a"b\\c' . chr(0x07) . 'd',
+                'Binary String: "a\"b\\\\c\x07d"',
+                0,
+            ],
+            'mixed string preserves UTF-8 high bytes' => [
+                'café' . chr(0x01),
+                'Binary String: "café\x01"',
+                0,
+            ],
             [
                 '',
                 "''",
