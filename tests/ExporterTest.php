@@ -544,6 +544,19 @@ EOF;
         $this->assertEquals([], (new Exporter)->toArray((object) $array));
     }
 
+    public function testPrivatePropertyRedeclaredInDerivedClassIsNotOverwritten(): void
+    {
+        $this->assertSame(
+            [
+                ParentClassWithPrivateProperty::class . '::property' => 'parent value',
+                ChildClassWithPrivateProperty::class . '::property'  => 'child value',
+            ],
+            (new Exporter)->toArray(
+                new ChildClassWithPrivateProperty('parent value', 'child value'),
+            ),
+        );
+    }
+
     /**
      * @param array<mixed>     $value
      * @param non-negative-int $limit
