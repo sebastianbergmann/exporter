@@ -7,6 +7,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 ### Changed
 
 * [#57](https://github.com/sebastianbergmann/exporter/issues/57): Preserve `SplObjectStorage` iterator position instead of resetting to first element
+* [#91](https://github.com/sebastianbergmann/exporter/pull/91): Make binary string output readable for mostly-printable values
 
 ## [8.0.3] - 2026-05-20
 
