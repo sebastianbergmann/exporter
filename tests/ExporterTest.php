@@ -249,6 +249,21 @@ EOF,
                 'Binary String: "BEGIN\x01DATA\x1fEND"',
                 0,
             ],
+            'mostly printable string with embedded tab' => [
+                'Tab' . chr(0x09) . 'Sep' . chr(0x01),
+                'Binary String: "Tab\tSep\x01"',
+                0,
+            ],
+            'mostly printable string with embedded newline' => [
+                'Line1' . chr(0x0A) . 'Line2' . chr(0x01),
+                'Binary String: "Line1\nLine2\x01"',
+                0,
+            ],
+            'mostly printable string with embedded carriage return' => [
+                'A' . chr(0x0D) . 'B' . chr(0x01),
+                'Binary String: "A\rB\x01"',
+                0,
+            ],
             'mixed string with embedded double quote and backslash' => [
                 'a"b\\c' . chr(0x07) . 'd',
                 'Binary String: "a\"b\\\\c\x07d"',
