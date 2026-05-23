@@ -450,7 +450,6 @@ final readonly class Exporter
                     $value,
                     [
                         "\r\n" => '\r\n' . "\n",
-                        "\n\r" => '\n\r' . "\n",
                         "\r"   => '\r' . "\n",
                         "\n"   => '\n' . "\n",
                     ],

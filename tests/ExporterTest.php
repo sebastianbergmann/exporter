@@ -145,7 +145,9 @@ Array &0 [
 EOF,
                 2,
             ],
-            // \n\r and \r is converted to \n
+            // A real newline is inserted after each line ending so the
+            // escaped text wraps readably; \r\n stays one break while a lone
+            // \n followed by a lone \r are two separate line endings.
             'export multiline text' => ["this\nis\na\nvery\nvery\nvery\nvery\nvery\nvery\rlong\n\rtext",
                 <<<'EOF'
 'this\n
@@ -157,8 +159,27 @@ very\n
 very\n
 very\n
 very\r
-long\n\r
+long\n
+\r
 text'
+EOF,
+                0,
+            ],
+            // A lone \n (Unix) followed by a lone \r (old Mac) are two
+            // distinct line endings and must each produce their own break.
+            'lone newline followed by lone carriage return' => ["a\n\rb",
+                <<<'EOF'
+'a\n
+\r
+b'
+EOF,
+                0,
+            ],
+            // \r\n (Windows) is a single line ending and stays one break.
+            'carriage return followed by newline' => ["a\r\nb",
+                <<<'EOF'
+'a\r\n
+b'
 EOF,
                 0,
             ],
@@ -180,7 +201,8 @@ very\n
 very\n
 very\n
 very\r
-long\n\r
+long\n
+\r
 text',
     'object' => stdClass Object #%d (
         'foo' => 'bar',
@@ -468,7 +490,8 @@ very\n
 very\n
 very\n
 very\r
-long\n\r
+long\n
+\r
 text',
     'object' => stdClass Object #%d (
         'foo' => 'bar',
@@ -493,7 +516,8 @@ very\n
 very\n
 very\n
 very\r
-long\n\r
+long\n
+\r
 text',
         'object' => stdClass Object #%d,
         'objectagain' => stdClass Object #%d,
