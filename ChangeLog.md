@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [8.1.1] - 2026-07-13
+
+### Fixed
+
+* A lone `\n` (LF) followed by a lone `\r` (CR) was incorrectly treated as a single `\n\r` line ending when exporting a string; these are now treated as two separate line endings
+
 ## [8.1.0] - 2026-05-21
 
 ### Changed
@@ -55,6 +61,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.2
 
+[8.1.1]: https://github.com/sebastianbergmann/exporter/compare/8.1.0...8.1.1
 [8.1.0]: https://github.com/sebastianbergmann/exporter/compare/8.0.3...8.1.0
 [8.0.3]: https://github.com/sebastianbergmann/exporter/compare/8.0.2...8.0.3
 [8.0.2]: https://github.com/sebastianbergmann/exporter/compare/8.0.1...8.0.2
