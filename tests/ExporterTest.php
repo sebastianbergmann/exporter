@@ -30,6 +30,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SebastianBergmann\RecursionContext\Context;
@@ -37,6 +38,7 @@ use SplObjectStorage;
 use stdClass;
 
 #[CoversClass(Exporter::class)]
+#[UsesClass(ObjectExporterChain::class)]
 #[Small]
 final class ExporterTest extends TestCase
 {
@@ -647,6 +649,114 @@ EOF;
         (new Exporter)->shortenedExport($object, 10);
 
         $this->assertTrue($reflector->isUninitializedLazyObject($object));
+    }
+
+    public function testObjectCanBeExportedByCustomObjectExporter(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesEveryObject,
+                ],
+            ),
+        );
+
+        $this->assertSame(
+            'stdClass (indentation: 0)',
+            $exporter->export(new stdClass),
+        );
+    }
+
+    public function testObjectNestedInArrayCanBeExportedByCustomObjectExporter(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesEveryObject,
+                ],
+            ),
+        );
+
+        $this->assertSame(
+            <<<'EOT'
+Array &0 [
+    0 => stdClass (indentation: 1),
+]
+EOT,
+            $exporter->export([new stdClass]),
+        );
+    }
+
+    public function testObjectNestedInObjectCanBeExportedByCustomObjectExporter(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesObjectsOfSpecificType(ExampleClass::class),
+                ],
+            ),
+        );
+
+        $object         = new stdClass;
+        $object->nested = new ExampleClass('bar');
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+stdClass Object #%d (
+    'nested' => SebastianBergmann\Exporter\ExampleClass handled by custom exporter,
+)
+EOT,
+            $exporter->export($object),
+        );
+    }
+
+    public function testObjectHandledByCustomObjectExporterIsOnlyExportedOnce(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesEveryObject,
+                ],
+            ),
+        );
+
+        $object = new stdClass;
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Array &0 [
+    0 => stdClass (indentation: 1),
+    1 => stdClass Object #%d,
+]
+EOT,
+            $exporter->export([$object, $object]),
+        );
+    }
+
+    public function testDefaultExportIsUsedWhenNoCustomObjectExporterHandlesObject(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesNoObject,
+                ],
+            ),
+        );
+
+        $this->assertStringMatchesFormat(
+            'stdClass Object #%d ()',
+            $exporter->export(new stdClass),
+        );
     }
 
     private function trimNewline(string $string): string

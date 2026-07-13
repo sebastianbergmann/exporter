@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [8.2.0] - 2026-08-07
+
+### Added
+
+`ObjectExporter` interface and `ObjectExporterChain` for customizing how objects are exported (a chain can be passed to `Exporter`'s constructor and is consulted before the default property-by-property export is applied)
+
 ## [8.1.1] - 2026-07-13
 
 ### Fixed
@@ -61,6 +67,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.2
 
+[8.2.0]: https://github.com/sebastianbergmann/exporter/compare/8.1.1...main
 [8.1.1]: https://github.com/sebastianbergmann/exporter/compare/8.1.0...8.1.1
 [8.1.0]: https://github.com/sebastianbergmann/exporter/compare/8.0.3...8.1.0
 [8.0.3]: https://github.com/sebastianbergmann/exporter/compare/8.0.2...8.0.3

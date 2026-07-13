@@ -61,15 +61,17 @@ final readonly class Exporter
      * @var positive-int
      */
     private int $maxLengthForStrings;
+    private ?ObjectExporterChain $objectExporter;
 
     /**
      * @param non-negative-int $shortenArraysLongerThan
      * @param positive-int     $maxLengthForStrings
      */
-    public function __construct(int $shortenArraysLongerThan = 0, int $maxLengthForStrings = 40)
+    public function __construct(int $shortenArraysLongerThan = 0, int $maxLengthForStrings = 40, ?ObjectExporterChain $objectExporter = null)
     {
         $this->shortenArraysLongerThan = $shortenArraysLongerThan;
         $this->maxLengthForStrings     = $maxLengthForStrings;
+        $this->objectExporter          = $objectExporter;
     }
 
     /**
@@ -523,6 +525,10 @@ final readonly class Exporter
         }
 
         $processed->add($value);
+
+        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
+            return $this->objectExporter->export($value, $this, $indentation);
+        }
 
         $array  = $this->toArray($value);
         $buffer = '';
