@@ -518,6 +518,15 @@ final readonly class Exporter
 
     private function exportObject(object $value, RecursionContext $processed, int $indentation): string
     {
+        // A custom object exporter is responsible for the entire
+        // representation of the object it handles. Therefore, it is asked for
+        // that representation before the recursion context is consulted: every
+        // occurrence of such an object is exported the same way instead of
+        // repeated occurrences being replaced with a reference to the object.
+        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
+            return $this->objectExporter->export($value, $this, $indentation);
+        }
+
         $class = $value::class;
 
         if ($processed->contains($value) !== false) {
@@ -525,10 +534,6 @@ final readonly class Exporter
         }
 
         $processed->add($value);
-
-        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
-            return $this->objectExporter->export($value, $this, $indentation);
-        }
 
         $array  = $this->toArray($value);
         $buffer = '';

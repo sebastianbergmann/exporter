@@ -716,7 +716,7 @@ EOT,
         );
     }
 
-    public function testObjectHandledByCustomObjectExporterIsOnlyExportedOnce(): void
+    public function testEveryOccurrenceOfObjectHandledByCustomObjectExporterIsExportedByThatObjectExporter(): void
     {
         $exporter = new Exporter(
             0,
@@ -730,10 +730,35 @@ EOT,
 
         $object = new stdClass;
 
-        $this->assertStringMatchesFormat(
+        $this->assertSame(
             <<<'EOT'
 Array &0 [
     0 => stdClass (indentation: 1),
+    1 => stdClass (indentation: 1),
+]
+EOT,
+            $exporter->export([$object, $object]),
+        );
+    }
+
+    public function testRepeatedOccurrenceOfObjectNotHandledByCustomObjectExporterIsReplacedWithReferenceToObject(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesNoObject,
+                ],
+            ),
+        );
+
+        $object = new stdClass;
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Array &0 [
+    0 => stdClass Object #%d (),
     1 => stdClass Object #%d,
 ]
 EOT,
