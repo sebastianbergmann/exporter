@@ -90,6 +90,8 @@ final readonly class Exporter
      * An implementation of ObjectExporter must pass the ExportContext it is
      * given to this method when it exports values that are nested in the
      * object it handles.
+     *
+     * @throws ObjectNotSupportedException
      */
     public function export(mixed $value, int $indentation = 0, ?ExportContext $context = null): string
     {
@@ -354,6 +356,9 @@ final readonly class Exporter
         return implode(', ', $result);
     }
 
+    /**
+     * @throws ObjectNotSupportedException
+     */
     private function recursiveExport(mixed &$value, int $indentation = 0, ?ExportContext $context = null): string
     {
         if ($value === null) {
@@ -470,6 +475,8 @@ final readonly class Exporter
 
     /**
      * @param array<mixed> $value
+     *
+     * @throws ObjectNotSupportedException
      */
     private function exportArray(array &$value, ExportContext $context, int $indentation): string
     {
@@ -501,6 +508,9 @@ final readonly class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
+    /**
+     * @throws ObjectNotSupportedException
+     */
     private function exportObject(object $value, ExportContext $context, int $indentation): string
     {
         $class = $value::class;
