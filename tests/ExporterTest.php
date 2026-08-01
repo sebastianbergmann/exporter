@@ -670,6 +670,20 @@ EOF;
         );
     }
 
+    public function testObjectCanBeExportedByCustomObjectExporterThatIsNotComposedIntoChain(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterThatHandlesEveryObject,
+        );
+
+        $this->assertSame(
+            'stdClass (indentation: 0)',
+            $exporter->export(new stdClass),
+        );
+    }
+
     public function testObjectNestedInArrayCanBeExportedByCustomObjectExporter(): void
     {
         $exporter = new Exporter(

@@ -202,16 +202,13 @@ final class MoneyExporter implements ObjectExporter
 }
 ```
 
-Object exporters are registered by passing an `ObjectExporterChain` to `Exporter`'s constructor. They are consulted, in the order in which they are composed into the chain, before the default representation of an object is used. The first object exporter whose `handles()` method returns `true` is asked for the representation:
+An object exporter is registered by passing it to `Exporter`'s constructor. It is consulted before the default representation of an object is used:
 
 ```php
 <?php declare(strict_types=1);
 use SebastianBergmann\Exporter\Exporter;
-use SebastianBergmann\Exporter\ObjectExporterChain;
 
-$exporter = new Exporter(
-    objectExporter: new ObjectExporterChain([new MoneyExporter]),
-);
+$exporter = new Exporter(objectExporter: new MoneyExporter);
 
 // Money (1999 EUR)
 print $exporter->export(new Money(1999, 'EUR'));
@@ -228,6 +225,23 @@ $price->net   = new Money(1999, 'EUR');
 $price->gross = new Money(2379, 'EUR');
 
 print $exporter->export($price);
+```
+
+`ObjectExporterChain` composes multiple object exporters into a single one. They are consulted in the order in which they are composed into the chain and the first one whose `handles()` method returns `true` is asked for the representation:
+
+```php
+<?php declare(strict_types=1);
+use SebastianBergmann\Exporter\Exporter;
+use SebastianBergmann\Exporter\ObjectExporterChain;
+
+$exporter = new Exporter(
+    objectExporter: new ObjectExporterChain(
+        [
+            new BasketExporter,
+            new MoneyExporter,
+        ],
+    ),
+);
 ```
 
 Enums are objects and are therefore passed to the object exporters as well. When no object exporter handles an object, the default representation is used for it.
@@ -301,10 +315,6 @@ Array &0 [
     ],
 ]
 */
-
-$exporter = new Exporter(
-    objectExporter: new ObjectExporterChain([new BasketExporter, new MoneyExporter]),
-);
 
 print $exporter->export(['basket' => new Basket([new Money(1999, 'EUR')])]);
 ```

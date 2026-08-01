@@ -61,13 +61,13 @@ final readonly class Exporter
      * @var positive-int
      */
     private int $maxLengthForStrings;
-    private ?ObjectExporterChain $objectExporter;
+    private ?ObjectExporter $objectExporter;
 
     /**
      * @param non-negative-int $shortenArraysLongerThan
      * @param positive-int     $maxLengthForStrings
      */
-    public function __construct(int $shortenArraysLongerThan = 0, int $maxLengthForStrings = 40, ?ObjectExporterChain $objectExporter = null)
+    public function __construct(int $shortenArraysLongerThan = 0, int $maxLengthForStrings = 40, ?ObjectExporter $objectExporter = null)
     {
         $this->shortenArraysLongerThan = $shortenArraysLongerThan;
         $this->maxLengthForStrings     = $maxLengthForStrings;
