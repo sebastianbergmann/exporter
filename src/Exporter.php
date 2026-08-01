@@ -381,25 +381,6 @@ final readonly class Exporter
             );
         }
 
-        if ($value instanceof BackedEnum) {
-            return sprintf(
-                '%s Enum #%d (%s, %s)',
-                $value::class,
-                spl_object_id($value),
-                $value->name,
-                $this->export($value->value),
-            );
-        }
-
-        if ($value instanceof UnitEnum) {
-            return sprintf(
-                '%s Enum #%d (%s)',
-                $value::class,
-                spl_object_id($value),
-                $value->name,
-            );
-        }
-
         if (is_string($value)) {
             return $this->exportString($value);
         }
@@ -548,6 +529,30 @@ final readonly class Exporter
                     $context->endExportByObjectExporter($value);
                 }
             }
+        }
+
+        // Enums are handled after a custom object exporter has been consulted
+        // so that the representation of an enum can be customized, but before
+        // the recursion context is consulted because an enum case is a
+        // singleton for which a reference to a previous occurrence would be
+        // less informative than the representation itself.
+        if ($value instanceof BackedEnum) {
+            return sprintf(
+                '%s Enum #%d (%s, %s)',
+                $class,
+                spl_object_id($value),
+                $value->name,
+                $this->export($value->value),
+            );
+        }
+
+        if ($value instanceof UnitEnum) {
+            return sprintf(
+                '%s Enum #%d (%s)',
+                $class,
+                spl_object_id($value),
+                $value->name,
+            );
         }
 
         if ($context->contains($value) !== false) {

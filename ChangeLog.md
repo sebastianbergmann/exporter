@@ -6,7 +6,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ### Added
 
-`ObjectExporter` interface, `ObjectExporterChain`, and `ExportContext` for customizing how objects are exported (a chain can be passed to `Exporter`'s constructor and is consulted before the default property-by-property export is applied)
+`ObjectExporter` interface, `ObjectExporterChain`, and `ExportContext` for customizing how objects are exported (a chain can be passed to `Exporter`'s constructor and is consulted before the default representation of an object is used)
 
 ## [8.1.1] - 2026-07-13
 

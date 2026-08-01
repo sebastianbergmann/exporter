@@ -785,6 +785,52 @@ EOT,
         );
     }
 
+    public function testEnumCanBeExportedByCustomObjectExporter(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesEveryObject,
+                ],
+            ),
+        );
+
+        $this->assertSame(
+            'SebastianBergmann\Exporter\ExampleEnum (indentation: 0)',
+            $exporter->export(ExampleEnum::Value),
+        );
+
+        $this->assertSame(
+            'SebastianBergmann\Exporter\ExampleStringBackedEnum (indentation: 0)',
+            $exporter->export(ExampleStringBackedEnum::Value),
+        );
+    }
+
+    public function testDefaultExportIsUsedForEnumWhenNoCustomObjectExporterHandlesIt(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesNoObject,
+                ],
+            ),
+        );
+
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleEnum Enum #%d (Value)',
+            $exporter->export(ExampleEnum::Value),
+        );
+
+        $this->assertStringMatchesFormat(
+            'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum #%d (Value, \'value\')',
+            $exporter->export(ExampleStringBackedEnum::Value),
+        );
+    }
+
     public function testCustomObjectExporterCanExportValuesNestedInObjectItHandles(): void
     {
         $exporter = new Exporter(
