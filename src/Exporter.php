@@ -101,6 +101,8 @@ final readonly class Exporter
     /**
      * @param array<mixed> $data
      * @param positive-int $maxLengthForStrings
+     *
+     * @throws ObjectNotSupportedException
      */
     public function shortenedRecursiveExport(array &$data, int $maxLengthForStrings = 40, ?RecursionContext $processed = null): string
     {
@@ -134,7 +136,13 @@ final readonly class Exporter
      * Newlines are replaced by the visible string '\n'.
      * Contents of arrays and objects (if any) are replaced by '...'.
      *
+     * The representation a custom object exporter provides for an object is
+     * used, but it is collapsed to a single line and shortened when it is
+     * longer than $maxLengthForStrings.
+     *
      * @param positive-int $maxLengthForStrings
+     *
+     * @throws ObjectNotSupportedException
      */
     public function shortenedExport(mixed $value, int $maxLengthForStrings = 40): string
     {
@@ -143,13 +151,20 @@ final readonly class Exporter
         }
 
         if (is_string($value)) {
-            $string = str_replace("\n", '', $this->exportString($value));
+            return $this->shorten($this->exportString($value), $maxLengthForStrings);
+        }
 
-            if (mb_strlen($string) > $maxLengthForStrings) {
-                return mb_substr($string, 0, $maxLengthForStrings - 10) . '...' . mb_substr($string, -7);
-            }
+        if ($this->objectExporter !== null &&
+            is_object($value) &&
+            $this->objectExporter->handles($value)) {
+            $context = new ExportContext;
 
-            return $string;
+            $context->beginExportByObjectExporter($value);
+
+            return $this->shorten(
+                $this->objectExporter->export($value, $this, 0, $context),
+                $maxLengthForStrings,
+            );
         }
 
         if ($value instanceof BackedEnum) {
@@ -320,6 +335,8 @@ final readonly class Exporter
     /**
      * @param array<mixed> $data
      * @param positive-int $maxLengthForStrings
+     *
+     * @throws ObjectNotSupportedException
      */
     private function shortenedCountedRecursiveExport(array &$data, RecursionContext $processed, int &$counter, int $maxLengthForStrings): string
     {
@@ -403,6 +420,23 @@ final readonly class Exporter
         }
 
         return var_export($value, true);
+    }
+
+    /**
+     * Collapses a representation to a single line and shortens it when it is
+     * longer than $maxLengthForStrings.
+     *
+     * @param positive-int $maxLengthForStrings
+     */
+    private function shorten(string $string, int $maxLengthForStrings): string
+    {
+        $string = str_replace(["\r", "\n"], '', $string);
+
+        if (mb_strlen($string) > $maxLengthForStrings) {
+            return mb_substr($string, 0, $maxLengthForStrings - 10) . '...' . mb_substr($string, -7);
+        }
+
+        return $string;
     }
 
     private function exportFloat(float $value): string

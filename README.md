@@ -319,4 +319,18 @@ Array &0 [
 print $exporter->export(['basket' => new Basket([new Money(1999, 'EUR')])]);
 ```
 
-Object exporters are not consulted by `Exporter::shortenedExport()` and `Exporter::shortenedRecursiveExport()`, which deliberately elide the contents of objects.
+### Compact Exports
+
+`Exporter::shortenedExport()` and `Exporter::shortenedRecursiveExport()` consult object exporters as well. The representation an object exporter provides is collapsed to a single line and shortened when it is longer than the configured maximum length:
+
+```php
+<?php declare(strict_types=1);
+use SebastianBergmann\Exporter\Exporter;
+
+$exporter = new Exporter(objectExporter: new MoneyExporter);
+
+// Money (1999 EUR)
+print $exporter->shortenedExport(new Money(1999, 'EUR'));
+```
+
+Bear in mind that these representations are used where a short, single-line, and stable string is required. The representation of a data set is built using `Exporter::shortenedRecursiveExport()`, for instance, and is part of the name of a test that uses a data provider. An object exporter should therefore provide a representation that is compact and that does not change from one export to the next.
