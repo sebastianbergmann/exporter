@@ -38,6 +38,7 @@ use SplObjectStorage;
 use stdClass;
 
 #[CoversClass(Exporter::class)]
+#[UsesClass(ExportContext::class)]
 #[UsesClass(ObjectExporterChain::class)]
 #[Small]
 final class ExporterTest extends TestCase
@@ -781,6 +782,106 @@ EOT,
         $this->assertStringMatchesFormat(
             'stdClass Object #%d ()',
             $exporter->export(new stdClass),
+        );
+    }
+
+    public function testCustomObjectExporterCanExportValuesNestedInObjectItHandles(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatExportsNestedValues,
+                ],
+            ),
+        );
+
+        $this->assertSame(
+            <<<'EOT'
+Node(Array &0 [
+    'key' => 'value',
+])
+EOT,
+            $exporter->export(new Node(['key' => 'value'])),
+        );
+    }
+
+    public function testArrayExportedByCustomObjectExporterDoesNotReuseReferenceToOtherArray(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatExportsNestedValues,
+                ],
+            ),
+        );
+
+        $this->assertSame(
+            <<<'EOT'
+Array &0 [
+    0 => Node(Array &1 [
+        'key' => 'value',
+    ]),
+]
+EOT,
+            $exporter->export([new Node(['key' => 'value'])]),
+        );
+    }
+
+    public function testObjectNestedInItselfIsNotExportedByCustomObjectExporterAgain(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatExportsNestedValues,
+                ],
+            ),
+        );
+
+        $node           = new Node;
+        $node->children = [$node];
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Node(Array &0 [
+    0 => SebastianBergmann\Exporter\Node Object #%d,
+])
+EOT,
+            $exporter->export($node),
+        );
+    }
+
+    public function testObjectsNestedInEachOtherAreNotExportedByCustomObjectExporterAgain(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatExportsNestedValues,
+                ],
+            ),
+        );
+
+        $first            = new Node;
+        $second           = new Node;
+        $first->children  = [$second];
+        $second->children = [$first];
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Node(Array &0 [
+    0 => Node(Array &1 [
+        0 => SebastianBergmann\Exporter\Node Object #%d,
+    ]),
+])
+EOT,
+            $exporter->export($first),
         );
     }
 

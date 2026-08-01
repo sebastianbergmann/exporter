@@ -9,33 +9,23 @@
  */
 namespace SebastianBergmann\Exporter;
 
+use function assert;
 use function sprintf;
 
-final readonly class ObjectExporterThatHandlesObjectsOfSpecificType implements ObjectExporter
+final readonly class ObjectExporterThatExportsNestedValues implements ObjectExporter
 {
-    /**
-     * @var class-string
-     */
-    private string $type;
-
-    /**
-     * @param class-string $type
-     */
-    public function __construct(string $type)
-    {
-        $this->type = $type;
-    }
-
     public function handles(object $object): bool
     {
-        return $object instanceof $this->type;
+        return $object instanceof Node;
     }
 
     public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string
     {
+        assert($object instanceof Node);
+
         return sprintf(
-            '%s handled by custom exporter',
-            $object::class,
+            'Node(%s)',
+            $exporter->export($object->children, $indentation, $context),
         );
     }
 }

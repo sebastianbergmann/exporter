@@ -14,7 +14,12 @@ interface ObjectExporter
     public function handles(object $object): bool;
 
     /**
+     * Exports an object this object exporter handles.
+     *
+     * The ExportContext must be passed on to Exporter::export() when values
+     * that are nested in the object are exported using $exporter.
+     *
      * @throws ObjectNotSupportedException
      */
-    public function export(object $object, Exporter $exporter, int $indentation): string;
+    public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string;
 }

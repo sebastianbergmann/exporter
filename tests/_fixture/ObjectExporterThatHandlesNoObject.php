@@ -16,7 +16,7 @@ final readonly class ObjectExporterThatHandlesNoObject implements ObjectExporter
         return false;
     }
 
-    public function export(object $object, Exporter $exporter, int $indentation): string
+    public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string
     {
         throw new ObjectNotSupportedException;
     }

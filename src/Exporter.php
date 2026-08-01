@@ -86,10 +86,14 @@ final readonly class Exporter
      *  - Strings are always quoted with single quotes
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
+     *
+     * An implementation of ObjectExporter must pass the ExportContext it is
+     * given to this method when it exports values that are nested in the
+     * object it handles.
      */
-    public function export(mixed $value, int $indentation = 0): string
+    public function export(mixed $value, int $indentation = 0, ?ExportContext $context = null): string
     {
-        return $this->recursiveExport($value, $indentation);
+        return $this->recursiveExport($value, $indentation, $context);
     }
 
     /**
@@ -350,7 +354,7 @@ final readonly class Exporter
         return implode(', ', $result);
     }
 
-    private function recursiveExport(mixed &$value, int $indentation = 0, ?RecursionContext $processed = null): string
+    private function recursiveExport(mixed &$value, int $indentation = 0, ?ExportContext $context = null): string
     {
         if ($value === null) {
             return 'null';
@@ -400,16 +404,16 @@ final readonly class Exporter
             return $this->exportString($value);
         }
 
-        if ($processed === null) {
-            $processed = new RecursionContext;
+        if ($context === null) {
+            $context = new ExportContext;
         }
 
         if (is_array($value)) {
-            return $this->exportArray($value, $processed, $indentation);
+            return $this->exportArray($value, $context, $indentation);
         }
 
         if (is_object($value)) {
-            return $this->exportObject($value, $processed, $indentation);
+            return $this->exportObject($value, $context, $indentation);
         }
 
         return var_export($value, true);
@@ -486,14 +490,14 @@ final readonly class Exporter
     /**
      * @param array<mixed> $value
      */
-    private function exportArray(array &$value, RecursionContext $processed, int $indentation): string
+    private function exportArray(array &$value, ExportContext $context, int $indentation): string
     {
-        if (($key = $processed->contains($value)) !== false) {
+        if (($key = $context->contains($value)) !== false) {
             return 'Array &' . $key;
         }
 
         $array  = $value;
-        $key    = $processed->add($value);
+        $key    = $context->add($value);
         $values = '';
 
         if (count($array) > 0) {
@@ -506,7 +510,7 @@ final readonly class Exporter
                     $this->recursiveExport($k, $indentation)
                     . ' => ' .
                     /** @phpstan-ignore offsetAccess.invalidOffset */
-                    $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                    $this->recursiveExport($value[$k], $indentation + 1, $context)
                     . ",\n";
             }
 
@@ -516,24 +520,41 @@ final readonly class Exporter
         return 'Array &' . (string) $key . ' [' . $values . ']';
     }
 
-    private function exportObject(object $value, RecursionContext $processed, int $indentation): string
+    private function exportObject(object $value, ExportContext $context, int $indentation): string
     {
-        // A custom object exporter is responsible for the entire
-        // representation of the object it handles. Therefore, it is asked for
-        // that representation before the recursion context is consulted: every
-        // occurrence of such an object is exported the same way instead of
-        // repeated occurrences being replaced with a reference to the object.
-        if ($this->objectExporter !== null && $this->objectExporter->handles($value)) {
-            return $this->objectExporter->export($value, $this, $indentation);
-        }
-
         $class = $value::class;
 
-        if ($processed->contains($value) !== false) {
+        if ($this->objectExporter !== null) {
+            // An object that is (indirectly) nested in itself cannot be
+            // exported by a custom object exporter without recursing
+            // infinitely and is therefore replaced with a reference to the
+            // object.
+            if ($context->isBeingExportedByObjectExporter($value)) {
+                return $class . ' Object #' . spl_object_id($value);
+            }
+
+            // A custom object exporter is responsible for the entire
+            // representation of the object it handles. Therefore, it is asked
+            // for that representation before the recursion context is
+            // consulted: every occurrence of such an object is exported the
+            // same way instead of repeated occurrences being replaced with a
+            // reference to the object.
+            if ($this->objectExporter->handles($value)) {
+                $context->beginExportByObjectExporter($value);
+
+                try {
+                    return $this->objectExporter->export($value, $this, $indentation, $context);
+                } finally {
+                    $context->endExportByObjectExporter($value);
+                }
+            }
+        }
+
+        if ($context->contains($value) !== false) {
             return $class . ' Object #' . spl_object_id($value);
         }
 
-        $processed->add($value);
+        $context->add($value);
 
         $array  = $this->toArray($value);
         $buffer = '';
@@ -547,7 +568,7 @@ final readonly class Exporter
                     . '    ' .
                     $this->recursiveExport($k, $indentation)
                     . ' => ' .
-                    $this->recursiveExport($v, $indentation + 1, $processed)
+                    $this->recursiveExport($v, $indentation + 1, $context)
                     . ",\n";
             }
 

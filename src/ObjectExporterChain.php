@@ -37,11 +37,11 @@ final readonly class ObjectExporterChain implements ObjectExporter
     /**
      * @throws ObjectNotSupportedException
      */
-    public function export(object $object, Exporter $exporter, int $indentation): string
+    public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string
     {
         foreach ($this->exporters as $objectExporter) {
             if ($objectExporter->handles($object)) {
-                return $objectExporter->export($object, $exporter, $indentation);
+                return $objectExporter->export($object, $exporter, $indentation, $context);
             }
         }
 

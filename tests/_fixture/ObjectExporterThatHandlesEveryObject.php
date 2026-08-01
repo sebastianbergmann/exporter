@@ -18,7 +18,7 @@ final readonly class ObjectExporterThatHandlesEveryObject implements ObjectExpor
         return true;
     }
 
-    public function export(object $object, Exporter $exporter, int $indentation): string
+    public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string
     {
         return sprintf(
             '%s (indentation: %d)',

@@ -17,6 +17,7 @@ use stdClass;
 
 #[CoversClass(ObjectExporterChain::class)]
 #[UsesClass(Exporter::class)]
+#[UsesClass(ExportContext::class)]
 #[Small]
 final class ObjectExporterChainTest extends TestCase
 {
@@ -55,12 +56,12 @@ final class ObjectExporterChainTest extends TestCase
 
         $this->assertSame(
             'stdClass handled by custom exporter',
-            $chain->export(new stdClass, new Exporter, 0),
+            $chain->export(new stdClass, new Exporter, 0, new ExportContext),
         );
 
         $this->assertSame(
             ExampleClass::class . ' (indentation: 0)',
-            $chain->export(new ExampleClass('foo'), new Exporter, 0),
+            $chain->export(new ExampleClass('foo'), new Exporter, 0, new ExportContext),
         );
     }
 
@@ -74,6 +75,6 @@ final class ObjectExporterChainTest extends TestCase
 
         $this->expectException(ObjectNotSupportedException::class);
 
-        $chain->export(new stdClass, new Exporter, 0);
+        $chain->export(new stdClass, new Exporter, 0, new ExportContext);
     }
 }
