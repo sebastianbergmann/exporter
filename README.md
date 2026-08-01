@@ -334,3 +334,22 @@ print $exporter->shortenedExport(new Money(1999, 'EUR'));
 ```
 
 Bear in mind that these representations are used where a short, single-line, and stable string is required. The representation of a data set is built using `Exporter::shortenedRecursiveExport()`, for instance, and is part of the name of a test that uses a data provider. An object exporter should therefore provide a representation that is compact and that does not change from one export to the next.
+
+### Custom Representations
+
+`Exporter::hasCustomRepresentationFor()` tells whether an object exporter provides the representation for an object. This is meant for code that renders objects itself and wants to use the representation an object exporter provides when there is one:
+
+```php
+<?php declare(strict_types=1);
+use SebastianBergmann\Exporter\Exporter;
+
+$exporter = new Exporter(objectExporter: new MoneyExporter);
+
+// true
+var_dump($exporter->hasCustomRepresentationFor(new Money(1999, 'EUR')));
+
+// false
+var_dump($exporter->hasCustomRepresentationFor(new stdClass));
+```
+
+Bear in mind that an object that is (indirectly) nested in itself is replaced with a reference to the object instead of being exported by an object exporter again.

@@ -203,6 +203,26 @@ final readonly class Exporter
     }
 
     /**
+     * Returns whether a custom object exporter provides the representation
+     * for an object.
+     *
+     * This is intended for code that renders objects itself and wants to use
+     * the representation a custom object exporter provides when there is one.
+     *
+     * Bear in mind that an object that is (indirectly) nested in itself is
+     * replaced with a reference to the object instead of being exported by a
+     * custom object exporter again.
+     */
+    public function hasCustomRepresentationFor(object $object): bool
+    {
+        if ($this->objectExporter === null) {
+            return false;
+        }
+
+        return $this->objectExporter->handles($object);
+    }
+
+    /**
      * Converts an object to an array containing all of its private, protected
      * and public properties.
      *

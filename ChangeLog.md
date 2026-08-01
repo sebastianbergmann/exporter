@@ -8,6 +8,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * `ObjectExporter` interface, `ObjectExporterChain`, and `ExportContext` for customizing how objects are exported (an object exporter can be passed to `Exporter`'s constructor and is consulted before the default representation of an object is used)
 * `Exporter::shortenedExport()` and `Exporter::shortenedRecursiveExport()` use the representation provided by an object exporter as well; it is collapsed to a single line and shortened when it is longer than the configured maximum length
+* `Exporter::hasCustomRepresentationFor()` for checking whether an object exporter provides the representation for an object
 
 ## [8.1.1] - 2026-07-13
 

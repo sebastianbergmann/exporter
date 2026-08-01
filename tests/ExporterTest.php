@@ -939,6 +939,41 @@ EOT,
         );
     }
 
+    public function testKnowsThatCustomObjectExporterProvidesRepresentationForObjectItHandles(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesObjectsOfSpecificType(ExampleClass::class),
+                ],
+            ),
+        );
+
+        $this->assertTrue($exporter->hasCustomRepresentationFor(new ExampleClass('bar')));
+    }
+
+    public function testKnowsThatCustomObjectExporterDoesNotProvideRepresentationForObjectItDoesNotHandle(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatHandlesObjectsOfSpecificType(ExampleClass::class),
+                ],
+            ),
+        );
+
+        $this->assertFalse($exporter->hasCustomRepresentationFor(new stdClass));
+    }
+
+    public function testKnowsThatNoCustomObjectExporterProvidesRepresentationForObjectWhenNoneIsConfigured(): void
+    {
+        $this->assertFalse((new Exporter)->hasCustomRepresentationFor(new stdClass));
+    }
+
     public function testCustomObjectExporterCanExportValuesNestedInObjectItHandles(): void
     {
         $exporter = new Exporter(
