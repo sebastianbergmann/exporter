@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [8.2.1] - 2026-08-07
+
+### Fixed
+
+* Removed `"minimum-stability": "dev"` from `composer.json`
+
 ## [8.2.0] - 2026-08-07
 
 ### Added
@@ -69,6 +75,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.2
 
+[8.2.1]: https://github.com/sebastianbergmann/exporter/compare/8.2.0...8.2.1
 [8.2.0]: https://github.com/sebastianbergmann/exporter/compare/8.1.1...8.2.0
 [8.1.1]: https://github.com/sebastianbergmann/exporter/compare/8.1.0...8.1.1
 [8.1.0]: https://github.com/sebastianbergmann/exporter/compare/8.0.3...8.1.0
