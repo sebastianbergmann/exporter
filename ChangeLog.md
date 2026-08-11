@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [4.0.9] - 2026-08-11
+
+### Changed
+
+* Use `spl_object_id()` instead of `spl_object_hash()` which is deprecated in PHP 8.6
+
 ## [4.0.8] - 2025-09-24
 
 ### Changed
@@ -56,6 +62,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 7.0, PHP 7.1, and PHP 7.2
 
+[4.0.9]: https://github.com/sebastianbergmann/exporter/compare/4.0.8...4.0.9
 [4.0.8]: https://github.com/sebastianbergmann/exporter/compare/4.0.7...4.0.8
 [4.0.7]: https://github.com/sebastianbergmann/exporter/compare/4.0.6...4.0.7
 [4.0.6]: https://github.com/sebastianbergmann/exporter/compare/4.0.5...4.0.6

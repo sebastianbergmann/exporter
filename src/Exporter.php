@@ -26,7 +26,7 @@ use function is_string;
 use function mb_strlen;
 use function mb_substr;
 use function preg_match;
-use function spl_object_hash;
+use function spl_object_id;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
@@ -199,7 +199,7 @@ class Exporter
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
             foreach ($value as $key => $val) {
-                $array[spl_object_hash($val)] = [
+                $array[spl_object_id($val)] = [
                     'obj' => $val,
                     'inf' => $value->getInfo(),
                 ];

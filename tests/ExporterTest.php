@@ -157,7 +157,7 @@ SplObjectStorage Object &%x (
     'foo' => stdClass Object &%x (
         'foo' => 'bar'
     )
-    '%x' => Array &0 (
+    %d => Array &0 (
         'obj' => stdClass Object &%x
         'inf' => null
     )
