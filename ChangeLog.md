@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [3.1.9] - 2026-08-11
+
+### Changed
+
+* Use `spl_object_id()` instead of `spl_object_hash()` which is deprecated in PHP 8.6
+
 ## [3.1.8] - 2025-09-24
 
 ### Changed
@@ -52,6 +58,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Remove HHVM-specific code that is no longer needed
 
+[3.1.9]: https://github.com/sebastianbergmann/exporter/compare/3.1.8...3.1.9
 [3.1.8]: https://github.com/sebastianbergmann/exporter/compare/3.1.7...3.1.8
 [3.1.7]: https://github.com/sebastianbergmann/exporter/compare/3.1.6...3.1.7
 [3.1.6]: https://github.com/sebastianbergmann/exporter/compare/3.1.5...3.1.6
