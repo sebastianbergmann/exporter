@@ -44,7 +44,7 @@
         "sebastian/recursion-context": "^8.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^13.3.6"
+        "phpunit/phpunit": "^13.4.1"
     },
     "autoload": {
         "classmap": [
