@@ -583,7 +583,7 @@ EOF;
     #[RequiresPhp('^8.4')]
     public function testShortenedExportDoesNotInitializeLazyObject(): void
     {
-        $reflector = new ReflectionClass(ExampleClass::class);
+        $reflector = $this->reflectorForExampleClass();
 
         assert(method_exists($reflector, 'newLazyProxy'));
         assert(method_exists($reflector, 'isUninitializedLazyObject'));
@@ -598,5 +598,13 @@ EOF;
     private function trimNewline(string $string): string
     {
         return (string) preg_replace('/[ ]*\n/', "\n", $string);
+    }
+
+    /**
+     * @return ReflectionClass<ExampleClass>
+     */
+    private function reflectorForExampleClass(): ReflectionClass
+    {
+        return new ReflectionClass(ExampleClass::class);
     }
 }
