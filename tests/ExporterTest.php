@@ -1074,6 +1074,94 @@ EOT,
         );
     }
 
+    public function testObjectNestedInItselfIsReplacedWithReferenceProvidedByCustomObjectExporter(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterThatExportsNestedValuesAndReferences('Node (reference)'),
+        );
+
+        $node           = new Node;
+        $node->children = [$node];
+
+        $this->assertSame(
+            <<<'EOT'
+Node(Array &0 [
+    0 => Node (reference),
+])
+EOT,
+            $exporter->export($node),
+        );
+    }
+
+    public function testObjectsNestedInEachOtherAreReplacedWithReferenceProvidedByCustomObjectExporterComposedIntoChain(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterChain(
+                [
+                    new ObjectExporterThatExportsNestedValuesAndReferences('Node (reference)'),
+                ],
+            ),
+        );
+
+        $first            = new Node;
+        $second           = new Node;
+        $first->children  = [$second];
+        $second->children = [$first];
+
+        $this->assertSame(
+            <<<'EOT'
+Node(Array &0 [
+    0 => Node(Array &1 [
+        0 => Node (reference),
+    ]),
+])
+EOT,
+            $exporter->export($first),
+        );
+    }
+
+    public function testObjectNestedInItselfIsReplacedWithDefaultReferenceWhenCustomObjectExporterDoesNotProvideReference(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterThatExportsNestedValuesAndReferences(null),
+        );
+
+        $node           = new Node;
+        $node->children = [$node];
+
+        $this->assertStringMatchesFormat(
+            <<<'EOT'
+Node(Array &0 [
+    0 => SebastianBergmann\Exporter\Node Object #%d,
+])
+EOT,
+            $exporter->export($node),
+        );
+    }
+
+    public function testShortenedExportUsesReferenceProvidedByCustomObjectExporterForObjectNestedInItself(): void
+    {
+        $exporter = new Exporter(
+            0,
+            40,
+            new ObjectExporterThatExportsNestedValuesAndReferences('Node (reference)'),
+        );
+
+        $node           = new Node;
+        $node->children = [$node];
+
+        $this->assertSame(
+            'Node(Array &0 [    0 => Node (reference),])',
+            $exporter->shortenedExport($node, 200),
+        );
+    }
+
     private function trimNewline(string $string): string
     {
         return (string) preg_replace('/[ ]*\n/', "\n", $string);

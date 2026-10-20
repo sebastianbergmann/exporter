@@ -11,7 +11,7 @@ namespace SebastianBergmann\Exporter;
 
 use function array_any;
 
-final readonly class ObjectExporterChain implements ObjectExporter
+final readonly class ObjectExporterChain implements ObjectExporter, ObjectReferenceExporter
 {
     /**
      * @var non-empty-list<ObjectExporter>
@@ -46,5 +46,28 @@ final readonly class ObjectExporterChain implements ObjectExporter
         }
 
         throw new ObjectNotSupportedException;
+    }
+
+    /**
+     * Delegates to the object exporter that exports the object, which is the
+     * first one that handles it. The default representation of the reference
+     * is used when that object exporter does not implement
+     * ObjectReferenceExporter.
+     */
+    public function exportReference(object $object): ?string
+    {
+        foreach ($this->exporters as $objectExporter) {
+            if (!$objectExporter->handles($object)) {
+                continue;
+            }
+
+            if ($objectExporter instanceof ObjectReferenceExporter) {
+                return $objectExporter->exportReference($object);
+            }
+
+            return null;
+        }
+
+        return null;
     }
 }

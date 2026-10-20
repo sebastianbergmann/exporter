@@ -2,6 +2,12 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [8.3.0] - 2026-MM-DD
+
+### Added
+
+* [#202](https://github.com/sebastianbergmann/exporter/issues/202): `ObjectReferenceExporter` interface that an object exporter can implement to provide the representation of the reference that replaces an object it handles when that object is (indirectly) nested in itself
+
 ## [8.2.1] - 2026-08-07
 
 ### Fixed
@@ -75,6 +81,7 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 8.2
 
+[8.3.0]: https://github.com/sebastianbergmann/exporter/compare/8.2.1...main
 [8.2.1]: https://github.com/sebastianbergmann/exporter/compare/8.2.0...8.2.1
 [8.2.0]: https://github.com/sebastianbergmann/exporter/compare/8.1.1...8.2.0
 [8.1.1]: https://github.com/sebastianbergmann/exporter/compare/8.1.0...8.1.1

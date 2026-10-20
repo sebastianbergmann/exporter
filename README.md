@@ -279,7 +279,7 @@ Array &0 [
 print $exporter->export([$money, $money]);
 ```
 
-The exception is an object that is (indirectly) nested in itself: it cannot be exported this way without recursing infinitely and is replaced with a reference to the object.
+The exception is an object that is (indirectly) nested in itself: it cannot be exported this way without recursing infinitely and is replaced with a reference to the object (see [Objects Nested in Themselves](#objects-nested-in-themselves)).
 
 ### Exporting Nested Values
 
@@ -319,6 +319,77 @@ Array &0 [
 print $exporter->export(['basket' => new Basket([new Money(1999, 'EUR')])]);
 ```
 
+### Objects Nested in Themselves
+
+An object that is (indirectly) nested in itself cannot be exported by an object exporter without recursing infinitely. When such an object occurs again while it is being exported by an object exporter, it is replaced with a reference to the object:
+
+```php
+/*
+Person (Alice) Array &0 [
+    0 => Person (Bob) Array &1 [
+        0 => Person Object #2,
+    ],
+]
+*/
+
+$alice = new Person('Alice');
+$bob   = new Person('Bob');
+
+$alice->befriend($bob);
+
+print $exporter->export($alice);
+```
+
+An object exporter can provide the representation of this reference by also implementing the `ObjectReferenceExporter` interface. When its `exportReference()` method returns `null`, the default representation of the reference is used:
+
+```php
+<?php declare(strict_types=1);
+use SebastianBergmann\Exporter\ExportContext;
+use SebastianBergmann\Exporter\Exporter;
+use SebastianBergmann\Exporter\ObjectExporter;
+use SebastianBergmann\Exporter\ObjectReferenceExporter;
+
+final class PersonExporter implements ObjectExporter, ObjectReferenceExporter
+{
+    public function handles(object $object): bool
+    {
+        return $object instanceof Person;
+    }
+
+    public function export(object $object, Exporter $exporter, int $indentation, ExportContext $context): string
+    {
+        assert($object instanceof Person);
+
+        return sprintf(
+            'Person (%s) %s',
+            $object->name(),
+            $exporter->export($object->friends(), $indentation, $context),
+        );
+    }
+
+    public function exportReference(object $object): ?string
+    {
+        assert($object instanceof Person);
+
+        return sprintf('Person (%s)', $object->name());
+    }
+}
+```
+
+```php
+/*
+Person (Alice) Array &0 [
+    0 => Person (Bob) Array &1 [
+        0 => Person (Alice),
+    ],
+]
+*/
+
+print $exporter->export($alice);
+```
+
+The object exporter is only asked for the representation of the reference, it is not given the opportunity to export the object again. When object exporters are composed into an `ObjectExporterChain`, the reference is provided by the object exporter that exports the object, which is the first one whose `handles()` method returns `true`.
+
 ### Compact Exports
 
 `Exporter::shortenedExport()` and `Exporter::shortenedRecursiveExport()` consult object exporters as well. The representation an object exporter provides is collapsed to a single line and shortened when it is longer than the configured maximum length:
@@ -352,4 +423,4 @@ var_dump($exporter->hasCustomRepresentationFor(new Money(1999, 'EUR')));
 var_dump($exporter->hasCustomRepresentationFor(new stdClass));
 ```
 
-Bear in mind that an object that is (indirectly) nested in itself is replaced with a reference to the object instead of being exported by an object exporter again.
+Bear in mind that an object that is (indirectly) nested in itself is replaced with a reference to the object instead of being exported by an object exporter again. An object exporter that implements `ObjectReferenceExporter` can provide the representation of this reference.

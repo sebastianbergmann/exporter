@@ -211,7 +211,9 @@ final readonly class Exporter
      *
      * Bear in mind that an object that is (indirectly) nested in itself is
      * replaced with a reference to the object instead of being exported by a
-     * custom object exporter again.
+     * custom object exporter again. A custom object exporter that implements
+     * ObjectReferenceExporter may provide the representation of this
+     * reference.
      */
     public function hasCustomRepresentationFor(object $object): bool
     {
@@ -573,8 +575,18 @@ final readonly class Exporter
             // An object that is (indirectly) nested in itself cannot be
             // exported by a custom object exporter without recursing
             // infinitely and is therefore replaced with a reference to the
-            // object.
+            // object. A custom object exporter may provide the representation
+            // of this reference, but it is not given the opportunity to
+            // export the object again.
             if ($context->isBeingExportedByObjectExporter($value)) {
+                if ($this->objectExporter instanceof ObjectReferenceExporter) {
+                    $reference = $this->objectExporter->exportReference($value);
+
+                    if ($reference !== null) {
+                        return $reference;
+                    }
+                }
+
                 return $class . ' Object #' . spl_object_id($value);
             }
 

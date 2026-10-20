@@ -77,4 +77,40 @@ final class ObjectExporterChainTest extends TestCase
 
         $chain->export(new stdClass, new Exporter, 0, new ExportContext);
     }
+
+    public function testDelegatesExportingReferenceToFirstComposedObjectExporterThatHandlesObject(): void
+    {
+        $chain = new ObjectExporterChain(
+            [
+                new ObjectExporterThatHandlesNoObject,
+                new ObjectExporterThatExportsNestedValuesAndReferences('first'),
+                new ObjectExporterThatExportsNestedValuesAndReferences('second'),
+            ],
+        );
+
+        $this->assertSame('first', $chain->exportReference(new Node));
+    }
+
+    public function testDoesNotExportReferenceWhenFirstComposedObjectExporterThatHandlesObjectDoesNotExportReferences(): void
+    {
+        $chain = new ObjectExporterChain(
+            [
+                new ObjectExporterThatHandlesEveryObject,
+                new ObjectExporterThatExportsNestedValuesAndReferences('reference'),
+            ],
+        );
+
+        $this->assertNull($chain->exportReference(new Node));
+    }
+
+    public function testDoesNotExportReferenceWhenNoComposedObjectExporterHandlesObject(): void
+    {
+        $chain = new ObjectExporterChain(
+            [
+                new ObjectExporterThatHandlesNoObject,
+            ],
+        );
+
+        $this->assertNull($chain->exportReference(new stdClass));
+    }
 }
