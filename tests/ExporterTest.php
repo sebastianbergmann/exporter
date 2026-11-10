@@ -340,8 +340,8 @@ EOF,
             'enum'                                            => [ExampleEnum::Value, 'SebastianBergmann\Exporter\ExampleEnum Enum (Value)'],
             'backed enum (string)'                            => [ExampleStringBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleStringBackedEnum Enum (Value, \'value\')'],
             'backen enum (integer)'                           => [ExampleIntegerBackedEnum::Value, 'SebastianBergmann\Exporter\ExampleIntegerBackedEnum Enum (Value, 0)'],
-            'recursive array'                                 => [$recursiveArray, '[...]', 0],
-            'class'                                           => [new ExampleClass('bar'), 'SebastianBergmann\Exporter\ExampleClass Object (...)', 0],
+            'recursive array'                                 => [$recursiveArray, '[...]'],
+            'class'                                           => [new ExampleClass('bar'), 'SebastianBergmann\Exporter\ExampleClass Object (...)'],
         ];
     }
 
@@ -564,7 +564,7 @@ EOF;
     #[DataProvider('shortenedRecursiveExportProvider')]
     public function testShortenedRecursiveExport(array $value, string $expected, int $limit): void
     {
-        $this->assertEquals($expected, (new Exporter($limit))->shortenedRecursiveExport($value));
+        $this->assertSame($expected, (new Exporter($limit))->shortenedRecursiveExport($value));
     }
 
     public function testShortenedRecursiveOccurredRecursion(): void
@@ -577,10 +577,10 @@ EOF;
 
         $value = [$recursiveValue];
 
-        $this->assertEquals('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
+        $this->assertSame('*RECURSION*', (new Exporter)->shortenedRecursiveExport($value, processed: $context));
     }
 
-    #[RequiresPhp('^8.4')]
+    #[RequiresPhp('^8.4.0')]
     public function testShortenedExportDoesNotInitializeLazyObject(): void
     {
         $reflector = $this->reflectorForExampleClass();
